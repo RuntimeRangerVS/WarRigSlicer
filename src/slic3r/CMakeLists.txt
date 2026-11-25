@@ -694,6 +694,19 @@ if(QDT_RELEASE_TO_PUBLIC)
             QIDI/QIDIDeviceWebSocket.cpp
             QIDI/QIDIDeviceWebSocket.hpp
 		)
+else ()
+	# WarRig: QIDI does not publish src/slic3r/QIDI. These are WarRig's own local-network versions
+	# (device API, websocket, BOX reading) plus "not available" stand-ins for QIDI's cloud parts.
+	list(APPEND SLIC3R_GUI_SOURCES
+			QIDI/QIDINetworkTypes.hpp
+			QIDI/QIDINetwork.hpp
+			QIDI/P2PManager.hpp
+			QIDI/QIDIFileManager.hpp
+			QIDI/QIDIDeviceApi.cpp
+			QIDI/QIDIDeviceApi.hpp
+			QIDI/QIDIDeviceWebSocket.cpp
+			QIDI/QIDIDeviceWebSocket.hpp
+		)
 endif ()
 
 
