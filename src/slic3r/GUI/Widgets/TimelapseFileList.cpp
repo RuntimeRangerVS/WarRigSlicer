@@ -54,7 +54,7 @@ static wxColour file_list_row_separator_colour()
 //cj_3 Same as DeviceModelList::file_list_panel_background (list surface; light/dark).
 static wxColour file_list_panel_background()
 {
-    return wxGetApp().dark_mode() ? wxColour(45, 45, 49) : wxColour(255, 255, 255);
+    return wxGetApp().dark_mode() ? wxColour(21, 23, 27) : wxColour(255, 255, 255);
 }
 
 //cj_3

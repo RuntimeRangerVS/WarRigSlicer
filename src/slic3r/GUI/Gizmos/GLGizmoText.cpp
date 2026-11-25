@@ -2126,10 +2126,10 @@ void GLGizmoText::push_combo_style(const float scale) {
         ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f * scale);
         ImGui::PushStyleColor(ImGuiCol_PopupBg, ImGuiWrapper::COL_WINDOW_BG_DARK);
         //y73
-        ImGui::PushStyleColor(ImGuiCol_BorderActive, ImVec4(0.27f, 0.47f, 0.98f, 1.00f));
-        ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.27f, 0.47f, 0.98f, 0.0f));
-        ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(0.27f, 0.47f, 0.98f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.27f, 0.47f, 0.98f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_BorderActive, ImVec4(1.00f, 0.48f, 0.07f, 1.00f));
+        ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(1.00f, 0.48f, 0.07f, 0.0f));
+        ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(1.00f, 0.48f, 0.07f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(1.00f, 0.48f, 0.07f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_ScrollbarBg, ImGuiWrapper::COL_WINDOW_BG_DARK);
         ImGui::PushStyleColor(ImGuiCol_Button, { 1.00f, 1.00f, 1.00f, 0.0f });
     }
@@ -2138,10 +2138,10 @@ void GLGizmoText::push_combo_style(const float scale) {
         ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f * scale);
         ImGui::PushStyleColor(ImGuiCol_PopupBg, ImGuiWrapper::COL_WINDOW_BG);
         //y73
-        ImGui::PushStyleColor(ImGuiCol_BorderActive, ImVec4(0.27f, 0.47f, 0.98f, 1.00f));
-        ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.27f, 0.47f, 0.98f, 0.0f));
-        ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(0.27f, 0.47f, 0.98f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.27f, 0.47f, 0.98f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_BorderActive, ImVec4(1.00f, 0.48f, 0.07f, 1.00f));
+        ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(1.00f, 0.48f, 0.07f, 0.0f));
+        ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(1.00f, 0.48f, 0.07f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(1.00f, 0.48f, 0.07f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_ScrollbarBg, ImGuiWrapper::COL_WINDOW_BG);
         ImGui::PushStyleColor(ImGuiCol_Button, { 1.00f, 1.00f, 1.00f, 0.0f });
     }

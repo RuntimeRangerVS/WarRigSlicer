@@ -177,7 +177,7 @@ if (WIN32)
     endif()
     target_compile_definitions(QIDIStudio_app_gui PRIVATE -DSLIC3R_WRAPPER_NOCONSOLE)
     add_dependencies(QIDIStudio_app_gui QIDIStudio)
-    set_target_properties(QIDIStudio_app_gui PROPERTIES OUTPUT_NAME "qidi-studio")
+    set_target_properties(QIDIStudio_app_gui PROPERTIES OUTPUT_NAME "warrig-slicer")
     target_link_libraries(QIDIStudio_app_gui PRIVATE boost_headeronly)
 	
 	add_executable(QIDIStudio_app_console QIDIStudio_app_msvc.cpp ${CMAKE_CURRENT_BINARY_DIR}/QIDIStudio.rc)
@@ -187,7 +187,7 @@ if (WIN32)
     endif ()
     target_compile_definitions(QIDIStudio_app_console PRIVATE -DSLIC3R_WRAPPER_CONSOLE)
     add_dependencies(QIDIStudio_app_console QIDIStudio)
-    set_target_properties(QIDIStudio_app_console PROPERTIES OUTPUT_NAME "qidi-studio-console")
+    set_target_properties(QIDIStudio_app_console PROPERTIES OUTPUT_NAME "warrig-slicer-console")
     target_link_libraries(QIDIStudio_app_console PRIVATE boost_headeronly)
 	
 	

@@ -194,8 +194,8 @@ body
 	font-size: 14px;
 	height: 24px;
 	line-height: 24px;
-	color: #4479FB;
-	border: 1px solid  #4479FB;	/* y96 */
+	color: #FF7A12;
+	border: 1px solid  #FF7A12;	/* y96 */
 	border-radius: 4px;
 	cursor: pointer;
 	margin-top: 5px;
@@ -204,7 +204,7 @@ body
 
 #LogoutBtn:hover
 {
-	background: #4479FB;
+	background: #FF7A12;
 	color: #fff;
 }
 
@@ -259,12 +259,12 @@ body
 
 .BtnItem:hover
 {
-	background-color: #4479FB ;
+	background-color: #FF7A12 ;
 }
 
 .BtnItemSelected
 {
-	background-color: #4479FB ;
+	background-color: #FF7A12 ;
 }
 
 .BtnIcon
@@ -305,7 +305,7 @@ body
 	height: 12px;
 	line-height: 12px;
 	font-size: 10px;
-	background-color: #4479FB;	/* y96 */
+	background-color: #FF7A12;	/* y96 */
 	color: white;
 	padding: 2px 4px;
 	position: absolute;

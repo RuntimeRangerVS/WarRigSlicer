@@ -142,7 +142,7 @@ void ButtonsListCtrl::SetSelection(int sel)
     if (m_selection == sel)
         return;
     // QDS: change button color
-    wxColour selected_btn_bg("#4479FB");    // Gradient #4479FB
+    wxColour selected_btn_bg("#FF7A12");    // Gradient #FF7A12
     if (m_selection >= 0) {
         StateColor bg_color = StateColor(
         std::pair{wxColour(107, 107, 107), (int) StateColor::Hovered},
@@ -158,8 +158,8 @@ void ButtonsListCtrl::SetSelection(int sel)
 
     // y96
     StateColor bg_color = StateColor(
-        std::pair{wxColour(68, 121, 251), (int) StateColor::Hovered},
-        std::pair{wxColour(68, 121, 251), (int) StateColor::Normal});
+        std::pair{wxColour(255, 122, 18), (int) StateColor::Hovered},
+        std::pair{wxColour(255, 122, 18), (int) StateColor::Normal});
     m_pageButtons[m_selection]->SetBackgroundColor(bg_color);
 
     StateColor text_color = StateColor(

@@ -904,7 +904,7 @@ SyncBoxInfoDialog::SyncBoxInfoDialog(wxWindow *parentm, SyncInfo& info) :
 
         m_advace_setting_sizer         = new wxBoxSizer(wxHORIZONTAL);
         m_more_setting_tips    = new wxStaticText(m_scrolledWindow, wxID_ANY, _L("Advanced settings"));
-        m_more_setting_tips->SetForegroundColour(wxColour(68, 121, 251));
+        m_more_setting_tips->SetForegroundColour(wxColour(255, 122, 18));
         m_more_setting_tips->Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent &e) {
             m_expand_more_settings = !m_expand_more_settings;
             update_more_setting(true,true);
@@ -990,9 +990,9 @@ SyncBoxInfoDialog::SyncBoxInfoDialog(wxWindow *parentm, SyncInfo& info) :
         /* m_checkbox = new wxCheckBox(this, wxID_ANY, _L("Don't show again"), wxDefaultPosition, wxDefaultSize, 0);
          bSizer_button->Add(m_checkbox, 0, wxALIGN_LEFT);*/
         bSizer_button->AddStretchSpacer(1);
-        StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
-                                std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-                                std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+        StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+                                std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+                                std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
         m_button_ok = new Button(m_show_page,  _L("Synchronize now"));
         m_button_ok->SetBackgroundColor(btn_bg_blue);
         m_button_ok->SetBorderColor(*wxWHITE);
@@ -1965,7 +1965,7 @@ void SyncBoxInfoDialog::Enable_Auto_Refill(bool enable)
 {
     if (!m_ams_backup_tip) { return; }
     if (enable) {
-        m_ams_backup_tip->SetForegroundColour(wxColour("#4479fb"));
+        m_ams_backup_tip->SetForegroundColour(wxColour("#FF7A12"));
     } else {
         m_ams_backup_tip->SetForegroundColour(wxColour(0x90, 0x90, 0x90));
     }
@@ -3346,9 +3346,9 @@ GetBoxInfoDialog::GetBoxInfoDialog(Plater* plater)
 
     wxBoxSizer* m_sizer_btn = new wxBoxSizer(wxHORIZONTAL);
     btn_bg_enable = StateColor(
-            std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
-            std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-            std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+            std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+            std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+            std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
 
     m_button_sync = new Button(this, _L("Sync"));
     m_button_sync->SetBackgroundColor(btn_bg_enable);

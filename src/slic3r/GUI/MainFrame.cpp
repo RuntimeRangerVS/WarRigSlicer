@@ -309,7 +309,7 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_
     default:
     case GUI_App::EAppMode::Editor:
         m_taskbar_icon = std::make_unique<QIDIStudioTaskBarIcon>(wxTBI_DOCK);
-        m_taskbar_icon->SetIcon(wxIcon(Slic3r::var("QIDIStudio-mac_256px.ico"), wxBITMAP_TYPE_ICO), "QIDIStudio");
+        m_taskbar_icon->SetIcon(wxIcon(Slic3r::var("QIDIStudio-mac_256px.ico"), wxBITMAP_TYPE_ICO), "WarRig Slicer");
         break;
     case GUI_App::EAppMode::GCodeViewer:
         break;
@@ -2580,9 +2580,9 @@ void MainFrame::update_side_button_style()
     int em = em_unit();
 
     StateColor m_btn_bg_enable = StateColor(
-        std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed), 
-        std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-        std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal)    // y96
+        std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed), 
+        std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+        std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal)    // y96
     );
 
     m_slice_btn->SetTextLayout(SideButton::EHorizontalOrientation::HO_Left, FromDIP(15));

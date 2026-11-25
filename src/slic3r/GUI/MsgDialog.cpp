@@ -159,13 +159,13 @@ Button* MsgDialog::add_button(wxWindowID btn_id, bool set_focus /*= false*/, con
     
     btn->SetCornerRadius(FromDIP(12));
     StateColor btn_bg_blue(
-        std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
-        std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-        std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal)
+        std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+        std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+        std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal)
     );
 
     StateColor btn_bd_blue(
-        std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal)
+        std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal)
     );
 
     StateColor btn_text_blue(
@@ -695,8 +695,8 @@ wxBoxSizer *Newer3mfVersionDialog::get_btn_sizer()
     horizontal_sizer->Add(0, 0, 1, wxEXPAND, 0);
 
     // y96
-    StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed), std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-                            std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+    StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed), std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+                            std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
     StateColor btn_bg_white(std::pair<wxColour, int>(wxColour(206, 206, 206), StateColor::Pressed), std::pair<wxColour, int>(wxColour(238, 238, 238), StateColor::Hovered),
                             std::pair<wxColour, int>(*wxWHITE, StateColor::Normal));
     bool       file_version_newer = (*m_file_version) > (*m_cloud_version);
@@ -813,8 +813,8 @@ NetworkErrorDialog::NetworkErrorDialog(wxWindow* parent)
         e.Skip();
     });
 
-    auto bt_enable = (std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed), std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-                        std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+    auto bt_enable = (std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed), std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+                        std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
 
     m_button_confirm = new Button(this, _L("Confirm"));
     m_button_confirm->SetBackgroundColor(bt_enable);
@@ -922,8 +922,8 @@ CleanCacheDialog::CleanCacheDialog(wxWindow* parent)
     content_sizer->Add(vertical_sizer, 0, wxEXPAND | wxALL, FromDIP(5));
     main_sizer->Add(content_sizer, 0, wxEXPAND | wxALL, FromDIP(10));
 
-    m_btn_bg_enable = StateColor(std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed), std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-        std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+    m_btn_bg_enable = StateColor(std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed), std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+        std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
 
     Button* ok_btn = new Button(this, _L("OK"));
     ok_btn->SetBackgroundColor(m_btn_bg_enable);

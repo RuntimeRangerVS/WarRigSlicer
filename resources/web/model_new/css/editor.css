@@ -45,7 +45,7 @@ body {
   cursor: pointer;
 }
 .saveBtn {
-  background-color: #4479fb;
+  background-color: #FF7A12;
   padding: 9px 8px;
   box-sizing: border-box;
   height: 40px;
@@ -83,7 +83,7 @@ body {
   padding-left: 16px;
 }
 .editorInput:focus {
-  border-color: #74a8ff;
+  border-color: #FFA352;
   outline: none;
 }
 .comment {
@@ -108,7 +108,7 @@ body {
   justify-content: center;
 }
 .uploadBox:hover {
-  border-color: #74a8ff;
+  border-color: #FFA352;
 }
 .uploadText {
   color: #898989;

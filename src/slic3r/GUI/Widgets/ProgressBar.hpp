@@ -30,7 +30,7 @@ public:
     double   m_radius                     = {7};
     double   m_proportion                 = {0};
     wxColour m_progress_background_colour = {233, 233, 233};
-    wxColour m_progress_colour            = {68, 121, 251}; // y96
+    wxColour m_progress_colour            = {255, 122, 18}; // WarRig orange
     wxColour m_progress_colour_disable    = {255, 111, 0};
     wxString m_disable_text;
     

@@ -179,7 +179,7 @@ void MultiMachineItem::doRender(wxDC& dc)
             DrawTextWithEllipsis(dc, get_state_device(), FromDIP(DEVICE_LEFT_PRO_INFO), left);
         }
         else if (state_device == 1) {
-            dc.SetTextForeground(wxColour(68, 121, 251));
+            dc.SetTextForeground(wxColour(255, 122, 18));
             DrawTextWithEllipsis(dc, get_state_device(), FromDIP(DEVICE_LEFT_PRO_INFO), left);
         }
         else if (state_device == 2)
@@ -189,7 +189,7 @@ void MultiMachineItem::doRender(wxDC& dc)
         }
         else if (state_device > 2 && state_device < 7) {
             dc.SetFont(Label::Body_12);
-            dc.SetTextForeground(wxColour(68, 121, 251));
+            dc.SetTextForeground(wxColour(255, 122, 18));
             if (obj_->get_curr_stage() == _L("Printing") && obj_->subtask_) {
                 //wxString layer_info = wxString::Format(_L("Layer: %d/%d"), obj_->curr_layer, obj_->total_layers);
                 wxString progress_info = wxString::Format("%d", obj_->subtask_->task_progress);
@@ -202,8 +202,8 @@ void MultiMachineItem::doRender(wxDC& dc)
                 dc.SetBrush(wxBrush(wxColour(233,233,233)));
                 dc.DrawRoundedRectangle(left, FromDIP(30), FromDIP(DEVICE_LEFT_PRO_INFO), FromDIP(10), 2);
                 // y96
-                dc.SetPen(wxPen(wxColour(68, 121, 251)));
-                dc.SetBrush(wxBrush(wxColour(68, 121, 251)));
+                dc.SetPen(wxPen(wxColour(255, 122, 18)));
+                dc.SetBrush(wxBrush(wxColour(255, 122, 18)));
                 dc.DrawRoundedRectangle(left, FromDIP(30), FromDIP(DEVICE_LEFT_PRO_INFO) * (static_cast<float>(obj_->subtask_->task_progress) / 100.0f), FromDIP(10), 2);
             }
             else {
@@ -229,7 +229,7 @@ void MultiMachineItem::doRender(wxDC& dc)
     }
 
     if (m_hover) {
-        dc.SetPen(wxPen(wxColour(68, 121, 251)));
+        dc.SetPen(wxPen(wxColour(255, 122, 18)));
         dc.SetBrush(*wxTRANSPARENT_BRUSH);
         dc.DrawRoundedRectangle(0, 0, size.x, size.y, 3);
     }
@@ -284,9 +284,9 @@ MultiMachineManagerPage::MultiMachineManagerPage(wxWindow* parent)
 
     //edit prints
     auto m_btn_bg_enable = StateColor(
-        std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
-        std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-        std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal)
+        std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+        std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+        std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal)
     );
 
 

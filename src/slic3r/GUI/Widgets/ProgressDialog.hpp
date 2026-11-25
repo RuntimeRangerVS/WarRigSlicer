@@ -279,7 +279,7 @@ private:
         dc.DrawRectangle(0, 0, width, size.GetHeight());
     }
 
-    wxColour m_color = wxColour(68, 121, 251);
+    wxColour m_color = wxColour(255, 122, 18);
 };
 }} // namespace Slic3r::GUI
 

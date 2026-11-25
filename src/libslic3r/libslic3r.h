@@ -2,10 +2,12 @@
 #define _libslic3r_h_
 
 #include "libslic3r_version.h"
-#define SLIC3R_APP_FULL_NAME "QIDI Studio"
-#define GCODEVIEWER_APP_NAME "QIDIStudio G-code Viewer"
-#define GCODEVIEWER_APP_KEY  "QIDIStudioGcodeViewer"
-#define GCODEVIEWER_BUILD_ID std::string("QIDIStudio G-code Viewer-") + std::string(SLIC3R_VERSION) + std::string("-RC")
+#define SLIC3R_APP_FULL_NAME "WarRig Slicer"
+#define GCODEVIEWER_APP_NAME "WarRig G-code Viewer"
+#define GCODEVIEWER_APP_KEY  "WarRigSlicerGcodeViewer"
+#define GCODEVIEWER_BUILD_ID std::string("WarRig G-code Viewer-") + std::string(SLIC3R_VERSION) + std::string("-RC")
+// WarRig: own settings folder, so it never mixes with an installed QIDI Studio
+#define WARRIG_DATA_DIR_NAME "WarRigSlicer"
 
 // this needs to be included early for MSVC (listing it in Build.PL is not enough)
 #include <memory>

@@ -26,7 +26,7 @@ TempInput::TempInput()
     hover  = false;
     radius = 0;
     // y96
-    border_color = StateColor(std::make_pair(*wxWHITE, (int) StateColor::Disabled), std::make_pair(0x4479FB, (int) StateColor::Focused), std::make_pair(0x4479FB, (int) StateColor::Hovered),
+    border_color = StateColor(std::make_pair(*wxWHITE, (int) StateColor::Disabled), std::make_pair(0xFF7A12, (int) StateColor::Focused), std::make_pair(0xFF7A12, (int) StateColor::Hovered),
                  std::make_pair(*wxWHITE, (int) StateColor::Normal));
     background_color = StateColor(std::make_pair(*wxWHITE, (int) StateColor::Disabled), std::make_pair(*wxWHITE, (int) StateColor::Normal));
     SetFont(Label::Body_12);
@@ -445,8 +445,8 @@ void TempInput::render(wxDC &dc)
         border_color = wxColour(255, 111, 0);
     } else {
         // y96
-        border_color = StateColor(std::make_pair(*wxWHITE, (int) StateColor::Disabled), std::make_pair(0x4479FB, (int) StateColor::Focused),
-                                  std::make_pair(0x4479FB, (int) StateColor::Hovered), std::make_pair(*wxWHITE, (int) StateColor::Normal));
+        border_color = StateColor(std::make_pair(*wxWHITE, (int) StateColor::Disabled), std::make_pair(0xFF7A12, (int) StateColor::Focused),
+                                  std::make_pair(0xFF7A12, (int) StateColor::Hovered), std::make_pair(*wxWHITE, (int) StateColor::Normal));
     }
 
     dc.SetBrush(*wxTRANSPARENT_BRUSH);

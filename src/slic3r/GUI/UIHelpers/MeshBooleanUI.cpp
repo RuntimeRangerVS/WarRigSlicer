@@ -389,7 +389,7 @@ void MeshBooleanUI::draw_action_buttons()
 
     //y73
     // OK button (bulue)
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.27f, 0.47f, 0.98f, 1.00f));
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.00f, 0.48f, 0.07f, 1.00f));
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.45f, 0.66f, 1.00f, 1.00f));
     ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.00f, 0.26f, 1.00f, 1.00f));
     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));

@@ -743,13 +743,13 @@ PrintHostSendQIDIDialog::PrintHostSendQIDIDialog(Plater *plater, const PrintStat
 
     auto update_button_status = [](Button& btn, bool status) {
         StateColor btn_bg_blue(
-            std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
-            std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-            std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal)
+            std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+            std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+            std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal)
         );
 
         StateColor btn_bd_blue(
-            std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal)
+            std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal)
         );
 
         StateColor btn_text_blue(
@@ -1258,13 +1258,13 @@ PrintHostSendQIDIDialog::PrintHostSendQIDIDialog(const fs::path& path,
 
         auto update_button_status = [](Button& btn, bool status) {
             StateColor btn_bg_blue(
-                std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
-                std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-                std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal)
+                std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+                std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+                std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal)
             );
 
             StateColor btn_bd_blue(
-                std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal)
+                std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal)
             );
 
             StateColor btn_text_blue(

@@ -19,7 +19,7 @@ HMSIndicatorButton::HMSIndicatorButton(wxWindow* parent)
     : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(38, 24))
 {
     //cj_5 Match title bar: dark (45,45,49) / light (245,245,248).
-    SetBackgroundColour(wxGetApp().dark_mode() ? wxColour(45, 45, 49) : wxColour(245, 245, 248));
+    SetBackgroundColour(wxGetApp().dark_mode() ? wxColour(21, 23, 27) : wxColour(245, 245, 248));
     SetCursor(wxCURSOR_HAND);
 
     m_img_default = create_scaled_bitmap("notification_default", this, 20);
@@ -63,7 +63,7 @@ HMSDialog::HMSDialog(wxWindow* parent, const std::vector<QDSDeviceErrorData>& it
     CenterOnParent();
 
     const bool dark = wxGetApp().dark_mode();
-    const wxColour page_bg   = dark ? wxColour(45, 45, 49)  : wxColour(245, 245, 248);
+    const wxColour page_bg   = dark ? wxColour(21, 23, 27)  : wxColour(245, 245, 248);
     const wxColour card_bg   = dark ? wxColour(0, 0, 0)     : wxColour(255, 255, 255);
     const wxColour sep_col   = dark ? wxColour(80, 80, 85)  : wxColour(220, 220, 225);
     const wxColour empty_fg  = dark ? wxColour(140, 140, 148) : wxColour(160, 160, 165);
@@ -153,7 +153,7 @@ void HMSDialog::refresh_ui()
     static const wxColour colours[] = {
         wxColour(255, 80, 70),   // level 1: red
         wxColour(255, 160, 40),  // level 2: orange
-        wxColour(68, 121, 251),  // level 3: blue
+        wxColour(255, 122, 18),  // level 3: blue
     };
 
     if (m_items.empty()) {

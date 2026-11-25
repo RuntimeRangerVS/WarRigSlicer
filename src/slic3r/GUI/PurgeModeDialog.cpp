@@ -19,7 +19,7 @@ static const wxColour BgSelectColor  = wxColour("#EBF9F0");
 static const wxColour BgDisableColor = wxColour("#CECECE");
 
 static const wxColour BorderNormalColor   = wxColour("#CECECE");
-static const wxColour BorderSelectedColor = wxColour("#4479fb");
+static const wxColour BorderSelectedColor = wxColour("#FF7A12");
 static const wxColour BorderDisableColor  = wxColour("#EEEEEE");
 
 static const wxColour TextNormalBlackColor = wxColour("#262E30");
@@ -101,7 +101,7 @@ PurgeModeDialog::PurgeModeDialog(wxWindow *parent, PurgeModeDialogType dialog_ty
     StateColor ok_btn_bg(
         std::pair<wxColour, int>(wxColour("#1B8844"), StateColor::Pressed),
         std::pair<wxColour, int>(wxColour("#3DCB73"), StateColor::Hovered),
-        std::pair<wxColour, int>(wxColour("#4479fb"), StateColor::Normal)
+        std::pair<wxColour, int>(wxColour("#FF7A12"), StateColor::Normal)
     );
     StateColor ok_btn_text(
         std::pair<wxColour, int>(wxColour("#FFFFFE"), StateColor::Normal)
@@ -123,7 +123,7 @@ PurgeModeDialog::PurgeModeDialog(wxWindow *parent, PurgeModeDialogType dialog_ty
     ok_btn->SetCornerRadius(FromDIP(12));
     ok_btn->SetBackgroundColor(ok_btn_bg);
     ok_btn->SetFont(Label::Body_12);
-    ok_btn->SetBorderColor(wxColour("#4479fb"));
+    ok_btn->SetBorderColor(wxColour("#FF7A12"));
     ok_btn->SetTextColor(ok_btn_text);
     ok_btn->SetId(wxID_OK);
 

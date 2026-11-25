@@ -61,10 +61,10 @@ void AMSMaterialsSetting::create()
     m_sizer_button->Add(0, 0, 1, wxEXPAND, 0);
 
     m_button_confirm = new Button(this, _L("Confirm"));
-    m_btn_bg_blue   = StateColor(std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed), std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-                            std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+    m_btn_bg_blue   = StateColor(std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed), std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+                            std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
     m_button_confirm->SetBackgroundColor(m_btn_bg_blue);
-    m_button_confirm->SetBorderColor(wxColour(68, 121, 251));
+    m_button_confirm->SetBorderColor(wxColour(255, 122, 18));
     m_button_confirm->SetTextColor(wxColour("#FFFFFE"));
     m_button_confirm->SetMinSize(AMS_MATERIALS_SETTING_BUTTON_SIZE);
     m_button_confirm->SetCornerRadius(FromDIP(12));
@@ -167,7 +167,7 @@ void AMSMaterialsSetting::create_panel_normal(wxWindow* parent)
 
     // make the style the same with disable m_input_k_val, FIXME
     m_readonly_filament = new TextInput(parent, wxEmptyString, "", "", wxDefaultPosition, AMS_MATERIALS_SETTING_COMBOX_WIDTH, wxTE_CENTRE | wxTE_PROCESS_ENTER);
-    m_readonly_filament->SetBorderColor(StateColor(std::make_pair(0xDBDBDB, (int)StateColor::Focused), std::make_pair(0x4479fb, (int)StateColor::Hovered),
+    m_readonly_filament->SetBorderColor(StateColor(std::make_pair(0xDBDBDB, (int)StateColor::Focused), std::make_pair(0xFF7A12, (int)StateColor::Hovered),
         std::make_pair(0xDBDBDB, (int)StateColor::Normal)));
     m_readonly_filament->SetFont(::Label::Body_14);
     m_readonly_filament->SetLabelColor(AMS_MATERIALS_SETTING_GREY800);
@@ -1621,7 +1621,7 @@ void AMSMaterialsSetting::on_select_filament(wxCommandEvent &evt)
     }
     else {
         m_button_confirm->SetBackgroundColor(m_btn_bg_blue);
-        m_button_confirm->SetBorderColor(wxColour(68, 121, 251));
+        m_button_confirm->SetBorderColor(wxColour(255, 122, 18));
         m_button_confirm->SetTextColor(wxColour("#FFFFFE"));
         m_button_confirm->Enable(true);
     }

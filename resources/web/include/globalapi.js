@@ -582,7 +582,7 @@ function showConfirmDialog(options) {
   var header = document.createElement('div');
   header.innerText = title;
   Object.assign(header.style, {
-    background: '#4479fb',
+    background: '#FF7A12',
     color: '#ffffff',
     padding: '12px 16px',
     fontSize: '16px',

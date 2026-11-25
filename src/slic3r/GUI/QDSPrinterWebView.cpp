@@ -1334,9 +1334,9 @@ wxBoxSizer* QDSPrinterWebView::init_menu_bar(wxPanel* Panel)
     wxBoxSizer* buttonsizer = new wxBoxSizer(wxHORIZONTAL);
 
     StateColor add_btn_bg(std::pair<wxColour, int>(wxColour(153, 153, 153), StateColor::Disabled),
-        std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
-        std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-        std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+        std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+        std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+        std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
 
     buttonsizer->AddSpacer(16);
     

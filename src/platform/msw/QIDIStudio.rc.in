@@ -6,13 +6,13 @@ PRODUCTVERSION @SLIC3R_COMMA_SEPARATED_VERSION@
  {
   BLOCK "040904E4"
   {
-   VALUE "CompanyName", "QIDI Technology"
-   VALUE "FileDescription", "@SLIC3R_APP_NAME@"
+   VALUE "CompanyName", "RuntimeRangerVS"
+   VALUE "FileDescription", "WarRig Slicer"
    VALUE "FileVersion", "@SLIC3R_VERSION@"
-   VALUE "ProductName", "@SLIC3R_APP_NAME@"
-   VALUE "ProductVersion", "@SLIC3R_BUILD_ID@"
+   VALUE "ProductName", "WarRig Slicer"
+   VALUE "ProductVersion", "@WARRIG_VERSION@ (QIDI Studio @SLIC3R_VERSION@)"
    VALUE "InternalName", "@SLIC3R_APP_NAME@"
-   VALUE "LegalCopyright", "Copyright(C) 2025 QIDI All Rights Reserved"
+   VALUE "LegalCopyright", "WarRig Slicer (C) 2026 RuntimeRangerVS. Based on QIDI Studio, AGPL-3.0"
    VALUE "OriginalFilename", "qidi-studio.exe"
   }
  }

@@ -159,7 +159,7 @@ PhysicalPrinterDialog::PhysicalPrinterDialog(wxWindow* parent, wxString printer_
     auto button_sizer = new wxBoxSizer(wxHORIZONTAL);
 
     // y96
-    StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(95, 82, 253), StateColor::Pressed), std::pair<wxColour, int>(wxColour(129, 150, 255), StateColor::Hovered),
+    StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(232, 104, 10), StateColor::Pressed), std::pair<wxColour, int>(wxColour(255, 154, 60), StateColor::Hovered),
                             std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Normal));
 
     StateColor btn_bg_white(std::pair<wxColour, int>(wxColour(206, 206, 206), StateColor::Pressed), std::pair<wxColour, int>(wxColour(238, 238, 238), StateColor::Hovered),
@@ -503,7 +503,7 @@ bool PhysicalPrinterDialog::update_preset_input() {
     //    if (m_button_ok)
     //    {
     //        m_button_ok->Enable();
-    //        StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(95, 82, 253), StateColor::Pressed), std::pair<wxColour, int>(wxColour(129, 150, 255), StateColor::Hovered),
+    //        StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(232, 104, 10), StateColor::Pressed), std::pair<wxColour, int>(wxColour(255, 154, 60), StateColor::Hovered),
     //            std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Normal));
     //        m_button_ok->SetBackgroundColor(btn_bg_blue);
     //    }

@@ -269,7 +269,7 @@ void AppConfig::set_defaults()
 
 #ifdef SUPPORT_DARK_MODE
     if (get("dark_color_mode").empty())
-        set("dark_color_mode", "0");
+        set("dark_color_mode", "1"); // WarRig: dark theme by default
 #endif
 
 //#ifdef SUPPORT_SYS_MENU

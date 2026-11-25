@@ -10,10 +10,10 @@ static const wxColour BgNormalColor  = wxColour("#FFFFFF");
 static const wxColour BgSelectColor  = wxColour("#E8F8FC"); //y59
 
 static const wxColour TextNormalColor = wxColour("#000000");
-static const wxColour TextSelectColor = wxColour("#4479fb");
+static const wxColour TextSelectColor = wxColour("#FF7A12");
 
 static const wxColour BorderNormalColor   = wxColour("#CECECE");
-static const wxColour BorderSelectColor = wxColour("#4479fb");
+static const wxColour BorderSelectColor = wxColour("#FF7A12");
 
 CapsuleButton::CapsuleButton(wxWindow *parent, wxWindowID id, const wxString &label, bool selected) : wxPanel(parent, id)
 {

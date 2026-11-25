@@ -6,7 +6,7 @@
 .BlockBanner
 {
 	padding: 0px;
-	border-bottom:#4479FB 1px solid;	/* y96 */
+	border-bottom:#FF7A12 1px solid;	/* y96 */
 	width: 100%;
 	display: flex;
 	justify-content:space-between;
@@ -27,7 +27,7 @@
 .BlockBanner  a
 {
 	display: inline-block;
-	background-color:#4479FB;	/* y96 */
+	background-color:#FF7A12;	/* y96 */
 	line-height: 40px;
 	height: 40px;
 	padding: 0px 24px;
@@ -130,7 +130,7 @@ img.ModelThumbnail
 
 #NoticeBar
 {
-	background-color:#4479FB;	/* y96 */
+	background-color:#FF7A12;	/* y96 */
 	height: 40px;
 	line-height: 40px;
 	color: #fff;

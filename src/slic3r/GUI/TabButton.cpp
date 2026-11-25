@@ -14,10 +14,10 @@ EVT_PAINT(TabButton::paintEvent)
 
 END_EVENT_TABLE()
 
-static wxColour BORDER_HOVER_COL = wxColour(68, 121, 251);
+static wxColour BORDER_HOVER_COL = wxColour(255, 122, 18);
 
 const static wxColour TAB_BUTTON_BG    = wxColour("#FEFFFF");
-const static wxColour TAB_BUTTON_SEL   = wxColour(68, 121, 251, 255);   // y96
+const static wxColour TAB_BUTTON_SEL   = wxColour(255, 122, 18, 255);   // y96
 
 TabButton::TabButton()
     : paddingSize(43, 16)

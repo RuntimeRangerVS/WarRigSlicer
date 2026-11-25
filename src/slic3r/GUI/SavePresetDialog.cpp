@@ -397,11 +397,11 @@ void SavePresetDialog::build(std::vector<Preset::Type> types, std::string suffix
     m_confirm = new Button(this, _L("OK"));
     // y96
     StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(144, 144, 144), StateColor::Disabled),
-                            std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
-                            std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-                            std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+                            std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+                            std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+                            std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
     StateColor btn_br_blue(std::pair<wxColour, int>(wxColour(144, 144, 144), StateColor::Disabled),
-                            std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+                            std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
     m_confirm->SetBackgroundColor(btn_bg_blue);
     m_confirm->SetBorderColor(btn_br_blue);
     m_confirm->SetTextColor(wxColour("#FFFFFE"));

@@ -58,7 +58,7 @@ static wxColour file_list_row_separator_colour()
 
 static wxColour file_list_panel_background()
 {
-	return wxGetApp().dark_mode() ? wxColour(45, 45, 49) : wxColour(255, 255, 255);
+	return wxGetApp().dark_mode() ? wxColour(21, 23, 27) : wxColour(255, 255, 255);
 }
 
 // Light theme matches legacy file_list_primary; dark theme matches GUI_App m_color_label_sys (#B2B3B5).
@@ -81,8 +81,8 @@ static void apply_model_file_mount_button_chrome(Button* button)
 	//cj_3
 	const wxColour idle_bg = mount_filter_button_idle_background();
 	StateColor add_btn_bg(
-		std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
-		std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
+		std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+		std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
 		std::pair<wxColour, int>(idle_bg, StateColor::Normal));
 	//cj_3
 	StateColor btn_text_color(std::pair<wxColour, int>(file_list_primary_text_colour(), StateColor::Normal));
@@ -108,7 +108,7 @@ static void set_mount_filter_button_selected(Button* b)
 {
 	if (b == nullptr)
 		return;
-	b->SetBackgroundColorNormal(wxColour(68, 121, 251));
+	b->SetBackgroundColorNormal(wxColour(255, 122, 18));
 	b->SetTextColorNormal(wxColour(255, 255, 255));
 }
 

@@ -972,8 +972,8 @@ wxBoxSizer* MixedFilamentDialog::create_button_panel()
     m_btn_cancel->Bind(wxEVT_BUTTON, [this](wxCommandEvent&) { EndModal(wxID_CANCEL); });
 
     m_btn_ok = new Button(this, _L("OK"));
-    m_btn_ok->SetBackgroundColor(wxColour("#4479FB"));
-    m_btn_ok->SetBorderColor(wxColour("#4479FB"));
+    m_btn_ok->SetBackgroundColor(wxColour("#FF7A12"));
+    m_btn_ok->SetBorderColor(wxColour("#FF7A12"));
     m_btn_ok->SetTextColor(*wxWHITE);
     m_btn_ok->SetMinSize(wxSize(FromDIP(55), FromDIP(24)));
     m_btn_ok->Bind(wxEVT_BUTTON, [this](wxCommandEvent&) { EndModal(wxID_OK); });
@@ -1453,8 +1453,8 @@ void MixedFilamentDialog::update_ok_button_state()
         m_btn_ok->SetBorderColor(wxColour("#CECECE"));
         m_btn_ok->SetToolTip(_L("Cannot mix different filament types"));
     } else {
-        m_btn_ok->SetBackgroundColor(wxColour("#4479FB"));
-        m_btn_ok->SetBorderColor(wxColour("#4479FB"));
+        m_btn_ok->SetBackgroundColor(wxColour("#FF7A12"));
+        m_btn_ok->SetBorderColor(wxColour("#FF7A12"));
         m_btn_ok->SetToolTip(wxEmptyString);
     }
 

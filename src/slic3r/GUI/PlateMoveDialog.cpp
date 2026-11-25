@@ -3,9 +3,9 @@
 
 namespace Slic3r { namespace GUI {
 
-const StateColor btn_bg_green_in_plate_swap(std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
-                        std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-                        std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+const StateColor btn_bg_green_in_plate_swap(std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+                        std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+                        std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
 const StateColor btn_bg_disable_bg_in_plate_swap(std::pair<wxColour, int>(wxColour(205, 201, 201), StateColor::Pressed),
                                    std::pair<wxColour, int>(wxColour(205, 201, 201), StateColor::Hovered),
                                    std::pair<wxColour, int>(wxColour(205, 201, 201), StateColor::Normal));
@@ -127,7 +127,7 @@ PlateMoveDialog::PlateMoveDialog(wxWindow *parent, wxWindowID id, const wxString
 
     auto  sizer_button = new wxBoxSizer(wxHORIZONTAL);
 
-    StateColor btn_bg_white(std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed), std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
+    StateColor btn_bg_white(std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed), std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
                             std::pair<wxColour, int>(*wxWHITE, StateColor::Normal));
 
     m_button_ok = new Button(this, _L("OK"));

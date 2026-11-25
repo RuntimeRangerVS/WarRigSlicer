@@ -427,7 +427,7 @@ void GLCanvas3D::LayersEditing::render_variable_layer_height_dialog(const GLCanv
     ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImVec4(238 / 255.0f, 238 / 255.0f, 238 / 255.0f, 0.00f));
     ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(0.81f, 0.81f, 0.81f, 1.0f));
     //y
-    ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(0.27f, 0.47f, 0.98f, 1.00f));   // y96 change color
+    ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(1.00f, 0.48f, 0.07f, 1.00f));   // y96 change color
     if(ImGui::QDTSliderScalar("##radius_slider", ImGuiDataType_S32, &radius, &v_min, &v_max)){
         radius = std::clamp(radius, 1, 10);
         m_smooth_params.radius = (unsigned int)radius;
@@ -439,9 +439,9 @@ void GLCanvas3D::LayersEditing::render_variable_layer_height_dialog(const GLCanv
     ImGui::SetCursorPosX(input_align);
     ImGui::PushItemWidth(input_box_width);
     //y
-    ImGui::PushStyleColor(ImGuiCol_BorderActive, ImVec4(0.27f, 0.47f, 0.98f, 1.00f));   // y96 change color
-    ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(0.27f, 0.47f, 0.98f, 0.00f)); // y96 change color
-    ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImVec4(0.27f, 0.47f, 0.98f, 0.00f));  // y96 change color
+    ImGui::PushStyleColor(ImGuiCol_BorderActive, ImVec4(1.00f, 0.48f, 0.07f, 1.00f));   // y96 change color
+    ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(1.00f, 0.48f, 0.07f, 0.00f)); // y96 change color
+    ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImVec4(1.00f, 0.48f, 0.07f, 0.00f));  // y96 change color
     if (ImGui::QDTDragScalar("##radius_input", ImGuiDataType_S32, &radius, 1, &v_min, &v_max)) {
         radius = std::clamp(radius, 1, 10);
         m_smooth_params.radius = (unsigned int)radius;

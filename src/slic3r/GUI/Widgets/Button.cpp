@@ -31,8 +31,8 @@ Button::Button()
 {
     background_color = StateColor(
         std::make_pair(0xF0F0F1, (int) StateColor::Disabled),
-        std::make_pair(0x4479FB, (int) StateColor::Hovered | StateColor::Checked),  // y96
-        std::make_pair(0x4479FB, (int) StateColor::Checked),
+        std::make_pair(0xFF7A12, (int) StateColor::Hovered | StateColor::Checked),  // y96
+        std::make_pair(0xFF7A12, (int) StateColor::Checked),
         std::make_pair(*wxLIGHT_GREY, (int) StateColor::Hovered), 
         std::make_pair(*wxWHITE, (int) StateColor::Normal));
     text_color       = StateColor(

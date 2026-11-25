@@ -29,7 +29,7 @@ DeviceButton::DeviceButton(wxString name_text, wxString ip_text, wxString apikey
     background_color = StateColor(
         std::make_pair(0xF5F5F5, (int) StateColor::Disabled),
         std::make_pair(0xE6F7FF, (int) StateColor::Hovered | StateColor::Checked),
-        std::make_pair(0x4479fb, (int) StateColor::Checked),
+        std::make_pair(0xFF7A12, (int) StateColor::Checked),
         std::make_pair(0xF0F0F0, (int) StateColor::Hovered), 
         std::make_pair(0xFFFFFF, (int) StateColor::Normal));
     text_color       = StateColor(
@@ -285,7 +285,7 @@ void DeviceButton::render(wxDC &dc)
         //y76
         dc.SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Microsoft YaHei"));
         if (m_isSelected) {
-            dc.SetTextForeground(wxColour(68, 121, 251));
+            dc.SetTextForeground(wxColour(255, 122, 18));
         } else {
             dc.SetTextForeground(wxColour(196, 196, 196));
         }
@@ -302,8 +302,8 @@ void DeviceButton::render(wxDC &dc)
         
         //cj_2
 //         if (m_isSelected) {
-//             dc.SetBrush(wxBrush(wxColour(68, 121, 251)));
-//             dc.SetPen(wxPen(wxColour(68, 121, 251)));
+//             dc.SetBrush(wxBrush(wxColour(255, 122, 18)));
+//             dc.SetPen(wxPen(wxColour(255, 122, 18)));
 //             //dc.DrawRectangle(0, 0, 10, 49);
 //             dc.DrawRoundedRectangle(-10, 0, 15, 49, 4.0);
 //         } 
@@ -338,8 +338,8 @@ void DeviceButton::render(wxDC &dc)
          int dotX      = size.x - dotRadius - 10;
          int dotY      = 10;
          if (m_isSelected) {
-             dc.SetBrush(wxBrush(wxColour(68, 121, 251)));
-             dc.SetPen(wxPen(wxColour(68, 121, 251)));
+             dc.SetBrush(wxBrush(wxColour(255, 122, 18)));
+             dc.SetPen(wxPen(wxColour(255, 122, 18)));
          } else {
              dc.SetBrush(wxBrush(wxColour(26, 26, 28)));
              dc.SetPen(wxPen(wxColour(26, 26, 28)));

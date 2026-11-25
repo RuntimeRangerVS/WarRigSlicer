@@ -288,7 +288,7 @@ AboutDialog::AboutDialog()
         wxString versionText    = QDT_INTERNAL_TESTING == 1 ? _L("Internal Version") : _L("Beta Version");
         auto     version_string = versionText + " " + std::string(version_text);
 #else
-        auto version_string = _L("Version") + " " + std::string(version_text);
+        auto version_string = wxString("WarRig Slicer ") + WARRIG_VERSION + "  |  " + _L("based on QIDI Studio") + " " + std::string(version_text);
 #endif
         wxStaticText* version = new wxStaticText(this, wxID_ANY, version_string.c_str(), wxDefaultPosition, wxDefaultSize);
         wxFont version_font = GetFont();
@@ -300,7 +300,7 @@ AboutDialog::AboutDialog()
         version_font.SetPointSize(FromDIP(16));
         version->SetFont(version_font);
         version->SetForegroundColour(wxColour("#FFFFFD"));
-        version->SetBackgroundColour(wxColour("#303ab2"));
+        version->SetBackgroundColour(wxColour("#111215"));
         vesizer->Add(version, 0, wxALL | wxALIGN_CENTER_HORIZONTAL, FromDIP(5));
 #if QDT_INTERNAL_TESTING
         wxString plugin_version = wxString::Format("Plugin Version: %s", wxGetApp().getAgent() ? wxGetApp().getAgent()->get_version() : "");
@@ -324,6 +324,7 @@ AboutDialog::AboutDialog()
 
     std::vector<wxString> text_list;
     // y7
+    text_list.push_back(_L("WarRig Slicer is based on QIDI Studio by QIDI Technology, with the WarRig theme and WarRig firmware options."));
     text_list.push_back(_L("QIDI Studio is based on Bambu Studio by Bambu Lab."));
     text_list.push_back(_L("Bambu Studio is based on PrusaSlicer by PrusaResearch and SuperSlicer by Merill(supermerill)."));
     text_list.push_back(_L("PrusaSlicer is originally based on Slic3r by Alessandro Ranellucci."));

@@ -24,7 +24,7 @@ SwitchButton::SwitchButton(wxWindow* parent, wxWindowID id)
 	, m_off(this, "toggle_off", 16)
     , text_color(std::pair{0xfffffe, (int) StateColor::Checked}, std::pair{0x6B6B6B, (int) StateColor::Normal})
 	, track_color(0xD9D9D9)
-    , thumb_color(std::pair{0x4479FB, (int) StateColor::Checked}, std::pair{0xD9D9D9, (int) StateColor::Normal})	// y96
+    , thumb_color(std::pair{0xFF7A12, (int) StateColor::Checked}, std::pair{0xD9D9D9, (int) StateColor::Normal})	// y96
 {
 	SetBackgroundColour(StaticBox::GetParentBackgroundColor(parent));
 	Bind(wxEVT_TOGGLEBUTTON, [this](auto& e) { update(); e.Skip(); });
@@ -280,7 +280,7 @@ void SwitchBoard::doRender(wxDC &dc)
 
 	/*left*/
     if (switch_left) {
-        is_enable ? dc.SetBrush(wxBrush(wxColour(68, 121, 251))) : dc.SetBrush(disable_color);
+        is_enable ? dc.SetBrush(wxBrush(wxColour(255, 122, 18))) : dc.SetBrush(disable_color);
         dc.DrawRoundedRectangle(0, 0, GetSize().x / 2, GetSize().y, 8);
 	}
 
@@ -298,7 +298,7 @@ void SwitchBoard::doRender(wxDC &dc)
 
 	/*right*/
     if (switch_right) {
-        if (is_enable) {dc.SetBrush(wxBrush(wxColour(68, 121, 251)));
+        if (is_enable) {dc.SetBrush(wxBrush(wxColour(255, 122, 18)));
         } else {dc.SetBrush(disable_color);}
         dc.DrawRoundedRectangle(GetSize().x / 2, 0, GetSize().x / 2, GetSize().y, 8);
 	}
@@ -890,7 +890,7 @@ MultiSwitchButton::MultiSwitchButton(wxWindow *parent, wxWindowID id, const wxPo
     , sel(-1)
     , m_bg_color(StateColor(
         std::make_pair(0xE8E8E8, (int) StateColor::NotChecked),
-        std::make_pair(0x4479fb, (int) StateColor::Normal)))
+        std::make_pair(0xFF7A12, (int) StateColor::Normal)))
     , m_bg_color_grayed(StateColor(
         std::make_pair(0xE8E8E8, (int) StateColor::NotChecked),
         std::make_pair(0x6DC48D, (int) StateColor::Normal)))
@@ -1107,9 +1107,9 @@ bool MultiSwitchButton::send_selection_event()
 DeviceSwitchButton::DeviceSwitchButton(wxWindow* parent, const wxString& label, wxWindowID id)
 	: m_on(this, "toggle_on", 28, 16)
 	, m_off(this, "toggle_off", 28, 16)
-	, text_color(std::pair{ 0x4479FB, (int)StateColor::Checked }, std::pair{ 0x6B6B6B, (int)StateColor::Normal })
+	, text_color(std::pair{ 0xFF7A12, (int)StateColor::Checked }, std::pair{ 0x6B6B6B, (int)StateColor::Normal })
 	, track_color(0x333337)
-	, thumb_color(std::pair{ 0x4479FB, (int)StateColor::Checked }, std::pair{ 0x333337, (int)StateColor::Normal })
+	, thumb_color(std::pair{ 0xFF7A12, (int)StateColor::Checked }, std::pair{ 0x333337, (int)StateColor::Normal })
 {
 	const long style = wxBORDER_NONE | wxBU_EXACTFIT | wxBU_LEFT;
 	if (label.IsEmpty())
@@ -1274,7 +1274,7 @@ void DeviceSwitchButton::Rescale()
 			memdc.SetTextForeground(text_color.colorForStates(state));
 			memdc.DrawText(labels[1], { trackSize.x / 2 + (thumbSize.x - textSize[1].x) / 2 - 4, (trackSize.y - textSize[1].y) / 2 - 4 * BS });
 
-			//memdc.SetPen(wxPen(wxColour(68, 121, 251)));
+			//memdc.SetPen(wxPen(wxColour(255, 122, 18)));
    //         if (!GetValue())
    //             memdc.DrawLine(BS + BS * 10 * 7, thumbSize.y, BS + BS * 10 * 10, thumbSize.y);
    //         else

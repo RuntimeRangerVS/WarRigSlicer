@@ -716,9 +716,9 @@ bool GizmoObjectManipulation::reset_zero_button(ImGuiWrapper *imgui_wrapper, flo
      bool b_value = value;
      if (b_value) {
         //y73
-         ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.27f, 0.47f, 0.98f, 1.00f));
-         ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(0.27f, 0.47f, 0.98f, 1.00f));
-         ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImVec4(0.27f, 0.47f, 0.98f, 1.00f));
+         ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(1.00f, 0.48f, 0.07f, 1.00f));
+         ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(1.00f, 0.48f, 0.07f, 1.00f));
+         ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImVec4(1.00f, 0.48f, 0.07f, 1.00f));
      }
      auto label_utf8 = into_u8(label);
      result          = ImGui::QDTCheckbox(label_utf8.c_str(), &value);

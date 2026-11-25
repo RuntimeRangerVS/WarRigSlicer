@@ -389,7 +389,7 @@ static const wxColour STATIC_BOX_LINE_COL = wxColour(238, 238, 238);
 static const wxColour BUTTON_NORMAL1_COL = wxColour(238, 238, 238);
 static const wxColour BUTTON_NORMAL2_COL = wxColour(206, 206, 206);
 static const wxColour BUTTON_PRESS_COL   = wxColour(172, 172, 172);
-static const wxColour BUTTON_HOVER_COL   = wxColour(68, 121, 251);  // y96
+static const wxColour BUTTON_HOVER_COL   = wxColour(255, 122, 18);  // y96
 
 static const wxColour DISCONNECT_TEXT_COL = wxColour(171, 172, 172);
 static const wxColour NORMAL_TEXT_COL     = wxColour(48, 58, 60);
@@ -1435,12 +1435,12 @@ void PrintingTaskPanel::create_panel(wxWindow *parent)
     m_staticText_progress_percent = new wxStaticText(penel_text, wxID_ANY, "0", wxDefaultPosition, wxDefaultSize, 0);
     m_staticText_progress_percent->SetFont(::Label::Head_18);
     m_staticText_progress_percent->SetMaxSize(wxSize(-1, FromDIP(20)));
-    m_staticText_progress_percent->SetForegroundColour(wxColour(68, 121, 251)); // y96
+    m_staticText_progress_percent->SetForegroundColour(wxColour(255, 122, 18)); // y96
 
     m_staticText_progress_percent_icon = new wxStaticText(penel_text, wxID_ANY, "%", wxDefaultPosition, wxDefaultSize, 0);
     m_staticText_progress_percent_icon->SetFont(::Label::Body_11);
     m_staticText_progress_percent_icon->SetMaxSize(wxSize(-1, FromDIP(13)));
-    m_staticText_progress_percent_icon->SetForegroundColour(wxColour(68, 121, 251));    // y96
+    m_staticText_progress_percent_icon->SetForegroundColour(wxColour(255, 122, 18));    // y96
 
     sizer_percent->Add(m_staticText_progress_percent, 0, 0, 0);
 
@@ -1668,8 +1668,8 @@ void PrintingTaskPanel::create_panel(wxWindow *parent)
     m_request_failed_info->SetFont(::Label::Body_10);
     static_request_failed_panel_sizer->Add(m_request_failed_info, 0, wxEXPAND | wxALL, FromDIP(10));
     // y96
-    StateColor btn_bg_blue(std::pair<wxColour, int>(AMS_CONTROL_DISABLE_COLOUR, StateColor::Disabled), std::pair<wxColour, int>(wxColour(95, 82, 253), StateColor::Pressed),
-                            std::pair<wxColour, int>(wxColour(129, 150, 255), StateColor::Hovered), std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Normal));
+    StateColor btn_bg_blue(std::pair<wxColour, int>(AMS_CONTROL_DISABLE_COLOUR, StateColor::Disabled), std::pair<wxColour, int>(wxColour(232, 104, 10), StateColor::Pressed),
+                            std::pair<wxColour, int>(wxColour(255, 154, 60), StateColor::Hovered), std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Normal));
     StateColor btn_bd_blue(std::pair<wxColour, int>(AMS_CONTROL_WHITE_COLOUR, StateColor::Disabled), std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Enabled));
     m_button_market_retry = new Button(m_request_failed_panel, _L("Retry"));
     m_button_market_retry->SetBackgroundColor(btn_bg_blue);
@@ -2368,7 +2368,7 @@ wxBoxSizer *StatusBasePanel::create_monitoring_page()
     m_panel_monitoring_title = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(-1, PAGE_TITLE_HEIGHT), wxTAB_TRAVERSAL);
     //cj_5 Match HMSDialog page_bg.
     m_panel_monitoring_title->SetBackgroundColour(
-        wxGetApp().dark_mode() ? wxColour(45, 45, 49) : wxColour(245, 245, 248));
+        wxGetApp().dark_mode() ? wxColour(21, 23, 27) : wxColour(245, 245, 248));
 
     wxBoxSizer *bSizer_monitoring_title;
     bSizer_monitoring_title = new wxBoxSizer(wxHORIZONTAL);
@@ -2540,8 +2540,8 @@ wxBoxSizer *StatusBasePanel::create_machine_control_page(wxWindow *parent)
     create_timelapse_fun(m_panel_control_title);
 
     //y76
-	StateColor btn_bg_blue(std::pair<wxColour, int>(AMS_CONTROL_DISABLE_COLOUR, StateColor::Disabled), std::pair<wxColour, int>(wxColour(95, 82, 253), StateColor::Pressed),
-		std::pair<wxColour, int>(wxColour(129, 150, 255), StateColor::Hovered), std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Normal));
+	StateColor btn_bg_blue(std::pair<wxColour, int>(AMS_CONTROL_DISABLE_COLOUR, StateColor::Disabled), std::pair<wxColour, int>(wxColour(232, 104, 10), StateColor::Pressed),
+		std::pair<wxColour, int>(wxColour(255, 154, 60), StateColor::Hovered), std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Normal));
 	StateColor btn_bd_blue(std::pair<wxColour, int>(AMS_CONTROL_WHITE_COLOUR, StateColor::Disabled), std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Enabled));
 
     m_parts_btn = new Button(m_panel_control_title, _L("Printer Parts"));
@@ -2644,9 +2644,9 @@ wxPanel* StatusBasePanel::create_tab_page(wxWindow* parent)
 {
 
     StateColor add_btn_bg(
-        std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
+        std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
         //std::pair<wxColour, int>(wxColour(238, 238, 238), StateColor::NotHovered),
-        std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
+        std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
         std::pair<wxColour, int>(wxColour(238, 238, 238), StateColor::Normal)
     );
 
@@ -2699,7 +2699,7 @@ wxPanel* StatusBasePanel::create_tab_page(wxWindow* parent)
 //cj_2
 wxPanel* StatusBasePanel::create_model_fun(wxWindow* parent)
 {
-    const wxColour k_tool_blue(68, 121, 251);
+    const wxColour k_tool_blue(255, 122, 18);
 
     m_model_button_panel = new wxPanel(parent);
     wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -2735,7 +2735,7 @@ wxPanel* StatusBasePanel::create_model_fun(wxWindow* parent)
 //cj_3
 wxPanel* StatusBasePanel::create_timelapse_fun(wxWindow* parent)
 {
-    const wxColour k_tool_blue(68, 121, 251);
+    const wxColour k_tool_blue(255, 122, 18);
     const wxColour k_tool_disabled(196, 196, 196);
 
     m_timelapse_button_panel = new wxPanel(parent);
@@ -2970,7 +2970,7 @@ wxBoxSizer *StatusBasePanel::create_misc_control(wxWindow *parent)
     m_switch_fan->UseTextFan();
     m_switch_fan->SetTextColor(StateColor(std::make_pair(DISCONNECT_TEXT_COL, (int) StateColor::Disabled), std::make_pair(NORMAL_FAN_TEXT_COL, (int) StateColor::Normal)));
 
-    m_switch_fan->Bind(wxEVT_ENTER_WINDOW, [this](auto &e) { m_fan_panel->SetBackgroundColor(wxColour(68, 121, 251)); });
+    m_switch_fan->Bind(wxEVT_ENTER_WINDOW, [this](auto &e) { m_fan_panel->SetBackgroundColor(wxColour(255, 122, 18)); });
 
     m_switch_fan->Bind(wxEVT_LEAVE_WINDOW, [this, parent](auto &e) { m_fan_panel->SetBackgroundColor(parent->GetBackgroundColour()); });
 
@@ -3452,7 +3452,7 @@ bool StatusBasePanel::is_timelapse_list_visible() const
 void StatusBasePanel::sync_model_file_toolbar(int select_num)
 {
     (void)select_num;
-    const wxColour k_tool_blue(68, 121, 251);
+    const wxColour k_tool_blue(255, 122, 18);
     const wxColour k_tool_disabled(196, 196, 196);
 
     //cj_3
@@ -3474,7 +3474,7 @@ void StatusBasePanel::sync_model_file_toolbar(int select_num)
 void StatusBasePanel::sync_timelapse_file_toolbar(int select_num)
 {
     const bool has = select_num > 0;
-    const wxColour k_tool_blue(68, 121, 251);
+    const wxColour k_tool_blue(255, 122, 18);
     const wxColour k_tool_disabled(196, 196, 196);
     const wxColour k_tool_delete_red(255, 77, 77);
 
@@ -3524,7 +3524,7 @@ void StatusBasePanel::tabSiwtch(Button* button, wxPanel* panel)
 	setButtonNormal(m_model_tab, m_model_panel);
 	setButtonNormal(m_timelapse_tab, m_timelapse_host);
 
-	button->SetBackgroundColorNormal(wxColour(68, 121, 251));
+	button->SetBackgroundColorNormal(wxColour(255, 122, 18));
 	button->SetTextColorNormal(wxColour(255, 255, 255));
     panel->Show();
 
@@ -8484,7 +8484,7 @@ wxBoxSizer *ScoreDialog::get_button_sizer()
     wxBoxSizer *bSizer_button = new wxBoxSizer(wxHORIZONTAL);
     bSizer_button->Add(0, 0, 1, wxEXPAND, 0);
 
-    StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(95, 82, 253), StateColor::Pressed), std::pair<wxColour, int>(wxColour(129, 150, 255), StateColor::Hovered),
+    StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(232, 104, 10), StateColor::Pressed), std::pair<wxColour, int>(wxColour(255, 154, 60), StateColor::Hovered),
                             std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Normal));
 
     m_button_ok = new Button(this, _L("Submit"));
@@ -8784,8 +8784,8 @@ void RectTextPanel::OnPaint(wxPaintEvent &event)
 
     wxPaintDC dc(this);
 
-    dc.SetBrush(wxBrush(wxColour("#4479fb")));
-    dc.SetPen(wxPen(wxColour("#4479fb")));
+    dc.SetBrush(wxBrush(wxColour("#FF7A12")));
+    dc.SetPen(wxPen(wxColour("#FF7A12")));
     dc.DrawRoundedRectangle(size, FromDIP(4));
     dc.SetTextForeground(wxColour(255, 255, 255));
     dc.DrawText(text, wxPoint(FromDIP(2), FromDIP(2)));

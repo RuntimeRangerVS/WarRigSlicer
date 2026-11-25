@@ -71,12 +71,16 @@ void QDTTopbarArt::DrawLabel(wxDC& dc, wxWindow* wnd, const wxAuiToolBarItem& it
 
 void QDTTopbarArt::DrawBackground(wxDC& dc, wxWindow* wnd, const wxRect& rect)
 {
-    dc.SetBrush(wxBrush(wxColour(38, 46, 48)));
+    // WarRig: dark steel top bar with an orange line along the bottom
+    dc.SetPen(*wxTRANSPARENT_PEN);
+    dc.SetBrush(wxBrush(wxColour(17, 18, 21)));
     wxRect clipRect = rect;
     clipRect.y -= 8;
     clipRect.height += 8;
     dc.SetClippingRegion(clipRect);
     dc.DrawRectangle(rect);
+    dc.SetBrush(wxBrush(wxColour(255, 122, 18)));
+    dc.DrawRectangle(rect.x, rect.y + rect.height - 2, rect.width, 2);
     dc.DestroyClippingRegion();
 }
 

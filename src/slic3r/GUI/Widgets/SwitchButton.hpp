@@ -114,7 +114,7 @@ private:
     wxString m_label;
     wxBitmap m_selected_icon;
     wxBitmap m_unselected_icon;
-    wxColour m_primary_colour{wxColour("#4479fb")};
+    wxColour m_primary_colour{wxColour("#FF7A12")};
     wxColour m_secondary_colour{wxColour("#DEF5E7")};
 
     bool m_isSelected;

@@ -144,7 +144,7 @@ body
 {
 	/* y96 */
     --swiper-theme-color: #ff6600;/* 设置Swiper风格 */
-    --swiper-navigation-color: #4479FB;/* 单独设置按钮颜色 */
+    --swiper-navigation-color: #FF7A12;/* 单独设置按钮颜色 */
     --swiper-navigation-size: 30px;/* 设置按钮大小 */
 }
 
@@ -186,12 +186,12 @@ body
 .ProcessBarSelected
 {
 	/* y96 */
-	border-left-color:#4479FB;
+	border-left-color:#FF7A12;
 }
 
 .ProcessBarSelected span
 {
-	color:#4479FB;
+	color:#FF7A12;
 }
 
 #Info_ProcessBar.ProcessBarSelected img
@@ -246,7 +246,7 @@ body
 .NameCanClick
 {
 	/* y96 */
-	color: #4479FB;
+	color: #FF7A12;
 	text-decoration: underline;
 	cursor: pointer;
 }

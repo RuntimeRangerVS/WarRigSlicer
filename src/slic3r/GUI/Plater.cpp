@@ -942,7 +942,7 @@ void Sidebar::priv::flush_printer_sync(bool restart)
         *counter_sync_printer = 6;
         timer_sync_printer->Start(500);
     }
-    btn_sync_printer->SetBackgroundColorNormal((*counter_sync_printer & 1) ? "#F8F8F8" : "#4479fb");
+    btn_sync_printer->SetBackgroundColorNormal((*counter_sync_printer & 1) ? "#F8F8F8" : "#FF7A12");
     if (--*counter_sync_printer <= 0)
         timer_sync_printer->Stop();
 }
@@ -2346,7 +2346,7 @@ bool Sidebar::priv::sync_extruder_list(bool &only_external_material, bool is_man
 //y76 y84
 void Sidebar::priv::update_sync_status(std::shared_ptr<QDSDevice> obj, bool defer_combo_refresh)
 {
-    StateColor not_synced_colour(std::pair<wxColour, int>(wxColour("#4479FB"), StateColor::Normal));
+    StateColor not_synced_colour(std::pair<wxColour, int>(wxColour("#FF7A12"), StateColor::Normal));
     //cj_4
     auto clear_all_sync_status = [this, &not_synced_colour, defer_combo_refresh]() {
         panel_printer_preset->ShowBadge(false);
@@ -2779,8 +2779,8 @@ Sidebar::Sidebar(Plater *parent)
         p->m_panel_printer_content = new wxPanel(p->scrolled, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
         p->m_panel_printer_content->SetBackgroundColour(wxColour(255, 255, 255));
 
-        StateColor panel_bd_col(std::pair<wxColour, int>(wxColour("#4479FB"), StateColor::Pressed),
-                                std::pair<wxColour, int>(wxColour("#4479FB"), StateColor::Hovered),
+        StateColor panel_bd_col(std::pair<wxColour, int>(wxColour("#FF7A12"), StateColor::Pressed),
+                                std::pair<wxColour, int>(wxColour("#FF7A12"), StateColor::Hovered),
                                 std::pair<wxColour, int>(wxColour("#EEEEEE"), StateColor::Normal));
 
         p->panel_printer_preset = new StaticBox(p->m_panel_printer_content);
@@ -2928,8 +2928,8 @@ Sidebar::Sidebar(Plater *parent)
                 std::pair<wxColour, int>(wxColour("#F8F8F8"), StateColor::Hovered),
                 std::pair<wxColour, int>(wxColour("#F8F8F8"), StateColor::Normal));
         StateColor btn_sync_bd_col(
-                std::pair<wxColour, int>(wxColour("#4479fb"), StateColor::Pressed),
-                std::pair<wxColour, int>(wxColour("#4479fb"), StateColor::Hovered),
+                std::pair<wxColour, int>(wxColour("#FF7A12"), StateColor::Pressed),
+                std::pair<wxColour, int>(wxColour("#FF7A12"), StateColor::Hovered),
                 std::pair<wxColour, int>(wxColour("#EEEEEE"), StateColor::Normal));
         btn_sync->SetBackgroundColor(btn_sync_bg_col);
         btn_sync->SetBorderColor(btn_sync_bd_col);
@@ -3095,7 +3095,7 @@ Sidebar::Sidebar(Plater *parent)
     p->m_flushing_volume_btn->SetPaddingSize(wxSize(FromDIP(6),FromDIP(3)));
     p->m_flushing_volume_btn->SetCornerRadius(FromDIP(8));
 
-    StateColor flush_bg_col(std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Pressed),
+    StateColor flush_bg_col(std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Pressed),
                             std::pair<wxColour, int>(wxColour(238, 238, 238), StateColor::Hovered),
                             std::pair<wxColour, int>(wxColour(238, 238, 238), StateColor::Normal));
 
@@ -3104,8 +3104,8 @@ Sidebar::Sidebar(Plater *parent)
                             std::pair<wxColour, int>(wxColour(107, 107, 106), StateColor::Normal));
 
     // y96
-    StateColor flush_bd_col(std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Pressed),
-                            std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Hovered),
+    StateColor flush_bd_col(std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Pressed),
+                            std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Hovered),
                             std::pair<wxColour, int>(wxColour(172, 172, 172), StateColor::Normal));
 
     p->m_flushing_volume_btn->SetBackgroundColor(flush_bg_col);
@@ -5514,9 +5514,9 @@ void Sidebar::set_flushing_volume_warning(const bool flushing_volume_modify)
                                 std::pair<wxColour, int>(wxColour(107, 107, 106), StateColor::Hovered),
                                 std::pair<wxColour, int>(wxColour(107, 107, 106), StateColor::Normal));
 
-        StateColor flush_bd_col(std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
-                                std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-                                std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+        StateColor flush_bd_col(std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+                                std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+                                std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
         p->m_flushing_volume_btn->SetBorderColor(flush_bd_col);
         p->m_flushing_volume_btn->SetTextColor(flush_fg_col);
     }
@@ -16254,7 +16254,7 @@ void Plater::priv::set_project_name(const wxString& project_name)
     m_project_name = project_name;
     //update topbar title
 #ifdef __WINDOWS__
-    wxGetApp().mainframe->SetTitle(m_project_name + " - QIDIStudio");
+    wxGetApp().mainframe->SetTitle(m_project_name + " - WarRig Slicer");
     wxGetApp().mainframe->topbar()->SetTitle(m_project_name);
 #else
     wxGetApp().mainframe->SetTitle(m_project_name);
@@ -20563,11 +20563,11 @@ ProjectDropDialog::ProjectDropDialog(const std::string &filename)
 
     m_confirm = new Button(this, _L("OK"));
     // y96
-    StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed), std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-                            std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+    StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed), std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+                            std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
 
     m_confirm->SetBackgroundColor(btn_bg_blue);
-    m_confirm->SetBorderColor(wxColour(68, 121, 251));
+    m_confirm->SetBorderColor(wxColour(255, 122, 18));
     m_confirm->SetTextColor(wxColour("#FFFFFE"));
     m_confirm->SetSize(PROJECT_DROP_DIALOG_BUTTON_SIZE);
     m_confirm->SetMinSize(PROJECT_DROP_DIALOG_BUTTON_SIZE);

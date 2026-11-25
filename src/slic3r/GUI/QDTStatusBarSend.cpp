@@ -439,7 +439,7 @@ void QDTGauge::OnPaint(wxPaintEvent& event)
     }
 
     wxRect progressRect(rect.x + 1, rect.y + 1, progressWidth, rect.height - 2);
-    dc.SetBrush(wxColour(68, 121, 251));
+    dc.SetBrush(wxColour(255, 122, 18));
     dc.SetPen(*wxTRANSPARENT_PEN);
     dc.DrawRectangle(progressRect);
 

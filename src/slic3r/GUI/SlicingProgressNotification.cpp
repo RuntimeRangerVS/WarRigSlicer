@@ -367,7 +367,7 @@ void Slic3r::GUI::NotificationManager::SlicingProgressNotification::render_bar(c
 	ImGuiWrapper& imgui = *wxGetApp().imgui();
 
 	// y96
-	ImColor progress_color = ImColor(68, 121, 251, (int)(255 * m_current_fade_opacity));
+	ImColor progress_color = ImColor(255, 122, 18, (int)(255 * m_current_fade_opacity));
 	ImColor bg_color = ImColor(217, 217, 217, (int)(255 * m_current_fade_opacity));
 
 	ImVec2 lineStart = pos;

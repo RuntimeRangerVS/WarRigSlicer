@@ -76,9 +76,9 @@ static StateColor btn_bg_gray(std::pair<wxColour, int>(wxColour(194, 194, 194), 
 
 //y
 static  StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(206, 206, 206), StateColor::Disabled),
-							std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
-							std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-							std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+							std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+							std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+							std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
 
 PartSkipDialog::PartSkipDialog(wxWindow *parent) : DPIDialog(parent, wxID_ANY, _L("Skip Objects"), wxDefaultPosition, wxDefaultSize, wxCAPTION | wxCLOSE_BOX)
 {
@@ -194,7 +194,7 @@ PartSkipDialog::PartSkipDialog(wxWindow *parent) : DPIDialog(parent, wxID_ANY, _
     m_cnt_label = new Label(m_book_third_panel, wxEmptyString);
     m_cnt_label->Wrap(-1);
     m_cnt_label->SetBackgroundColour(*wxWHITE);
-    m_cnt_label->SetForegroundColour(wxColour(68, 121, 251));
+    m_cnt_label->SetForegroundColour(wxColour(255, 122, 18));
     m_cnt_label->SetFont(Label::Head_16);
     m_cnt_label->SetSize(wxSize(-1, FromDIP(20)));
     m_cnt_label->SetMaxSize(wxSize(-1, FromDIP(20)));
@@ -603,7 +603,7 @@ void PartSkipDialog::OnSwitchDrag(wxCommandEvent &event)
         m_switch_drag_btn->SetIcon("canvas_drag");
     } else {
         m_is_drag = true;
-        m_switch_drag_btn->SetBackgroundColor(wxColour(68, 121, 251));
+        m_switch_drag_btn->SetBackgroundColor(wxColour(255, 122, 18));
         m_switch_drag_btn->SetIcon("canvas_drag_active");
     }
     m_canvas->SwitchDrag(m_is_drag);
@@ -985,9 +985,9 @@ PartSkipConfirmDialog::PartSkipConfirmDialog(wxWindow *parent) : DPIDialog(paren
 
     //y
     StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(206, 206, 206), StateColor::Disabled),
-							std::pair<wxColour, int>(wxColour(0, 66, 255), StateColor::Pressed),
-							std::pair<wxColour, int>(wxColour(116, 168, 255), StateColor::Hovered),
-							std::pair<wxColour, int>(wxColour(68, 121, 251), StateColor::Normal));
+							std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+							std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+							std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
 
     m_apply_button = new Button(this, _L("Continue"));
     m_apply_button->SetBackgroundColor(btn_bg_blue);

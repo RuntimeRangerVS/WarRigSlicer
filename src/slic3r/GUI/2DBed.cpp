@@ -36,7 +36,7 @@ void Bed_2D::repaint(const std::vector<Vec2d>& shape)
 		// Fill DC with the background on Windows & Linux / GTK.
         wxColour color;
         if (wxGetApp().dark_mode()) {// SetBackgroundColour
-            color = wxColour(45, 45, 49); 
+            color = wxColour(21, 23, 27); 
         } else {
             color = *wxWHITE;
         }

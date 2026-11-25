@@ -22,7 +22,7 @@ namespace {
 // Match ModelFileListView::FileListContextMenuPopup chrome (same font and colours as model file list context menu).
 static wxColour file_list_panel_background()
 {
-    return wxGetApp().dark_mode() ? wxColour(45, 45, 49) : wxColour(255, 255, 255);
+    return wxGetApp().dark_mode() ? wxColour(21, 23, 27) : wxColour(255, 255, 255);
 }
 
 static wxColour file_list_primary_text_colour()
