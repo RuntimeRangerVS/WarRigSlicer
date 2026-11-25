@@ -14,9 +14,10 @@ class MakerHttpHandle
 public:
     static MakerHttpHandle& getInstance() { static MakerHttpHandle h; return h; }
     // QIDI's online model list: not available without QIDI's cloud.
-    void get_qidi_model_list(std::function<void(std::string, unsigned)> on_done)
+    void get_qidi_model_list(std::function<void(std::string, unsigned)>              on_done,
+                             std::function<void(std::string, std::string, unsigned)> on_error = nullptr)
     {
-        if (on_done) on_done(std::string(), 404u);
+        if (on_error) on_error(std::string(), "QIDI online models are not available in WarRig Slicer", 404u);
     }
 };
 
