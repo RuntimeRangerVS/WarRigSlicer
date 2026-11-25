@@ -18,3 +18,5 @@ set(SLIC3R_VERSION "02.07.02.73")
 
 string(REPLACE "." "," SLIC3R_COMMA_SEPARATED_VERSION ${SLIC3R_VERSION})
 set(SLIC3R_COMMA_SEPARATED_VERSION "${SLIC3R_COMMA_SEPARATED_VERSION}")
+# WarRig Slicer version (shown in the app; based on the QIDI Studio version above)
+set(WARRIG_VERSION "1.0.0")

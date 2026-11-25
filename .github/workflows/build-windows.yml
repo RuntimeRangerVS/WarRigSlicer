@@ -1,0 +1,95 @@
+name: WarRig Slicer – Windows build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+    paths-ignore: ['**.md', 'doc/**', 'readmeRes/**']
+  workflow_dispatch:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: '[17.0,18.0)'
+
+      - name: Setup CMake
+        uses: ssrobins/install-cmake@v1
+        with:
+          version: 3.31.6
+
+      - name: Tools (Perl, pkg-config)
+        run: |
+          choco install strawberryperl -y --no-progress
+          choco install pkgconfiglite -y --no-progress
+
+      - name: Restore cached dependencies
+        id: deps-cache
+        uses: actions/cache@v4
+        with:
+          path: deps/build/WarRig_dep
+          key: deps-win64-${{ hashFiles('deps/**') }}
+
+      - name: Build dependencies (first run only, ~1-2 h)
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+        shell: cmd
+        run: |
+          set CMAKE_TLS_VERIFY=0
+          cd deps
+          mkdir build
+          cd build
+          mkdir WarRig_dep
+          cmake ../ -G "Visual Studio 17 2022" -A x64 -DDESTDIR="%GITHUB_WORKSPACE%\deps\build\WarRig_dep" -DCMAKE_BUILD_TYPE=Release
+          msbuild /m /p:Configuration=Release ALL_BUILD.vcxproj
+
+      - name: Save dependencies cache
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: deps/build/WarRig_dep
+          key: deps-win64-${{ hashFiles('deps/**') }}
+
+      - name: Build WarRig Slicer
+        shell: cmd
+        run: |
+          mkdir install_dir
+          mkdir build
+          cd build
+          cmake .. -G "Visual Studio 17 2022" -A x64 -DQDT_RELEASE_TO_PUBLIC=1 -DCMAKE_PREFIX_PATH="%GITHUB_WORKSPACE%\deps\build\WarRig_dep\usr\local" -DCMAKE_INSTALL_PREFIX="../install_dir" -DCMAKE_BUILD_TYPE=Release -DWIN10SDK_PATH="C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0"
+          cmake --build . --target install --config Release -- /m
+
+      - name: Package
+        shell: pwsh
+        run: |
+          $ver = (Select-String -Path version.inc -Pattern 'set\(WARRIG_VERSION "([^"]+)"\)').Matches.Groups[1].Value
+          if (-not $ver) { $ver = "dev" }
+          "WARRIG_VER=$ver" | Out-File -FilePath $env:GITHUB_ENV -Append
+          Compress-Archive -Path install_dir\* -DestinationPath "WarRigSlicer-$ver-win64.zip"
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: WarRigSlicer-win64
+          path: WarRigSlicer-*-win64.zip
+          retention-days: 30
+
+      - name: Publish release (tags only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: WarRigSlicer-*-win64.zip
+          generate_release_notes: true
