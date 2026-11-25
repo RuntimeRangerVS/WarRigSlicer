@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="../include/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../include/globalapi.js"></script>	
+<script type="text/javascript" src="../data/text.js"></script>		
+<title class='trans'>Login Guide</title>
+    <!-- Prefer light color scheme and provide theme color to avoid forced darkening -->
+    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0; /* make sure no browser default margins create edges */
+            background-color: #ffffff !important; /* fallback color for when image isn't visible */
+            /* prefer light color scheme and stop some engines forcing dark theme */
+            color-scheme: light;
+            forced-color-adjust: none;
+        }
+
+        body {
+            line-height: 1.8;
+            color: #FFFFFF;
+            /* keep the visual left spacing but use padding so background covers full viewport */
+            padding-left: 45px;
+            padding-top: 0;
+            padding-right: 0;
+            padding-bottom: 0;
+            min-height: 100vh;
+            background-image: url('img/loginBackground.png');
+            background-size: cover;
+            background-position: center center;
+            /* avoid background-attachment: fixed which can produce rendering gaps or extra compositing in some WebViews
+               use scroll so the background always fills the viewport without artifacts */
+            background-attachment: scroll;
+            background-repeat: no-repeat;
+            /* ensure page doesn't create horizontal scrollbar which can reveal outer black background */
+            box-sizing: border-box;
+        }
+
+        /* Prevent horizontal overflow that can expose a black edge in dark-mode hosts */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        /* Reduce left padding on small viewports to avoid horizontal scrolling */
+        @media (max-width: 600px) {
+            body {
+                padding-left: 16px;
+            }
+        }
+        
+        .content {
+            max-width: 1600px;
+            margin: 0;
+            width: 100%;
+        }
+        
+        h1 {
+            font-weight: 500;
+            font-size: 59px;
+            margin-bottom: 67px;
+            margin-top: 40px;
+            color: #FFFFFF;
+            text-align: left;
+        }
+        
+        .intro {
+            margin-bottom: 138px;
+        }
+        
+        .intro p {
+            font-size: 19px;
+            color: #FFFFFF;
+            line-height: 1.43;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+            margin: 80px 0;
+        }
+        
+        .action-button {
+            background-color: #4459FB;
+            color: white;
+            border: none;
+            padding: 7px 14px 0px;
+            border-radius: 8px;
+            font-size: 28px;
+            cursor: pointer;
+            min-width: 200px;
+            height: 60px;
+            width: 295px;
+            letter-spacing: 1px;
+            margin-right : 25px;
+        }
+        
+        .action-button-secondary {
+            background-color: #4459FB;
+            color: white;
+            border: none;
+            padding: 6px 14px 10px 18px;
+            border-radius: 8px;
+            font-size: 28px;
+            cursor: pointer;
+            min-width: 180px;
+            height: 60px;
+            width: 300px;
+            letter-spacing: 1px;
+            
+        }
+        .arrow-icon {
+            margin-left: 13px;
+            margin-right: 0px;
+            padding: 0px;
+            width: 48px;
+            height: 48px;
+            vertical-align: middle;
+            display: inline-block;
+            padding: 0;
+            margin-bottom: 8px;
+        }
+        .secondary-arrow-icon {
+            margin-left: 60px;
+            margin-right: 0px;
+            padding: 0px;
+            width: 48px;
+            height: 48px;
+            vertical-align: middle;
+            display: inline-block;
+            padding: 0;
+            margin-bottom: 8px;
+        }
+
+        .detail-button-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+            margin: 0px 0;
+        }
+        .more-button {
+           background-color: transparent;
+           border: 1px solid white;
+           color: white;
+           font-size: 18px;
+           height: 32px;
+           width: 105px;
+           border-radius: 5px;
+           cursor: pointer;
+           margin-top: 68px;
+           font-weight: 550;
+        }
+        .download-button {
+           background-color: transparent;
+           border: 1px solid white;
+           color: white;
+           font-size: 18px;
+           height: 32px;
+           width: 105px;
+           border-radius: 5px;
+           cursor: pointer;
+           margin-left: 50px;
+           margin-top: 68px;
+           font-weight: 550;
+        }
+        .qrCode-container {
+            margin-top: 55px;
+            gap : 60px;
+        }
+        .QIDIMakerQR, .QIDIMakerFQR, .AppStoreQR, .GoogleQR,  .GetappsQR, .MIQR, .HWQR, .AppStoreQR_CN, .QIDIMakerQR_CN {
+            margin-right: 35px;
+        }
+        .faq-section {
+            margin-top: 40px;
+        }
+        
+        .faq-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 0px;
+            color: #FFFFFF;
+        }
+        
+        .faq-item {
+            margin-bottom: 0px;
+        }
+        
+        .faq-question {
+            font-weight: bold;
+            margin-bottom: 0px;
+            font-size: 15px;
+            color: #FFFFFF;
+        }
+        .faq-question2 {
+            font-weight: 900;
+            margin-bottom: 0px;
+            font-size: 16px;
+            color: #FFFFFF;
+        }
+        .answer {
+            margin-bottom: 15px;
+        }
+        .faq-answer p {
+            font-size: 15px;
+            color: #FFFFFF;
+            line-height: 1.6;
+            margin-bottom: 0px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .support-section {
+            margin-top: 0px;
+            color: #FFFFFF;
+        }
+        
+        .support-title {
+            font-weight: bold;
+            margin-bottom: 0px;
+            font-size: 15px;
+            color: #FFFFFF;
+        }
+        
+        .support-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 15px;
+            display: inline-block;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            color: #FFFFFF;
+            text-decoration: underline;
+        }
+        
+        .footer {
+            margin-top: 0px;
+            text-align: left;
+            color: #FFFFFF;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1 class="trans" tid="t204">Login Guide</h1>
+        
+        <div class="intro" >
+            <p class="trans" tid="t205">After registering and logging in with QIDI MAKER account, you can bind your QIDI STUDIO software to your account.</p>
+            <p class='trans' tid="t206">After the binding is completed, the QIDI STUDIO slicing software can remotely control and manage the pre-printing machine through the QIDI cloud server, enabling the remote sending</p>
+            <p class='trans' tid="t207"> of print jobs, status synchronization, and device management.</p>
+        </div>
+        
+        <div class="button-container">
+            <button class="action-button" onclick="buttonClicked(1)" id = "QIDI Login" >
+                <span>QIDI MAKER</span> 
+                <img src="img/arrow-right.png" class = "arrow-icon"/>
+            </button>
+        </div>
+
+        <div class="detail-button-container">
+        <button class="more-button trans" id="more"  tid="t208">
+            More
+        </button>
+        
+        <button class="download-button trans" id="download" tid="t215">
+            Download
+        </button>
+        </div>
+        <div class = "qrCode-container" id="qrCode-container">
+            <img src="img/GoogleQR.png"  class="GoogleQR" id="GoogleQR"/>
+            <img src="img/AppStoreQR.png" class="AppStoreQR" id="AppStoreQR" />
+            <img src="img/GetappsQR.png"  class="GetappsQR" id="GetappsQR"/>
+            <img src="img/QIDIMakerFQR.png"  class="QIDIMakerFQR" id="QIDIMakerFQR"/>
+
+            <img src="img/AppStoreQR_CN.png" class="AppStoreQR_CN" id="AppStoreQR_CN" />
+            <img src="img/MIQR.png" class="MIQR" id="MIQR" />
+            <img src="img/HWQR.png" class="HWQR" id="HWQR" />
+            <img src="img/QIDIMakerQR_CN.png" class="QIDIMakerQR_CN" id="QIDIMakerQR_CN" />
+        </div>
+        
+        <div class = "detail-text" id = "text-detail">
+        <div class="faq-section" id="faq">
+            <div class="faq-item">
+                <div class="faq-question trans" tid="t209">What is the difference between QIDI MAKER and QIDI LINK ?</div>
+                <div class="faq-answer">
+                    <p class="trans" tid="t210">QIDI MAKER is a comprehensive upgrade of QIDI LINK, which can better adapt to QIDI 3D printers, providing </p>
+                    <p class="trans" tid="t211">more stable and faster connection as well as richer functions and support.</p>
+                    <p class="trans" tid="t212">QIDI MAKER will gradually support more models of QIDI 3D printers.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question2 trans" tid="t213">The account cannot be logged in?</div>
+                <div class="faq-answer trans" tid="t214">If you encounter any problems, please feel free to contact the official after-sales support of QIDI at any time:</div>
+            </div>
+        </div>
+        
+        <div class="support-section">
+            <div>
+                <a href="https://wiki.qidi3d.com/en/AfterSalesContact" target="_blank" class="support-link">
+                    https://wiki.qidi3d.com/en/AfterSalesContact
+                </a>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <script>
+        function buttonClicked(index) {
+               if (window.wx && wx.postMessage) {
+        wx.postMessage(JSON.stringify({
+            index: index
+        }));
+    }
+        }
+window.addEventListener('DOMContentLoaded', function() {
+    TranslatePage();
+    document.getElementById('qrCode-container').hidden = true;
+
+    document.getElementById('text-detail').hidden = true;
+
+    let region = GetQueryString('region');
+    if (region === 'Other') {
+        
+        document.getElementById('GoogleQR').hidden = false;
+        document.getElementById('AppStoreQR').hidden = false;
+        document.getElementById('GetappsQR').hidden = false;
+        document.getElementById('QIDIMakerFQR').hidden = false;
+
+        document.getElementById('MIQR').hidden = true;
+        document.getElementById('HWQR').hidden = true;
+        document.getElementById('AppStoreQR_CN').hidden = true;
+        document.getElementById('QIDIMakerQR_CN').hidden = true;
+    } else {
+
+        document.getElementById('GoogleQR').hidden = true;
+        document.getElementById('AppStoreQR').hidden = true;
+        document.getElementById('GetappsQR').hidden = true;
+        document.getElementById('QIDIMakerFQR').hidden = true;
+
+
+        document.getElementById('QIDIMakerQR_CN').hidden = false;
+        document.getElementById('AppStoreQR_CN').hidden = false;
+        document.getElementById('MIQR').hidden = false;
+        document.getElementById('HWQR').hidden = false;
+        
+    }
+    
+});
+    document.getElementById('more').addEventListener('click', function() {
+        if (this.dataset.clicked) {
+            this.style.color = 'white';
+            this.style.borderColor  = 'white';
+            
+            document.getElementById('text-detail').hidden = true;
+            delete this.dataset.clicked;
+        } else {
+            this.style.color = '#4459FB';
+            this.style.borderColor  = '#4459FB';
+            this.dataset.clicked = 'true';
+
+            document.getElementById('download').style.borderColor = 'white';
+
+            document.getElementById('download').style.color = 'white';
+            delete document.getElementById('download').dataset.clicked;
+
+
+            document.getElementById('text-detail').hidden = false;
+            document.getElementById('qrCode-container').hidden = true;
+        }
+
+    });
+
+        document.getElementById('download').addEventListener('click', function() {
+        if (this.dataset.clicked) {
+            this.style.color = 'white';
+            this.style.borderColor  = 'white';
+            
+            document.getElementById('qrCode-container').hidden = true;
+            delete this.dataset.clicked;
+        } else {
+            this.style.color = '#4459FB';
+            this.style.borderColor  = '#4459FB';
+            this.dataset.clicked = 'true';
+
+            document.getElementById('more').style.color = 'white';
+            document.getElementById('more').style.borderColor = 'white';
+            delete document.getElementById('more').dataset.clicked;
+
+
+            document.getElementById('text-detail').hidden = true;
+            document.getElementById('qrCode-container').hidden = false;
+        }
+
+    });
+    </script>
+</body>
+</html>
