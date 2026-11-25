@@ -38,15 +38,18 @@ jobs:
           choco install strawberryperl -y --no-progress
           # pkg-config: SourceForge downloads sometimes time out, so retry and fall back to Strawberry Perl's copy
           $ok = $false
-          foreach ($i in 1..3) {
+          foreach ($i in 1..5) {
             choco install pkgconfiglite -y --no-progress
             if ($LASTEXITCODE -eq 0) { $ok = $true; break }
-            Start-Sleep -Seconds 20
+            Start-Sleep -Seconds 30
           }
           if (-not $ok) {
-            Write-Host "pkgconfiglite unavailable - using Strawberry Perl's pkg-config"
-            "C:\Strawberry\perl\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
-            "C:\Strawberry\c\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+            # SourceForge unreachable: use Strawberry Perl's native pkg-config.exe (not its Perl script wrapper)
+            $exe = Get-ChildItem -Path C:\Strawberry -Recurse -Filter pkg-config.exe -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($exe) {
+              Write-Host "Using $($exe.FullName)"
+              "PKG_CONFIG=$($exe.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append
+            } else { Write-Host "No pkg-config available"; exit 1 }
           }
           exit 0
 
