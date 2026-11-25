@@ -50,12 +50,17 @@ jobs:
           }
           exit 0
 
+      - name: Dependencies cache key
+        id: deps-key
+        shell: bash
+        run: echo "key=deps-win64-${{ hashFiles('deps/CMakeLists.txt', 'deps/*/*.cmake', 'deps/*/*.txt', 'deps/**/*.patch') }}" >> "$GITHUB_OUTPUT"
+
       - name: Restore cached dependencies
         id: deps-cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: deps/build/WarRig_dep
-          key: deps-win64-${{ hashFiles('deps/**') }}
+          key: ${{ steps.deps-key.outputs.key }}
 
       - name: Build dependencies (first run only, ~1-2 h)
         if: steps.deps-cache.outputs.cache-hit != 'true'
@@ -71,10 +76,11 @@ jobs:
 
       - name: Save dependencies cache
         if: steps.deps-cache.outputs.cache-hit != 'true'
+        continue-on-error: true
         uses: actions/cache/save@v4
         with:
           path: deps/build/WarRig_dep
-          key: deps-win64-${{ hashFiles('deps/**') }}
+          key: ${{ steps.deps-key.outputs.key }}
 
       - name: Build WarRig Slicer
         shell: cmd
