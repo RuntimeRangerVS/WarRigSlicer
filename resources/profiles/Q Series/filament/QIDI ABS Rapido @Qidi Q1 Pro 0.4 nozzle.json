@@ -1,0 +1,9 @@
+{
+    "type": "filament",
+    "setting_id": "QFSB54_02",
+    "instantiation": "true",
+    "inherits": "QIDI ABS Rapido@Q-Series",
+    "name": "QIDI ABS Rapido @Qidi Q1 Pro 0.4 nozzle",
+    "during_print_exhaust_fan_speed": ["0"],
+    "compatible_printers": ["Q1 Pro 0.4 nozzle"]
+}

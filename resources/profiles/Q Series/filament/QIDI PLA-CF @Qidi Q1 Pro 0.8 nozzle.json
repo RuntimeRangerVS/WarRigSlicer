@@ -1,0 +1,11 @@
+{
+    "type": "filament",
+    "setting_id": "QFSA50_04",
+    "instantiation": "true",
+    "filament_settings_id": ["QIDI PLA-CF @Qidi Q1 Pro 0.8 nozzle"],
+    "inherits": "QIDI PLA-CF@Q-Series",
+    "name": "QIDI PLA-CF @Qidi Q1 Pro 0.8 nozzle",
+    "pressure_advance": ["0.008"],
+    "filament_max_volumetric_speed": ["18"],
+    "compatible_printers": ["Q1 Pro 0.8 nozzle"]
+}

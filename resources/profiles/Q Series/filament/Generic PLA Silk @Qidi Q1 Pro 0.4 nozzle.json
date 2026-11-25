@@ -1,0 +1,9 @@
+{
+	"type": "filament",
+	"setting_id": "QFSA92_02",
+	"name": "Generic PLA Silk @Qidi Q1 Pro 0.4 nozzle",
+	"from": "system",
+	"instantiation": "true",
+	"inherits": "Generic PLA Silk@Q-Series",
+	"compatible_printers": ["Q1 Pro 0.4 nozzle"]
+}

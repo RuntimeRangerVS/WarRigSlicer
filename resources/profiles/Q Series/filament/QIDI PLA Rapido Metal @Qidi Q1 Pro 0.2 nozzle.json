@@ -1,0 +1,10 @@
+{
+    "type": "filament",
+    "setting_id": "QFSA04_01",
+    "instantiation": "true",
+    "filament_settings_id": ["QIDI PLA Rapido Metal @Qidi Q1 Pro 0.2 nozzle"],
+    "inherits": "QIDI PLA Rapido Metal@Q-Series",
+    "name": "QIDI PLA Rapido Metal @Qidi Q1 Pro 0.2 nozzle",
+    "filament_max_volumetric_speed": ["2"],
+    "compatible_printers": ["Q1 Pro 0.2 nozzle"]
+}

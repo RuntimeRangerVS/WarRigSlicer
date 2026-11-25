@@ -1,0 +1,10 @@
+{
+    "type": "filament",
+    "setting_id": "QFSB01_02",
+    "instantiation": "true",
+    "filament_settings_id": ["QIDI ASA @Qidi Q1 Pro 0.4 nozzle"],
+    "inherits": "QIDI ASA@Q-Series",
+    "name": "QIDI ASA @Qidi Q1 Pro 0.4 nozzle",
+    "during_print_exhaust_fan_speed": ["0"],
+    "compatible_printers": ["Q1 Pro 0.4 nozzle"]
+}

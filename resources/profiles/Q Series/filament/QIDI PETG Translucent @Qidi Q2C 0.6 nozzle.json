@@ -1,0 +1,10 @@
+{
+    "type": "filament",
+    "setting_id": "QFSG04_11",
+    "name": "QIDI PETG Translucent @Qidi Q2C 0.6 nozzle",
+    "from": "system",
+    "instantiation": "true",
+    "inherits": "QIDI PETG Translucent@Q2C-Series",
+    "pressure_advance": ["0.04"],
+	"compatible_printers": ["Q2C 0.6 nozzle"]
+}

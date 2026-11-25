@@ -1,0 +1,9 @@
+{
+    "type": "filament",
+    "setting_id": "QFSG90_02",
+    "instantiation": "true",
+    "inherits": "Generic PETG@Q-Series",
+    "filament_settings_id": ["Generic PETG @Qidi Q1 Pro 0.4 nozzle"],
+    "name": "Generic PETG @Qidi Q1 Pro 0.4 nozzle",
+    "compatible_printers": ["Q1 Pro 0.4 nozzle"]
+}

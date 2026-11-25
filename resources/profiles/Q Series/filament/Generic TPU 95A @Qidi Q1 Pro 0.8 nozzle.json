@@ -1,0 +1,10 @@
+{
+    "type": "filament",
+    "setting_id": "QFSU91_04",
+    "instantiation": "true",
+    "filament_settings_id": ["Generic TPU 95A @Qidi Q1 Pro 0.8 nozzle"],
+    "inherits": "Generic TPU 95A@Q-Series",
+    "name": "Generic TPU 95A @Qidi Q1 Pro 0.8 nozzle",
+    "nozzle_temperature": ["220"],
+    "compatible_printers": ["Q1 Pro 0.8 nozzle"]
+}

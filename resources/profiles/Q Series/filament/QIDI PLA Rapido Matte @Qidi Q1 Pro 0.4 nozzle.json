@@ -1,0 +1,9 @@
+{
+    "type": "filament",
+    "setting_id": "QFSA03_02",
+    "instantiation": "true",
+    "filament_settings_id": ["QIDI PLA Rapido Matte @Qidi Q1 Pro 0.4 nozzle"],
+    "inherits": "QIDI PLA Rapido Matte@Q-Series",
+    "name": "QIDI PLA Rapido Matte @Qidi Q1 Pro 0.4 nozzle",
+    "compatible_printers": ["Q1 Pro 0.4 nozzle"]
+}

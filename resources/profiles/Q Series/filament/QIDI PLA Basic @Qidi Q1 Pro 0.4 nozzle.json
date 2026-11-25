@@ -1,0 +1,9 @@
+{
+    "type": "filament",
+    "setting_id": "QFSA00_02",
+    "instantiation": "true",
+    "filament_settings_id": ["QIDI PLA Basic @Qidi Q1 Pro 0.4 nozzle"],
+    "inherits": "QIDI PLA Basic@Q-Series",
+    "name": "QIDI PLA Basic @Qidi Q1 Pro 0.4 nozzle",
+    "compatible_printers": ["Q1 Pro 0.4 nozzle"]
+}

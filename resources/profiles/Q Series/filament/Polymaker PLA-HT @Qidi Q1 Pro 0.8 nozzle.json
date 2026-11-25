@@ -1,0 +1,10 @@
+{
+    "type": "filament",
+    "setting_id": "QFSL24_04",
+    "instantiation": "true",
+    "filament_settings_id": ["Polymaker PLA-HT @Qidi Q1 Pro 0.8 nozzle"],
+    "inherits": "Polymaker PLA-HT@Q-Series",
+    "name": "Polymaker PLA-HT @Qidi Q1 Pro 0.8 nozzle",
+    "pressure_advance": ["0.007"],
+    "compatible_printers": ["Q1 Pro 0.8 nozzle"]
+}

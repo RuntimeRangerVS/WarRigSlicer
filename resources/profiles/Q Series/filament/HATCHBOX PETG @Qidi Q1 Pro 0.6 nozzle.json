@@ -1,0 +1,10 @@
+{
+    "type": "filament",
+    "setting_id": "QFSL11_03",
+    "instantiation": "true",
+    "filament_settings_id": ["HATCHBOX PETG @Qidi Q1 Pro 0.6 nozzle"],
+    "inherits": "HATCHBOX PETG@Q-Series",
+    "name": "HATCHBOX PETG @Qidi Q1 Pro 0.6 nozzle",
+    "pressure_advance": ["0.032"],
+    "compatible_printers": ["Q1 Pro 0.6 nozzle"]
+}

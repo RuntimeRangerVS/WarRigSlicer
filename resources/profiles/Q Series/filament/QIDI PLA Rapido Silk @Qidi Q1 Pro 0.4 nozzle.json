@@ -1,0 +1,10 @@
+{
+    "type": "filament",
+    "setting_id": "QFSA05_02",
+    "name": "QIDI PLA Silk @Qidi Q1 Pro 0.4 nozzle",
+    "from": "system",
+    "instantiation": "true",
+    "inherits": "QIDI PLA Silk@Q-Series",
+    "pressure_advance": ["0.034"],
+	"compatible_printers": ["Q1 Pro 0.4 nozzle"]
+}

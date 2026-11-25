@@ -1,0 +1,9 @@
+{
+    "type": "filament",
+    "setting_id": "QFSA16_02",
+    "instantiation": "true",
+    "filament_settings_id": ["QIDI WOOD Rapido @Qidi Q1 Pro 0.4 nozzle"],
+    "inherits": "QIDI WOOD Rapido@Q-Series",
+    "name": "QIDI WOOD Rapido @Qidi Q1 Pro 0.4 nozzle",
+    "compatible_printers": ["Q1 Pro 0.4 nozzle"]
+}

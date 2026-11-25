@@ -1,0 +1,10 @@
+{
+    "type": "filament",
+    "setting_id": "QFSN21_04",
+    "instantiation": "true",
+    "filament_settings_id": ["QIDI UltraPA-CF25 @Qidi Q1 Pro 0.8 nozzle"],
+    "inherits": "QIDI UltraPA-CF25@Q-Series",
+    "name": "QIDI UltraPA-CF25 @Qidi Q1 Pro 0.8 nozzle",
+    "pressure_advance": ["0.02"],
+    "compatible_printers": ["Q1 Pro 0.8 nozzle"]
+}
