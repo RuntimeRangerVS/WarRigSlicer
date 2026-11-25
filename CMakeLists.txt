@@ -694,8 +694,11 @@ function(qidistudio_copy_dlls target config postfix output_dlls)
     file(COPY ${TOP_LEVEL_PROJECT_DIR}/deps/GMP/gmp/lib/${_gmpdll}
             ${TOP_LEVEL_PROJECT_DIR}/deps/MPFR/mpfr/lib/${_mpfrdll}
             ${TOP_LEVEL_PROJECT_DIR}/deps/WebView2/lib/${_webviewloaderdll}
-            ${TOP_LEVEL_PROJECT_DIR}/deps/pgLibConnect/Bin/pgDllConnect.dll
         DESTINATION ${_out_dir})
+    # WarRig: pgLibConnect is a closed library that is not in QIDI's public source and no code uses it
+    if (EXISTS ${TOP_LEVEL_PROJECT_DIR}/deps/pgLibConnect/Bin/pgDllConnect.dll)
+        file(COPY ${TOP_LEVEL_PROJECT_DIR}/deps/pgLibConnect/Bin/pgDllConnect.dll DESTINATION ${_out_dir})
+    endif ()
 
     file(COPY ${CMAKE_PREFIX_PATH}/bin/occt/TKBO.dll
             ${CMAKE_PREFIX_PATH}/bin/occt/TKBRep.dll

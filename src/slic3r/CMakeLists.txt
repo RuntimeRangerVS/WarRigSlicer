@@ -767,7 +767,10 @@ encoding_check(libslic3r_gui)
 
 target_link_libraries(libslic3r_gui libslic3r cereal imgui imguizmo minilzo GLEW::GLEW OpenGL::GL hidapi ${wxWidgets_LIBRARIES} glfw libcurl OpenSSL::SSL OpenSSL::Crypto paho_mqtt)
 # pgLibConnect 按平台链接（Windows: 导入库；macOS/Linux: 静态库）
-if (WIN32)
+# WarRig: only link pgLibConnect when it is present (not in QIDI's public source; no code uses it)
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../../deps/pgLibConnect)
+    message(STATUS "pgLibConnect not found - building without it")
+elseif (WIN32)
     target_link_libraries(libslic3r_gui ${CMAKE_CURRENT_SOURCE_DIR}/../../deps/pgLibConnect/Lib/Windows/pgDllConnect.lib)
 elseif (APPLE)
     target_link_libraries(libslic3r_gui ${CMAKE_CURRENT_SOURCE_DIR}/../../deps/pgLibConnect/Lib/MacOSX/libconnect.a)
