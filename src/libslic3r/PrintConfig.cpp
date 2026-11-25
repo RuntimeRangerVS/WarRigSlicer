@@ -5084,6 +5084,57 @@ void PrintConfigDef::init_fff_params()
     def->nullable = true;
     def->set_default_value(new ConfigOptionFloatsNullable{100});
 
+    // ---- WarRig: options sent to WarRig firmware in the printer's start G-code ----
+    def = this->add("warrig_printer", coBool);
+    def->label = L("Printer runs WarRig");
+    def->category = L("WarRig");
+    def->tooltip = L("Turn on when this printer has WarRig firmware installed. When off, the WarRig options are locked "
+                     "and the stock start G-code is used, so files still print normally on stock firmware.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(false));
+
+    def = this->add("warrig_bed_mesh", coBool);
+    def->label = L("Bed mesh before print");
+    def->category = L("WarRig");
+    def->tooltip = L("Probe a fresh bed mesh at print start. A one-off choice made on the printer screen still wins.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_z_tilt", coBool);
+    def->label = L("Gantry levelling (Z tilt)");
+    def->category = L("WarRig");
+    def->tooltip = L("Level both Z motors at print start. A one-off choice made on the printer screen still wins.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_reload_flush", coBool);
+    def->label = L("Reload + flush");
+    def->category = L("WarRig");
+    def->tooltip = L("Reload the BOX slot and purge before printing. Off keeps the filament that is already loaded.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_plate_z_offset", coBool);
+    def->label = L("Plate Z offset");
+    def->category = L("WarRig");
+    def->tooltip = L("Add the Z offset saved on the printer for the selected plate type.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_prime_line", coBool);
+    def->label = L("WarRig prime line");
+    def->category = L("WarRig");
+    def->tooltip = L("Draw one short prime line next to the print instead of the two full-length lines along the front edge.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_quiet", coBool);
+    def->label = L("Quiet mode");
+    def->category = L("WarRig");
+    def->tooltip = L("Print at 70% speed with softer acceleration to cut motor noise.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(false));
+
     def = this->add("spiral_mode", coBool);
     def->label = L("Spiral vase");
     def->tooltip = L("Spiralize smooths out the z moves of the outer contour. "

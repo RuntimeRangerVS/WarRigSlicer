@@ -1026,6 +1026,7 @@ bool Preset::has_cali_lines(PresetBundle* preset_bundle)
 }
 
 static std::vector<std::string> s_Preset_print_options {
+    "warrig_bed_mesh", "warrig_z_tilt", "warrig_reload_flush", "warrig_plate_z_offset", "warrig_prime_line", "warrig_quiet",
     "layer_height", "initial_layer_print_height", "wall_loops", "slice_closing_radius", "spiral_mode", "spiral_mode_smooth", "spiral_mode_max_xy_smoothing", "slicing_mode",
     "top_shell_layers", "top_shell_thickness", "bottom_shell_layers", "bottom_shell_thickness", "ensure_vertical_shell_thickness", "reduce_crossing_wall", "detect_thin_wall",
     "detect_overhang_wall", "top_color_penetration_layers", "bottom_color_penetration_layers",
@@ -1207,7 +1208,7 @@ static std::vector<std::string> s_Preset_printer_options {
     //y65
     , "is_support_multi_box"
     , "is_support_mqtt"
-    , "is_support_polar_cooler"
+    , "is_support_polar_cooler", "warrig_printer"
     //y84
     , "is_support_bed_leveling_force"
 };

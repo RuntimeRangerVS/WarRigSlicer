@@ -610,7 +610,7 @@ void Tab::create_preset_tab()
         m_wiki_bmp->Hide();
         wiki_sizer->Add(m_wiki_label, 0, wxALIGN_CENTER_VERTICAL);
         auto set_hover = [this, wiki_icon, wiki_icon_hover](bool hover) {
-            wxColour color = hover ? wxColour("#4479fb") : wxColour("#6B6B6B");
+            wxColour color = hover ? wxColour("#FF7A12") : wxColour("#6B6B6B");
             m_wiki_bmp->SetBitmap(hover ? wiki_icon_hover->bmp() : wiki_icon->bmp());
             m_wiki_label->SetForegroundColour(color);
             m_wiki_label->SetFont(hover ? Label::Body_13.Underlined() : Label::Body_13);
@@ -1917,6 +1917,12 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
 {
     if (wxGetApp().plater() == nullptr) {
         return;
+    }
+
+    // WarRig: switching "Printer runs WarRig" locks or unlocks the WarRig page in Process settings
+    if (opt_key == "warrig_printer") {
+        if (Tab *print_tab = wxGetApp().get_tab(Preset::TYPE_PRINT))
+            print_tab->update();
     }
 
     const bool is_fff = supports_printer_technology(ptFFF);
@@ -3325,6 +3331,16 @@ void TabPrint::build()
         option.opt.height = 25;
         optgroup->append_single_option_line(option);
         optgroup->m_on_change = [this, optgroup](const t_config_option_key &opt_key, const boost::any &value) { validate_custom_note_cb(this, optgroup, opt_key, value); };
+
+    page = add_options_page(L("WarRig"), "advanced");
+        optgroup = page->new_optgroup(L("Print start (needs WarRig on the printer: Printer settings > Printer runs WarRig)"), L"param_gcode");
+        optgroup->append_single_option_line("warrig_bed_mesh");
+        optgroup->append_single_option_line("warrig_z_tilt");
+        optgroup->append_single_option_line("warrig_reload_flush");
+        optgroup->append_single_option_line("warrig_plate_z_offset");
+        optgroup->append_single_option_line("warrig_prime_line");
+        optgroup = page->new_optgroup(L("Motion"), L"param_speed");
+        optgroup->append_single_option_line("warrig_quiet");
 
 #if 0
     //page = add_options_page(L("Dependencies"), "advanced.png");
@@ -4989,6 +5005,7 @@ void TabPrinter::build_fff()
         //w34
         optgroup->append_single_option_line("support_multi_bed_types");
         optgroup->append_single_option_line("best_object_pos");
+        optgroup->append_single_option_line("warrig_printer");
         // QDS
 #if 0
         //optgroup->append_single_option_line("z_offset");
@@ -8063,7 +8080,7 @@ void Tab::update_nozzle_status_display()
 
     wxStaticText *reminder_text = new wxStaticText(this, wxID_ANY, _L("Available nozzles for current preset: "));
     reminder_text->SetFont(Label::Body_13);
-    reminder_text->SetForegroundColour(wxColour("#4479fb"));
+    reminder_text->SetForegroundColour(wxColour("#FF7A12"));
     m_nozzle_status_sizer->Add(reminder_text, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, 10);
 
     auto create_nozzle_button = [this](const wxString &name) {
@@ -8073,7 +8090,7 @@ void Tab::update_nozzle_status_display()
         btn->SetFont(wxGetApp().bold_font());
         StateColor bg_color(wxColour("#E6F7ED"));
         btn->SetBackgroundColor(bg_color);
-        StateColor fg_color(wxColour("#4479fb"));
+        StateColor fg_color(wxColour("#FF7A12"));
         btn->SetTextColor(fg_color);
         btn->SetCornerRadius(6);
         btn->Enable(false);

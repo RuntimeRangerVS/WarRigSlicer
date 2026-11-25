@@ -940,6 +940,18 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
 
     bool has_spiral_vase         = config->opt_bool("spiral_mode");
     toggle_line("spiral_mode_smooth", has_spiral_vase);
+
+    // WarRig: the WarRig options only do anything on a printer running WarRig, so lock them otherwise.
+    {
+        bool warrig = false;
+        if (wxGetApp().preset_bundle) {
+            const DynamicPrintConfig &printer_cfg = wxGetApp().preset_bundle->printers.get_edited_preset().config;
+            if (const ConfigOptionBool *o = printer_cfg.option<ConfigOptionBool>("warrig_printer"))
+                warrig = o->value;
+        }
+        for (auto el : { "warrig_bed_mesh", "warrig_z_tilt", "warrig_reload_flush", "warrig_plate_z_offset", "warrig_prime_line", "warrig_quiet" })
+            toggle_field(el, warrig);
+    }
     toggle_line("spiral_mode_max_xy_smoothing", config->opt_bool("spiral_mode_smooth"));
     toggle_field("z_direction_outwall_speed_continuous", !has_spiral_vase);
     bool has_top_solid_infill 	 = config->opt_int("top_shell_layers") > 0;

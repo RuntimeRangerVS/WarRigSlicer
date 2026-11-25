@@ -119,6 +119,7 @@ bool Print::invalidate_state_by_config_options(const ConfigOptionResolver & /* n
         "additional_fan_full_speed_layer",
         "first_x_layer_fan_speed",
         "machine_end_gcode",
+        "warrig_printer", "warrig_bed_mesh", "warrig_z_tilt", "warrig_reload_flush", "warrig_plate_z_offset", "warrig_prime_line", "warrig_quiet",
         "printing_by_object_gcode",
         "filament_end_gcode",
         "post_process",
