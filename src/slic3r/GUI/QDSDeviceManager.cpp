@@ -870,10 +870,55 @@ void QDSDevice::updateByJsonData(const json& status)
         json_get(vars, is_support_detect_spaghetti, { "enable_noodle_detection" });
         json_get(vars, is_support_detect_foreign, { "enable_pre_print_model_check" });
         extract(spaghetti_level, vars, { "noodle_sensitivity_level" });
+
+        // WarRig: printers that don't report multi_color_controller keep the BOX state in saved variables
+        // (slotN, filament_slotN, color_slotN, vendor_slotN, box_count). Build the same BOX info from those.
+        if (vars.is_object()) {
+            for (auto it = vars.begin(); it != vars.end(); ++it)
+                m_warrig_saved_vars[it.key()] = it.value();
+        }
+        if (!m_warrig_has_mcc && m_warrig_saved_vars.contains("box_count")) {
+            auto as_int = [](const json& v, int def) {
+                try {
+                    if (v.is_number()) return v.get<int>();
+                    if (v.is_boolean()) return v.get<bool>() ? 1 : 0;
+                    if (v.is_string()) return std::stoi(v.get<std::string>());
+                } catch (...) {}
+                return def;
+            };
+            const json& sv2 = m_warrig_saved_vars;
+            int enable = sv2.contains("enable_box") ? as_int(sv2["enable_box"], 1) : 1;
+            json mcc = json::object();
+            json box = json::object();
+            mcc["box_count"] = enable ? as_int(sv2["box_count"], 0) : 0;
+            for (const char* k : { "last_load_slot", "auto_reload_detect", "auto_read_rfid", "auto_init_detect" })
+                if (sv2.contains(k)) mcc[k] = sv2[k];
+            for (int i = 0; i < 16; ++i) {
+                const std::string n = std::to_string(i), pre = "box" + std::to_string(i / 4) + "_";
+                const std::string fi = pre + "filament_info_" + std::to_string(i % 4) + "_";
+                if (sv2.contains("slot" + n)) box[pre + "box_inserted_" + std::to_string(i % 4)] = as_int(sv2["slot" + n], 0) != 0 ? 1 : 0;
+                if (sv2.contains("filament_slot" + n)) {
+                    const json& f = sv2["filament_slot" + n];
+                    if (f.is_string() && !f.get<std::string>().empty() && as_int(f, -1) < 0) box[fi + "filament_type"] = f.get<std::string>();
+                }
+                if (sv2.contains("color_slot" + n)) {
+                    const json& c = sv2["color_slot" + n];
+                    std::string hex = c.is_array() && !c.empty() && c[0].is_string() ? c[0].get<std::string>() : (c.is_string() ? c.get<std::string>() : "");
+                    if (!hex.empty() && hex[0] != '#') hex.insert(0, "#");
+                    if (hex.size() > 7) hex.resize(7); // drop alpha
+                    if (!hex.empty()) box[fi + "color_rgb_str"] = json::array({ hex });
+                }
+            }
+            mcc["box"] = box;
+            json synth = json::object();
+            synth["multi_color_controller"] = mcc;
+            updateBoxDataByJson(synth);
+        }
     }
 
     //y84
     if (status.contains("multi_color_controller") && status["multi_color_controller"].is_object()) {
+        m_warrig_has_mcc = true;
         updateBoxDataByJson(status);
     }
 

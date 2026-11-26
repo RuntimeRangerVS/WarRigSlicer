@@ -152,7 +152,8 @@ void QIDIDeviceWebSocket::sendSubscribeMessage(const std::string& device_id)
                           "fan_generic chamber_circulation_fan", "fan_generic cooling_fan", "fan_generic auxiliary_cooling_fan",
                           "output_pin polar_cooler", "print_stats_manager", "print_stats", "display_status", "toolhead",
                           "heater_bed", "extruder", "heater_generic chamber", "output_pin caselight", "save_variables",
-                          "aht20_f heater_box1", "aht20_f heater_box2", "aht20_f heater_box3", "aht20_f heater_box4", "data"})
+                          "aht20_f heater_box1", "aht20_f heater_box2", "aht20_f heater_box3", "aht20_f heater_box4", "data",
+                          "multi_color_controller"})
         objects[o] = nullptr;
     for (int i = 0; i <= 16; ++i)
         objects["box_stepper slot" + std::to_string(i)] = nullptr;

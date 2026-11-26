@@ -362,6 +362,10 @@ public:
 
 //y84
     json        m_pending_save_variables;
+    // WarRig: saved Klipper variables merged across updates, used to build BOX info on firmware
+    // that doesn't report multi_color_controller
+    json        m_warrig_saved_vars = json::object();
+    bool        m_warrig_has_mcc { false };
     std::mutex  m_pending_mtx;
 
     //y79
