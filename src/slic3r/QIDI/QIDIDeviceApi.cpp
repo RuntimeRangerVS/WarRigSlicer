@@ -96,7 +96,7 @@ int QIDIDeviceApi::warrig_detect(const std::string& base_url, std::function<void
             e.checked = std::time(nullptr);
             e.busy    = false;
         }
-        BOOST_LOG_TRIVIAL(info) << "WarRig: detection on " << url << " = " << st;
+        BOOST_LOG_TRIVIAL(info) << "WarRig: detection on " << url << " = " << st << " (1 = WarRig found)";
         if (changed && on_change) on_change();
     }).detach();
     return -1;

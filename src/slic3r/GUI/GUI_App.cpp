@@ -3790,8 +3790,13 @@ void GUI_App::update_label_colours_from_appconfig()
 bool GUI_App::warrig_on_selected_printer()
 {
     auto dev = qdsdevmanager ? qdsdevmanager->getSelectedDevice() : nullptr;
-    if (!dev) return false;
+    static std::string logged;
+    if (!dev) {
+        if (logged != "none") { logged = "none"; BOOST_LOG_TRIVIAL(info) << "WarRig: detection, no printer selected"; }
+        return false;
+    }
     std::string base = !dev->m_ip.empty() ? dev->m_ip : dev->m_url;
+    if (logged != base) { logged = base; BOOST_LOG_TRIVIAL(info) << "WarRig: detection, selected printer at " << base; }
     int st = QIDIDeviceApi::warrig_detect(base, [this]() {
         // answer changed: refresh the lock on the WarRig page
         CallAfter([this]() {

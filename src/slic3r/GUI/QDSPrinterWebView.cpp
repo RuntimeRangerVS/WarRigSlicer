@@ -315,9 +315,19 @@ static const wxString& warrig_fluidd_script()
 void QDSPrinterWebView::warrig_theme_printer_page()
 {
     if (!m_browser || !m_browser->IsShownOnScreen()) return;
-    if (!m_browser->GetCurrentURL().Lower().StartsWith("http")) return;
+    const wxString url = m_browser->GetCurrentURL();
+    static wxString logged_url;
+    if (url != logged_url) {
+        logged_url = url;
+        BOOST_LOG_TRIVIAL(info) << "WarRig: printer page url = " << url.ToUTF8().data();
+    }
+    if (!url.Lower().StartsWith("http")) return;
     const wxString& js = warrig_fluidd_script();
-    if (!js.empty()) WebView::RunScript(m_browser, js);
+    if (!js.empty()) {
+        bool ok = WebView::RunScript(m_browser, js);
+        static bool logged_run = false;
+        if (!logged_run) { logged_run = true; BOOST_LOG_TRIVIAL(info) << "WarRig: printer page look applied, run ok = " << ok; }
+    }
 }
 
 //cj_5

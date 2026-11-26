@@ -15532,12 +15532,14 @@ void Plater::priv::on_action_print_plate(SimpleEvent&)
     }
 
     //y40
+    BOOST_LOG_TRIVIAL(info) << "WarRig: opening print dialog";
     SelectMachineDialog* dlg = new SelectMachineDialog(q);
     //y78
     dlg->set_print_type(PrintFromType::FROM_NORMAL);
     //y52
     dlg->prepare(partplate_list.get_curr_plate_index());
-    dlg->ShowModal();
+    int ret = dlg->ShowModal();
+    BOOST_LOG_TRIVIAL(info) << "WarRig: print dialog closed, result = " << ret;
 }
 
 //y

@@ -2164,6 +2164,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                 // check valid of print
                 m_print_enable = get_enable_print_status();
                 m_print_btn->Enable(m_print_enable);
+                BOOST_LOG_TRIVIAL(info) << "WarRig: print button, select = " << int(m_print_select) << ", ready = " << m_print_enable;
                 if (m_print_enable) {
                     if (m_print_select == ePrintAll)
                         wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_ALL));
