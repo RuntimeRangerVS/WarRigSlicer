@@ -2821,7 +2821,7 @@ static wxMenu* generate_help_menu()
     });
 
     // Report a bug
-    //append_menu_item(helpMenu, wxID_ANY, _L("Report Bug(TODO)"), _L("Report a bug of QIDIStudio"),
+    //append_menu_item(helpMenu, wxID_ANY, _L("Report Bug(TODO)"), _L("Report a bug of WarRig Slicer"),
     //    [](wxCommandEvent&) {
     //        //TODO
     //    });
@@ -3467,10 +3467,10 @@ void MainFrame::init_menubar_as_editor()
         
         std::string app_items[] = {
             L("Services"),
-            L("Hide QIDIStudio"),
+            L("Hide WarRig Slicer"),
             L("Hide Others"),
             L("Show All"),
-            L("Quit QIDIStudio")
+            L("Quit WarRig Slicer")
         };
 #else
     wxMenu* parent_menu = m_topbar->GetTopMenu();

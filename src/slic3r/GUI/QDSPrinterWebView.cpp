@@ -1806,8 +1806,8 @@ QDSPrinterWebView::~QDSPrinterWebView()
  {
     wxString Machine_Name = Machine_Name.Format("%s%s", machine_type, "_thumbnail");
 
-    StateColor mac_btn_bg(std::pair<wxColour, int>(wxColour(230, 237, 255), StateColor::Pressed),
-                    std::pair<wxColour, int>(wxColour(230, 247, 255), StateColor::Hovered),
+    StateColor mac_btn_bg(std::pair<wxColour, int>(wxColour(58, 27, 5), StateColor::Pressed),
+                    std::pair<wxColour, int>(wxColour(35, 38, 43), StateColor::Hovered),
                     std::pair<wxColour, int>(wxColour(255, 255, 255), StateColor::Normal));
 
     //y50
@@ -1950,8 +1950,8 @@ bool QDSPrinterWebView::select_device_by_id(const std::string& device_id)
          Machine_Name = Machine_Name.Format("%s%s", "my_printer", "_thumbnail");
      }
 
-    StateColor mac_btn_bg(std::pair<wxColour, int>(wxColour(230, 245, 255), StateColor::Pressed),
-                    std::pair<wxColour, int>(wxColour(230, 247, 255), StateColor::Hovered),
+    StateColor mac_btn_bg(std::pair<wxColour, int>(wxColour(58, 27, 5), StateColor::Pressed),
+                    std::pair<wxColour, int>(wxColour(35, 38, 43), StateColor::Hovered),
                     std::pair<wxColour, int>(wxColour(255, 255, 255), StateColor::Normal));
 
      //y50

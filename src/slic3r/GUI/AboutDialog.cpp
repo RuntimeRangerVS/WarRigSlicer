@@ -188,7 +188,7 @@ wxString CopyrightsDialog::get_html_text()
                 "<font size=\"3\">",
          bgr_clr_str, text_clr_str, text_clr_str,
         _L("License"),
-        _L("QIDI Studio is licensed under "),
+        _L("WarRig Slicer is licensed under "),
         "https://www.gnu.org/licenses/agpl-3.0.html",_L("GNU Affero General Public License, version 3"),
         // y7
         _L("QIDI Studio is based on Bambu Studio by Bambu Lab"),

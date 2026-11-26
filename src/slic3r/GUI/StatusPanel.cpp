@@ -7554,7 +7554,7 @@ void StatusPanel::print_model_for_storage_path(const wxString& storage_path)
     if (gcode_file_count > 0) {
         wxPostEvent(Slic3r::GUI::wxGetApp().plater(), SimpleEvent(EVT_PRINT_FROM_SDCARD_VIEW));
     } else {
-        MessageDialog dlg(this, _L("The .gcode.3mf file contains no G-code data.Please slice it whth QIDI Studio and export a new .gcode.3mf file."), wxEmptyString, wxICON_WARNING | wxOK);
+        MessageDialog dlg(this, _L("The .gcode.3mf file contains no G-code data.Please slice it whth WarRig Slicer and export a new .gcode.3mf file."), wxEmptyString, wxICON_WARNING | wxOK);
         dlg.ShowModal();
     }
 }

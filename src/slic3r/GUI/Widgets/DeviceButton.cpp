@@ -181,15 +181,15 @@ void DeviceButton::SetIsSelected(bool isSelected)
 {
     m_isSelected = isSelected;
     if (m_isSelected) {
-        StateColor selected_bg(std::pair<wxColour, int>(wxColour(230, 237, 255), StateColor::Pressed),
-                               std::pair<wxColour, int>(wxColour(230, 237, 255), StateColor::Hovered),
-                               std::pair<wxColour, int>(wxColour(230, 237, 255), StateColor::Normal));
+        StateColor selected_bg(std::pair<wxColour, int>(wxColour(58, 27, 5), StateColor::Pressed),
+                               std::pair<wxColour, int>(wxColour(58, 27, 5), StateColor::Hovered),
+                               std::pair<wxColour, int>(wxColour(58, 27, 5), StateColor::Normal));
         SetBackgroundColor(selected_bg);
 
         text_color.setColorForStates(wxColour(102, 102, 102), (int)StateColor::Checked);
     } else {
-        StateColor normal_bg(std::pair<wxColour, int>(wxColour(230, 237, 255), StateColor::Pressed),
-                             std::pair<wxColour, int>(wxColour(230, 247, 255), StateColor::Hovered),
+        StateColor normal_bg(std::pair<wxColour, int>(wxColour(58, 27, 5), StateColor::Pressed),
+                             std::pair<wxColour, int>(wxColour(35, 38, 43), StateColor::Hovered),
                              std::pair<wxColour, int>(wxColour(255, 255, 255), StateColor::Normal));
         SetBackgroundColor(normal_bg);
 

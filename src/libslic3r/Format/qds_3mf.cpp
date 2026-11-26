@@ -4094,15 +4094,15 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
         /*} else if (m_curr_metadata_name == QDS_FDM_SUPPORTS_PAINTING_VERSION) {
             m_fdm_supports_painting_version = (unsigned int) atoi(m_curr_characters.c_str());
             check_painting_version(m_fdm_supports_painting_version, FDM_SUPPORTS_PAINTING_VERSION,
-                _(L("The selected 3MF contains FDM supports painted object using a newer version of QIDIStudio and is not compatible.")));
+                _(L("The selected 3MF contains FDM supports painted object using a newer version of WarRig Slicer and is not compatible.")));
         } else if (m_curr_metadata_name == QDS_SEAM_PAINTING_VERSION) {
             m_seam_painting_version = (unsigned int) atoi(m_curr_characters.c_str());
             check_painting_version(m_seam_painting_version, SEAM_PAINTING_VERSION,
-                _(L("The selected 3MF contains seam painted object using a newer version of QIDIStudio and is not compatible.")));
+                _(L("The selected 3MF contains seam painted object using a newer version of WarRig Slicer and is not compatible.")));
         } else if (m_curr_metadata_name == QDS_MM_PAINTING_VERSION) {
             m_mm_painting_version = (unsigned int) atoi(m_curr_characters.c_str());
             check_painting_version(m_mm_painting_version, MM_PAINTING_VERSION,
-                _(L("The selected 3MF contains multi-material painted object using a newer version of QIDIStudio and is not compatible.")));*/
+                _(L("The selected 3MF contains multi-material painted object using a newer version of WarRig Slicer and is not compatible.")));*/
         } else if (m_curr_metadata_name == QDT_MODEL_ID_TAG) {
             m_model_id = xml_unescape(m_curr_characters);
         } else if (m_curr_metadata_name == QDT_MODEL_NAME_TAG) {

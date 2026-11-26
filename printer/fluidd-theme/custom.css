@@ -1,0 +1,65 @@
+/* WarRig theme for Fluidd (Q2). Copy this folder to the printer as ~/printer_data/config/.fluidd-theme */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;1,800&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap');
+
+:root {
+  --wr-orange: #FF7A12;
+  --wr-amber: #FFB347;
+  --wr-ember: #3A1B05;
+  --wr-steel: #0A0B0D;
+  --wr-panel: #15171B;
+  --wr-panel-2: #1E2126;
+  --wr-edge: #3B3732;
+  --wr-text: #F2EEE6;
+  --wr-muted: #A8A096;
+  --wr-cut: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  --wr-cut-sm: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+}
+
+/* page */
+.v-application, .v-application .v-main, .theme--dark.v-application { background: var(--wr-steel) !important; color: var(--wr-text); }
+.v-application, .v-application .v-btn, .v-application .v-input, .v-application .v-list-item__title {
+  font-family: 'Barlow Semi Condensed', sans-serif !important;
+}
+
+/* top bar and side navigation */
+.v-app-bar.v-toolbar, header.v-app-bar { background: #111215 !important; border-bottom: 2px solid var(--wr-orange) !important; box-shadow: none !important; }
+.v-app-bar .v-toolbar__title, .v-app-bar .v-toolbar__content > div:first-of-type {
+  font: italic 800 26px 'Barlow Condensed', sans-serif !important; letter-spacing: .06em; text-transform: uppercase;
+}
+.v-navigation-drawer { background: #0F1013 !important; border-right: 1px solid var(--wr-edge) !important; }
+.v-navigation-drawer .v-list-item--active { background: var(--wr-ember) !important; color: var(--wr-amber) !important; border-left: 3px solid var(--wr-orange); }
+.v-navigation-drawer .v-list-item--active::before { opacity: 0 !important; }
+
+/* cards: chamfered steel panels with an orange header line */
+.v-card, .collapsable-card, .v-sheet.v-card {
+  background: var(--wr-panel) !important; border: 1px solid var(--wr-edge) !important; border-radius: 0 !important;
+  clip-path: var(--wr-cut); box-shadow: none !important;
+}
+.v-card .v-toolbar, .collapsable-card .v-toolbar, .v-card > .v-card__title {
+  background: var(--wr-panel) !important; border-bottom: 2px solid var(--wr-orange) !important; border-radius: 0 !important;
+}
+.v-card .v-toolbar__title, .v-card .v-card__title {
+  font: italic 800 20px 'Barlow Condensed', sans-serif !important; letter-spacing: .06em; text-transform: uppercase; color: var(--wr-text) !important;
+}
+
+/* buttons */
+.v-btn:not(.v-btn--icon):not(.v-btn--fab) { border-radius: 0 !important; clip-path: var(--wr-cut-sm); letter-spacing: .06em; font-weight: 700; }
+.v-btn.primary, .v-btn.v-btn--has-bg.primary { background: var(--wr-ember) !important; color: var(--wr-amber) !important; border: 1px solid var(--wr-orange) !important; }
+.v-btn.error { background: #D42A1E !important; }
+.primary--text { color: var(--wr-orange) !important; }
+.primary { background-color: var(--wr-orange) !important; border-color: var(--wr-orange) !important; }
+
+/* inputs, tables, console */
+.v-text-field--outlined fieldset, .v-text-field--filled > .v-input__control > .v-input__slot { border-radius: 0 !important; border-color: var(--wr-edge) !important; background: #0C0D0F !important; }
+.v-data-table, .v-data-table tr:hover { background: var(--wr-panel) !important; }
+.v-data-table th { color: var(--wr-muted) !important; letter-spacing: .08em; text-transform: uppercase; }
+.console-wrapper, .console, .console-item { font-family: Consolas, ui-monospace, monospace !important; }
+.console .console-item .primary--text, .console-command { color: var(--wr-amber) !important; }
+
+/* numbers */
+.v-application .text-h4, .v-application .text-h5, .v-application .text-h6, .temperature-value {
+  font-family: 'Barlow Condensed', sans-serif !important; font-weight: 700 !important; font-variant-numeric: tabular-nums;
+}
+
+/* progress and sliders */
+.v-progress-linear__determinate, .v-slider__track-fill, .v-slider__thumb { background-color: var(--wr-orange) !important; border-color: var(--wr-orange) !important; }

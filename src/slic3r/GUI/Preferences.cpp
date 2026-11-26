@@ -1386,12 +1386,12 @@ wxWindow* PreferencesDialog::create_general_page()
     std::vector<wxString> Units         = {_L("Metric") + " (mm, g)", _L("Imperial") + " (in, oz)"};
     auto item_currency = create_item_combobox(_L("Units"), page, _L("Units"), "use_inches", Units,{"0","1"});
     auto item_12h_time_format = create_item_checkbox(_L("Use 12-hour time format"), page, _L("Display time in 12-hour format with AM/PM instead of 24-hour format"), 50, "use_12h_time_format");
-    auto item_single_instance = create_item_checkbox(_L("Keep only one QIDI Studio instance"), page,
+    auto item_single_instance = create_item_checkbox(_L("Keep only one WarRig Slicer instance"), page,
 #if __APPLE__
         _L("On OSX there is always only one instance of app running by default. However it is allowed to run multiple instances "
 			  "of same app from the command line. In such case this settings will allow only one instance."),
 #else
-        _L("If this is enabled, when starting QIDI Studio and another instance of the same QIDI Studio is already running, that instance will be reactivated instead."),
+        _L("If this is enabled, when starting WarRig Slicer and another instance of the same WarRig Slicer is already running, that instance will be reactivated instead."),
 #endif
         50, "single_instance");
 
@@ -1427,7 +1427,7 @@ wxWindow* PreferencesDialog::create_general_page()
     auto item_step_mesh_setting = create_item_checkbox(_L("Show the step mesh parameter setting dialog."), page, _L("If enabled,a parameter settings dialog will appear during STEP file import."), 50, "enable_step_mesh_setting");
     auto item_beta_version_update = create_item_checkbox(_L("Support beta version update."), page, _L("With this option enabled, you can receive beta version updates."), 50, "enable_beta_version_update");
     auto item_mix_print_high_low_temperature = create_item_checkbox(_L("Remove the restriction on mixed printing of high and low temperature filaments."), page, _L("With this option enabled, you can print materials with a large temperature difference together."), 50, "enable_high_low_temp_mixed_printing");
-    auto item_camera_fullscreen_active_monitor_only = create_item_checkbox(_L("Open full screen camera view on active monitor only."), page, _L("When enabled, the camera full screen view opens only on the monitor that contains QIDI Studio."), 50, "camera_fullscreen_active_monitor_only");
+    auto item_camera_fullscreen_active_monitor_only = create_item_checkbox(_L("Open full screen camera view on active monitor only."), page, _L("When enabled, the camera full screen view opens only on the monitor that contains WarRig Slicer."), 50, "camera_fullscreen_active_monitor_only");
     auto item_restore_hide_pop_ups = create_item_button(_L("Clear my choice for synchronizing printer preset after loading the file."), _L("Clear"), page, {}, []() {
         wxGetApp().app_config->erase("app", "sync_after_load_file_show_flag");
     });
@@ -1509,21 +1509,21 @@ wxWindow* PreferencesDialog::create_general_page()
                                                                          "3d_middle_tooltip_offset_x", "3d_middle_tooltip_offset_y", range_min, range_max, 1, nullptr, nullptr);
     auto title_presets = create_item_title(_L("Presets"), page, _L("Presets"));
 #if QDT_RELEASE_TO_PUBLIC
-    auto item_user_sync          = create_item_checkbox(_L("Auto sync user presets(Printer/Filament/Process)"), page, _L("If enabled, auto sync user presets with cloud after QIDI Studio startup or presets modified."), 50, "sync_user_preset");
+    auto item_user_sync          = create_item_checkbox(_L("Auto sync user presets(Printer/Filament/Process)"), page, _L("If enabled, auto sync user presets with cloud after WarRig Slicer startup or presets modified."), 50, "sync_user_preset");
 #endif
-    auto item_system_sync        = create_item_checkbox(_L("Auto check for system presets updates"), page, _L("If enabled, auto check whether there are system presets updates after QIDI Studio startup."), 50, "sync_system_preset");
+    auto item_system_sync        = create_item_checkbox(_L("Auto check for system presets updates"), page, _L("If enabled, auto check whether there are system presets updates after WarRig Slicer startup."), 50, "sync_system_preset");
 
 
 #ifdef _WIN32
-    auto title_associate_file = create_item_title(_L("Associate Files To QIDI Studio"), page, _L("Associate Files To QIDI Studio"));
+    auto title_associate_file = create_item_title(_L("Associate Files To WarRig Slicer"), page, _L("Associate Files To WarRig Slicer"));
 
     // associate file
-    auto item_associate_3mf  = create_item_checkbox(_L("Associate .3mf files to QIDI Studio"), page,
-                                                        _L("If enabled, sets QIDI Studio as default application to open .3mf files"), 50, "associate_3mf");
-    auto item_associate_stl  = create_item_checkbox(_L("Associate .stl files to QIDI Studio"), page,
-                                                        _L("If enabled, sets QIDI Studio as default application to open .stl files"), 50, "associate_stl");
-    auto item_associate_step = create_item_checkbox(_L("Associate .step/.stp files to QIDI Studio"), page,
-                                                         _L("If enabled, sets QIDI Studio as default application to open .step files"), 50, "associate_step");
+    auto item_associate_3mf  = create_item_checkbox(_L("Associate .3mf files to WarRig Slicer"), page,
+                                                        _L("If enabled, sets WarRig Slicer as default application to open .3mf files"), 50, "associate_3mf");
+    auto item_associate_stl  = create_item_checkbox(_L("Associate .stl files to WarRig Slicer"), page,
+                                                        _L("If enabled, sets WarRig Slicer as default application to open .stl files"), 50, "associate_stl");
+    auto item_associate_step = create_item_checkbox(_L("Associate .step/.stp files to WarRig Slicer"), page,
+                                                         _L("If enabled, sets WarRig Slicer as default application to open .step files"), 50, "associate_step");
 #endif // _WIN32
 //ZY1
     //auto title_modelmall = create_item_title(_L("Online Models"), page, _L("Online Models"));
@@ -1647,7 +1647,8 @@ wxWindow* PreferencesDialog::create_general_page()
     sizer_page->Add(item_associate_stl, 0, wxTOP, FromDIP(3));
     sizer_page->Add(item_associate_step, 0, wxTOP, FromDIP(3));
 #endif // _WIN32
-    auto item_item_modelmall    = sizer_page->Add(item_modelmall, 0, wxTOP, FromDIP(3));
+    // WarRig: QIDI's online staff-picked models need QIDI's cloud, so the option is hidden
+    item_modelmall->Hide();
 //ZY1
     /*auto item_title_modelmall   = sizer_page->Add(title_modelmall, 0, wxTOP | wxEXPAND, FromDIP(20));
     auto item_item_show_history = sizer_page->Add(item_show_history, 0, wxTOP, FromDIP(3));

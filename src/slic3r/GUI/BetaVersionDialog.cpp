@@ -153,13 +153,13 @@ void BetaVersionDialog::updateContent(const wxString &available_version,
                                       const wxString &current_version)
 {
     m_heading_label->SetLabel(
-        wxString::Format(_L("New QIDI Studio Beta Available") + wxString(": %s"), available_version));
+        wxString::Format(_L("New WarRig Slicer Beta Available") + wxString(": %s"), available_version));
 
     m_version_label->SetLabel(
         wxString::Format(_L("Current Version") + wxString(": %s"), current_version));
 
     m_overview_label->SetLabel(
-        _L("QIDI Studio Beta gives you early access to upcoming features, improvements, optimizations, and bug fixes before they are released in the stable version of QIDI Studio. "
+        _L("WarRig Slicer Beta gives you early access to upcoming features, improvements, optimizations, and bug fixes before they are released in the stable version of WarRig Slicer. "
            "It is intended for advanced users who would like to explore new functionality early and help improve the software experience."));
 
     m_detail_sizer->Clear(true);
