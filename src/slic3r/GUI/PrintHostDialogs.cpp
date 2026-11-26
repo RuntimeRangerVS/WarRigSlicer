@@ -1084,7 +1084,7 @@ PrintHostSendQIDIDialog::PrintHostSendQIDIDialog(const fs::path& path,
         }
         });
 
-    wxStaticText* text2 = new wxStaticText(panel2, wxID_ANY, _L("QIDI Link's Physical Printer"));
+    wxStaticText* text2 = new wxStaticText(panel2, wxID_ANY, _L("WarRig Link printers"));
     text2->SetWindowStyle(wxALIGN_CENTER_HORIZONTAL);
 
     box_sizer2->Add(selectcheckbox2, 0, wxEXPAND | wxALL, 5);

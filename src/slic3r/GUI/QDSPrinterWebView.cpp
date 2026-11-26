@@ -21,12 +21,14 @@
 #include <slic3r/GUI/Widgets/WebView.hpp>
 
 #include "PhysicalPrinterDialog.hpp"
+#include "WarRigLink.hpp"
 #include "DeviceErrorDialog.hpp"
 //B45
 #include <wx/regex.h>
 #include <boost/regex.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/nowide/fstream.hpp>
+#include <thread>
 #include <iterator>
 #include <wx/graphics.h>
 //B55
@@ -328,6 +330,24 @@ void QDSPrinterWebView::warrig_theme_printer_page()
         static bool logged_run = false;
         if (!logged_run) { logged_run = true; BOOST_LOG_TRIVIAL(info) << "WarRig: printer page look applied, run ok = " << ok; }
     }
+}
+
+// WarRig Link: point each linked printer at the address that answers (home first, then away)
+void QDSPrinterWebView::warrig_check_link_routes()
+{
+    std::vector<WarRigLink::LinkInfo> links = WarRigLink::all();
+    if (links.empty() || m_warrig_route_busy) return;
+    m_warrig_route_busy = true;
+    std::thread([this, links]() {
+        std::vector<std::pair<std::string, std::string>> routes;
+        for (const auto& l : links) routes.emplace_back(l.name, WarRigLink::pick_route(l));
+        wxGetApp().CallAfter([this, routes]() {
+            bool changed = false;
+            for (const auto& r : routes) changed |= WarRigLink::apply_route(r.first, r.second);
+            m_warrig_route_busy = false;
+            if (changed) { UpdateLayout(); Refresh(); }
+        });
+    }).detach();
 }
 
 //cj_5
@@ -1209,6 +1229,11 @@ QDSPrinterWebView::QDSPrinterWebView(wxWindow* parent) :
                 wxTimer* wr_timer = new wxTimer(this, wxWindow::NewControlId());
                 Bind(wxEVT_TIMER, [this](wxTimerEvent&) { warrig_theme_printer_page(); }, wr_timer->GetId());
                 wr_timer->Start(3000);
+                // WarRig Link: home or away, checked every minute
+                wxTimer* link_timer = new wxTimer(this, wxWindow::NewControlId());
+                Bind(wxEVT_TIMER, [this](wxTimerEvent&) { warrig_check_link_routes(); }, link_timer->GetId());
+                link_timer->Start(60000);
+                CallAfter([this]() { warrig_check_link_routes(); });
             }
             t_browser_sizer->Add(m_browser, wxSizerFlags(1).Expand());
 
@@ -1429,6 +1454,27 @@ wxBoxSizer* QDSPrinterWebView::init_menu_bar(wxPanel* Panel)
     
     refresh_button->Bind(wxEVT_BUTTON, &QDSPrinterWebView::OnRefreshButtonClick, this);
 
+    // WarRig Link: link the selected printer (or manage its link)
+    warrig_link_button = new DeviceButton(Panel, "warrig_link_btn", wxBU_LEFT);
+    warrig_link_button->SetBackgroundColor(add_btn_bg);
+    warrig_link_button->SetCanFocus(false);
+    warrig_link_button->SetCornerRadius(4);
+    warrig_link_button->SetToolTip(_L("WarRig Link: link the selected printer to use it from anywhere"));
+    buttonsizer->Add(warrig_link_button, 0, wxALIGN_CENTER_VERTICAL);
+    buttonsizer->AddSpacer(16);
+    warrig_link_button->Bind(wxEVT_BUTTON, [this](wxCommandEvent&) {
+        std::string selected;
+        for (DeviceButton* button : m_buttons)
+            if (button->GetIsSelected()) selected = into_u8(button->GetLabel());
+        WarRigLinkDialog dlg(this, selected);
+        dlg.ShowModal();
+        if (dlg.changed()) {
+            select_machine_name = selected;
+            UpdateLayout();
+            Refresh();
+        }
+    });
+
     buttonsizer->Layout();
     return buttonsizer;
 }
@@ -1487,7 +1533,7 @@ void QDSPrinterWebView::init_scroll_window(wxPanel* Panel) {
 
         if(!ph_printers.empty()){
             wxBoxSizer* label_boxsizer = new wxBoxSizer(wxHORIZONTAL);
-            wxStaticText* LocalDevicesLabel = new wxStaticText(leftScrolledWindow, wxID_ANY, ("Local"));
+            wxStaticText* LocalDevicesLabel = new wxStaticText(leftScrolledWindow, wxID_ANY, _L("Home network"));
             LocalDevicesLabel->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Microsoft YaHei"));
             LocalDevicesLabel->SetForegroundColour(wxColour(74, 74, 74));
 
@@ -1529,7 +1575,20 @@ void QDSPrinterWebView::init_scroll_window(wxPanel* Panel) {
                 }
             }
             std::string actice_url = "";
+            // WarRig: two passes - home-network printers first, then the WarRig Link ones under their own heading
+            for (int warrig_pass = 0; warrig_pass < 2; ++warrig_pass) {
+            bool warrig_header_done = false;
             for (PhysicalPrinterCollection::ConstIterator it = ph_printers.begin(); it != ph_printers.end(); ++it) {
+                const bool warrig_linked = WarRigLink::is_linked(it->name);
+                if (warrig_linked != (warrig_pass == 1)) continue;
+                if (warrig_linked && !warrig_header_done) {
+                    warrig_header_done = true;
+                    devicesizer->AddSpacer(8);
+                    wxStaticText* link_label = new wxStaticText(leftScrolledWindow, wxID_ANY, _L("WarRig Link"));
+                    link_label->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "Microsoft YaHei"));
+                    link_label->SetForegroundColour(wxColour(255, 122, 18));
+                    devicesizer->Add(link_label, 0, wxLEFT | wxBOTTOM, 10);
+                }
                 std::string host = (it->config.opt_string("print_host"));
                 std::string apikey = (it->config.opt_string("printhost_apikey"));
                 std::string preset_name = (it->config.opt_string("preset_name"));
@@ -1569,6 +1628,7 @@ void QDSPrinterWebView::init_scroll_window(wxPanel* Panel) {
                 m_machine.insert(std::make_pair((it->get_short_name(full_name)), *cfg_t));
                 //y25
                 m_exit_host.insert(host);
+            }
             }
 
             devicesizer->AddSpacer(7);

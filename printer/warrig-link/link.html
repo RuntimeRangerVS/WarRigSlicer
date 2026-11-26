@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WarRig Link</title>
+<style>
+  :root { --o:#FF7A12; --bg:#0D0E10; --card:#1A1C20; --edge:#2E3137; --t:#F2F2F4; --m:#A3A7AE; }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; background:radial-gradient(circle at 50% 0%, #2A1A0A, var(--bg) 60%); color:var(--t);
+         font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; display:flex; align-items:center; justify-content:center; padding:20px; }
+  main { width:100%; max-width:420px; background:var(--card); border:1px solid var(--edge); border-top:3px solid var(--o); border-radius:16px; padding:24px; }
+  .brand { font-weight:800; letter-spacing:.12em; color:var(--o); font-size:13px; }
+  h1 { font-size:22px; margin:10px 0 6px; }
+  p { color:var(--m); margin:0 0 14px; }
+  .code { font: 800 30px/1 ui-monospace, Consolas, monospace; letter-spacing:.18em; color:#FFB070; text-align:center; padding:14px; border:1px dashed var(--o); border-radius:10px; margin:6px 0 18px; }
+  .row { display:flex; gap:10px; }
+  button { flex:1; height:52px; border-radius:26px; border:1px solid var(--edge); font-weight:700; font-size:16px; cursor:pointer; }
+  .yes { background:var(--o); color:#111215; border-color:var(--o); }
+  .no { background:#26282D; color:var(--t); }
+  .msg { text-align:center; padding:18px 0 4px; font-weight:700; }
+  .ok { color:#6FE08A; } .bad { color:#E8483C; }
+  small { display:block; color:var(--m); margin-top:16px; font-size:13px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="brand">WARRIG LINK</div>
+  <div id="body"><p>Loading the link request…</p></div>
+  <small>Only approve if you started this link yourself. Linked devices can send prints to this printer. You can remove them later on the printer screen.</small>
+</main>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search), id = q.get('r') || '', code = (q.get('c') || '').toUpperCase();
+  var body = document.getElementById('body');
+  function show(html) { body.innerHTML = html; }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  if (!/^[0-9a-f]{12}$/.test(id)) { show('<div class="msg bad">This QR code isn’t a WarRig Link request.</div>'); return; }
+  var url = '/server/database/item?namespace=warrig_link&key=requests.' + id;
+  fetch(url).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (j) {
+    var v = j.result && j.result.value;
+    if (!v || v.status !== 'pending') { show('<div class="msg bad">This request was already handled or removed.</div>'); return; }
+    if (v.expires && v.expires * 1000 < Date.now()) { show('<div class="msg bad">This request has run out of time. Send a new one from the slicer.</div>'); return; }
+    if (code && v.code !== code) { show('<div class="msg bad">The code doesn’t match. Scan the QR on the printer screen again.</div>'); return; }
+    show('<h1>' + esc(v.app || 'A device') + ' on ' + esc(v.device || 'a computer') + ' wants to link</h1>' +
+         '<p>Check this code matches the slicer and the printer screen:</p><div class="code">' + esc(v.code) + '</div>' +
+         '<div class="row"><button class="no" id="no">Deny</button><button class="yes" id="yes">Approve</button></div>');
+    function answer(status) {
+      v.status = status; v.answered = Math.floor(Date.now() / 1000); v.answered_by = 'phone';
+      fetch('/server/database/item', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ namespace: 'warrig_link', key: 'requests.' + id, value: v }) })
+        .then(function (r) { if (!r.ok) throw 0;
+          show(status === 'approved' ? '<div class="msg ok">Approved. The slicer finishes the link by itself.</div>'
+                                     : '<div class="msg">Turned down. Nothing was linked.</div>'); })
+        .catch(function () { show('<div class="msg bad">Couldn’t reach the printer. Are you on the same Wi-Fi?</div>'); });
+    }
+    document.getElementById('yes').onclick = function () { answer('approved'); };
+    document.getElementById('no').onclick = function () { answer('denied'); };
+  }).catch(function () { show('<div class="msg bad">Couldn’t reach the printer. Connect your phone to the same Wi-Fi as the printer and scan again.</div>'); });
+})();
+</script>
+</body>
+</html>

@@ -460,6 +460,8 @@ set(SLIC3R_GUI_SOURCES
     GUI/Jobs/BooleanOperationJob.cpp
     GUI/PhysicalPrinterDialog.hpp
     GUI/PhysicalPrinterDialog.cpp
+    GUI/WarRigLink.hpp
+    GUI/WarRigLink.cpp
     GUI/ProgressStatusBar.hpp
     GUI/ProgressStatusBar.cpp
     GUI/QDTStatusBar.hpp
