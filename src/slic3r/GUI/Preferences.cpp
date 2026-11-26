@@ -1648,7 +1648,7 @@ wxWindow* PreferencesDialog::create_general_page()
     sizer_page->Add(item_associate_step, 0, wxTOP, FromDIP(3));
 #endif // _WIN32
     // WarRig: QIDI's online staff-picked models need QIDI's cloud, so the option is hidden
-    item_modelmall->Hide();
+    item_modelmall->ShowItems(false);
 //ZY1
     /*auto item_title_modelmall   = sizer_page->Add(title_modelmall, 0, wxTOP | wxEXPAND, FromDIP(20));
     auto item_item_show_history = sizer_page->Add(item_show_history, 0, wxTOP, FromDIP(3));
