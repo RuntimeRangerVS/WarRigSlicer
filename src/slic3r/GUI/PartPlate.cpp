@@ -3433,6 +3433,9 @@ int PartPlate::load_gcode_from_file(const std::string& filename)
     }
 	DynamicPrintConfig full_config   = preset_bundle->full_config(false, filament_maps, f_volume_maps);
 	full_config.apply(m_config, true);
+	// WarRig: same config as the main slice (see warrig_full_config in Plater.cpp)
+	if (wxGetApp().warrig_on_selected_printer())
+		full_config.set_key_value("warrig_printer", new ConfigOptionBool(true));
 	m_print->apply(*m_model, full_config, false);
 	//QDS: need to apply two times, for after the first apply, the m_print got its object,
 	//which will affect the config when new_full_config.normalize_fdm(used_filaments);

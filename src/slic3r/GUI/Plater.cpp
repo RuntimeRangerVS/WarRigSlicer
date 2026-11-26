@@ -11183,6 +11183,15 @@ void Plater::priv::process_validation_warning(StringObjectException const &warni
 
 // Update background processing thread from the current config and Model.
 // Returns a bitmask of UpdateBackgroundProcessReturnState.
+// WarRig: every config the slicer slices with must match, or a finished slice is thrown away.
+// A printer found running WarRig counts as "Printer runs WarRig" for the print-start line.
+static DynamicPrintConfig warrig_full_config(DynamicPrintConfig cfg)
+{
+    if (wxGetApp().warrig_on_selected_printer())
+        cfg.set_key_value("warrig_printer", new ConfigOptionBool(true));
+    return cfg;
+}
+
 unsigned int Plater::priv::update_background_process(bool force_validation, bool postpone_error_messages, bool switch_print)
 {
     // bitmap of enum UpdateBackgroundProcessReturnState
@@ -11217,16 +11226,11 @@ unsigned int Plater::priv::update_background_process(bool force_validation, bool
         if (f_volume_maps.empty()) {
             f_volume_maps = preset_bundle->get_default_nozzle_volume_types_for_filaments(f_maps);
         }
-        DynamicPrintConfig wr_cfg = preset_bundle->full_config(false, f_maps, f_volume_maps);
-        if (wxGetApp().warrig_on_selected_printer()) wr_cfg.set_key_value("warrig_printer", new ConfigOptionBool(true));
-        invalidated = background_process.apply(this->model, wr_cfg);
+        invalidated = background_process.apply(this->model, warrig_full_config(preset_bundle->full_config(false, f_maps, f_volume_maps)));
         background_process.fff_print()->set_extruder_filament_info(get_extruder_filament_info());
     }
     else {
-        // WarRig: a printer found running WarRig counts as "Printer runs WarRig" for the print-start line
-        DynamicPrintConfig wr_cfg = preset_bundle->full_config(false);
-        if (wxGetApp().warrig_on_selected_printer()) wr_cfg.set_key_value("warrig_printer", new ConfigOptionBool(true));
-        invalidated = background_process.apply(this->model, wr_cfg);
+        invalidated = background_process.apply(this->model, warrig_full_config(preset_bundle->full_config(false)));
     }
 
     if ((invalidated == Print::APPLY_STATUS_CHANGED) || (invalidated == Print::APPLY_STATUS_INVALIDATED))
@@ -20263,7 +20267,7 @@ void Plater::load_gcode(const wxString& filename)
         on_bed_type_change(bed_type);
     }
 
-    current_print.apply(this->model(), wxGetApp().preset_bundle->full_config());
+    current_print.apply(this->model(), warrig_full_config(wxGetApp().preset_bundle->full_config()));
 
     current_print.apply_config_for_render(processor.export_config_for_render());
 
@@ -20292,7 +20296,7 @@ void Plater::load_gcode(const wxString& filename)
     if (f_volume_maps.empty()) {
         f_volume_maps = wxGetApp().preset_bundle->get_default_nozzle_volume_types_for_filaments(f_maps);
     }
-    current_print.apply(this->model(), wxGetApp().preset_bundle->full_config(false, f_maps, f_volume_maps));
+    current_print.apply(this->model(), warrig_full_config(wxGetApp().preset_bundle->full_config(false, f_maps, f_volume_maps)));
 
     if (p->preview->get_canvas3d()->get_gcode_layers_zs().empty()) {
         MessageDialog(this, _L("The selected file") + ":\n" + filename + "\n" + _L("does not contain valid gcode."),
@@ -25099,10 +25103,10 @@ void Plater::apply_background_progress()
         if (f_volume_maps.empty()) {
             f_volume_maps = preset_bundle->get_default_nozzle_volume_types_for_filaments(f_maps);
         }
-        invalidated = p->background_process.apply(this->model(), preset_bundle->full_config(false, f_maps, f_volume_maps));
+        invalidated = p->background_process.apply(this->model(), warrig_full_config(preset_bundle->full_config(false, f_maps, f_volume_maps)));
     }
     else
-        invalidated = p->background_process.apply(this->model(), preset_bundle->full_config(false));
+        invalidated = p->background_process.apply(this->model(), warrig_full_config(preset_bundle->full_config(false)));
 
     BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << boost::format(" %1%: plate %2%, after apply, invalidated= %3%, previous result_valid %4% ") % __LINE__ % plate_index % invalidated % result_valid;
     if (invalidated & PrintBase::APPLY_STATUS_INVALIDATED)
