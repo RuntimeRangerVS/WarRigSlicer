@@ -2403,7 +2403,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                 // }
             }
 
-            p->Popup(m_print_btn);
+            CallAfter([this, p]() { p->Popup(m_print_btn); });
         }
     );
 
@@ -2606,6 +2606,18 @@ void MainFrame::update_side_button_style()
     m_print_option_btn->SetExtraSize(wxSize(FromDIP(10), FromDIP(10)));
     m_print_option_btn->SetIconOffset(FromDIP(2));
     m_print_option_btn->SetMinSize(wxSize(FromDIP(24), FromDIP(24)));
+
+    // WarRig: dropdown halves are dark steel with an orange edge, set once so they never flip colour
+    StateColor wr_opt_bg(std::pair<wxColour, int>(wxColour(42, 46, 52), StateColor::Disabled),
+                         std::pair<wxColour, int>(wxColour(30, 33, 37), StateColor::Pressed),
+                         std::pair<wxColour, int>(wxColour(58, 63, 70), StateColor::Hovered),
+                         std::pair<wxColour, int>(wxColour(42, 46, 52), StateColor::Normal));
+    StateColor wr_opt_border(std::pair<wxColour, int>(wxColour(58, 63, 70), StateColor::Disabled),
+                             std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal));
+    for (SideButton* b : { m_slice_option_btn, m_print_option_btn }) {
+        b->SetBackgroundColor(wr_opt_bg);
+        b->SetBorderColor(wr_opt_border);
+    }
 }
 
 void MainFrame::update_slice_print_status(SlicePrintEventType event, bool can_slice, bool can_print)
@@ -2641,20 +2653,6 @@ void MainFrame::update_slice_print_status(SlicePrintEventType event, bool can_sl
     m_slice_enable = enable_slice;
     m_print_enable = enable_print;
 
-    // WarRig: the dropdown half follows its main button so the split button reads as one piece
-    auto warrig_option_style = [](SideButton* btn, bool on) {
-        if (!btn) return;
-        StateColor c = on ? StateColor(std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
-                                       std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
-                                       std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal))
-                          : StateColor(std::pair<wxColour, int>(wxColour(30, 33, 37), StateColor::Pressed),
-                                       std::pair<wxColour, int>(wxColour(58, 63, 70), StateColor::Hovered),
-                                       std::pair<wxColour, int>(wxColour(42, 46, 52), StateColor::Normal));
-        btn->SetBackgroundColor(c);
-        btn->SetBorderColor(c);
-    };
-    warrig_option_style(m_slice_option_btn, enable_slice);
-    warrig_option_style(m_print_option_btn, enable_print);
 
     //y73
     // /*for healio*/

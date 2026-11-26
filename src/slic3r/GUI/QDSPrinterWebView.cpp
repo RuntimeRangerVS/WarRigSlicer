@@ -298,6 +298,28 @@ wxString QDSPrinterWebView::BuildLocalUrl(const std::string& link_url) const
     return url;
 }
 
+// WarRig: WarRig look for the Fluidd page shown in the Device tab
+static const wxString& warrig_fluidd_script()
+{
+    static wxString js;
+    if (js.empty()) {
+        boost::filesystem::path f = boost::filesystem::path(resources_dir()) / "web" / "warrig" / "fluidd_inject.js";
+        boost::nowide::ifstream in(f.string(), std::ios::binary);
+        std::string body((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+        js = wxString::FromUTF8(body);
+        if (js.empty()) BOOST_LOG_TRIVIAL(warning) << "WarRig: printer page theme not found at " << f.string();
+    }
+    return js;
+}
+
+void QDSPrinterWebView::warrig_theme_printer_page()
+{
+    if (!m_browser || !m_browser->IsShownOnScreen()) return;
+    if (!m_browser->GetCurrentURL().Lower().StartsWith("http")) return;
+    const wxString& js = warrig_fluidd_script();
+    if (!js.empty()) WebView::RunScript(m_browser, js);
+}
+
 //cj_5
 void QDSPrinterWebView::LoadDisconnectPageOnly()
 {
@@ -1167,19 +1189,17 @@ QDSPrinterWebView::QDSPrinterWebView(wxWindow* parent) :
 					return;
 				}
             }
-            // WarRig: give the printer page (Fluidd) the WarRig look, no install on the printer needed
+            // WarRig: give the printer page (Fluidd) the WarRig look, no install on the printer needed.
+            // Runs on page load and every few seconds after (the script does nothing once applied).
             m_browser->Bind(wxEVT_WEBVIEW_LOADED, [this](wxWebViewEvent& evt) {
                 evt.Skip();
-                if (!evt.GetURL().StartsWith("http")) return;
-                static wxString warrig_js;
-                if (warrig_js.empty()) {
-                    boost::filesystem::path f = boost::filesystem::path(resources_dir()) / "web" / "warrig" / "fluidd_inject.js";
-                    boost::nowide::ifstream in(f.string(), std::ios::binary);
-                    std::string body((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
-                    warrig_js = wxString::FromUTF8(body);
-                }
-                if (!warrig_js.empty() && m_browser) WebView::RunScript(m_browser, warrig_js);
+                warrig_theme_printer_page();
             });
+            {
+                wxTimer* wr_timer = new wxTimer(this, wxWindow::NewControlId());
+                Bind(wxEVT_TIMER, [this](wxTimerEvent&) { warrig_theme_printer_page(); }, wr_timer->GetId());
+                wr_timer->Start(3000);
+            }
             t_browser_sizer->Add(m_browser, wxSizerFlags(1).Expand());
 
 			t_status_panel = new wxPanel(m_status_book);

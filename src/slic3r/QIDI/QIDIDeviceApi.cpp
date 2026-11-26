@@ -76,7 +76,16 @@ int QIDIDeviceApi::warrig_detect(const std::string& base_url, std::function<void
         if (http_get(url + "/printer/objects/list", body, {}, 8)) {
             std::string low = body;
             std::transform(low.begin(), low.end(), low.begin(), [](unsigned char c) { return (char)std::tolower(c); });
-            st = low.find("gcode_macro warrig") != std::string::npos ? 1 : 0;
+            st = (low.find("gcode_macro warrig") != std::string::npos || low.find("gcode_macro wrt_") != std::string::npos) ? 1 : 0;
+        }
+        // also accept WarRig config files on the printer
+        if (st != 1) {
+            std::string cfg;
+            if (http_get(url + "/server/files/list?root=config", cfg, {}, 8)) {
+                std::transform(cfg.begin(), cfg.end(), cfg.begin(), [](unsigned char c) { return (char)std::tolower(c); });
+                if (cfg.find("warrig") != std::string::npos) st = 1;
+                else if (st == -1) st = 0;
+            }
         }
         bool changed = false;
         {

@@ -255,6 +255,7 @@ private:
     //cj_5
     wxString BuildLocalUrl(const std::string& link_url) const;
     //cj_5
+    void warrig_theme_printer_page();
     void LoadDisconnectPageOnly();
     //cj_5
     bool LoadLocalUrlOnly(wxString& url);
