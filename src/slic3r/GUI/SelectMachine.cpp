@@ -1,4 +1,7 @@
 #include "SelectMachine.hpp"
+#include "../QIDI/QIDIDeviceApi.hpp"
+#include <nlohmann/json.hpp>
+#include <ctime>
 #include "I18N.hpp"
 
 #include "libslic3r/Utils.hpp"
@@ -2478,6 +2481,26 @@ void SelectMachineDialog::on_ok_btn(wxCommandEvent &event)
     }
     else
     {
+        // WarRig: hand this print's WarRig options to the WarRig screen (warrig.next_print, used once)
+        {
+            std::string info;
+            if (QIDIDeviceApi::warrig_info(machine_url, info)) {
+                const DynamicPrintConfig& pc = wxGetApp().preset_bundle->prints.get_edited_preset().config;
+                auto on = [&pc](const char* k) { const ConfigOptionBool* o = pc.option<ConfigOptionBool>(k); return o && o->value ? 1 : 0; };
+                const long long now = (long long)std::time(nullptr);
+                nlohmann::json opts = { { "id", "s" + std::to_string(now) }, { "by", "slicer" }, { "expires", now + 600 },
+                                        { "mesh", on("warrig_bed_mesh") }, { "ztilt", on("warrig_z_tilt") }, { "reload", on("warrig_reload_flush") } };
+                m_status_bar->set_status_text(_L("Sending the print options to the WarRig screen..."));
+                std::string reason;
+                const std::string result = QIDIDeviceApi::warrig_next_print(machine_url, opts.dump(), reason, 4);
+                BOOST_LOG_TRIVIAL(info) << "WarRig: next_print " << opts.dump() << " -> " << (result.empty() ? "no answer" : result) << " " << reason;
+                if (result == "refused") {
+                    MessageDialog dlg(this, wxString::Format(_L("The WarRig screen didn't take this print's options: %s\n\nSend the print anyway?"), wxString::FromUTF8(reason)),
+                                      _L("WarRig"), wxYES_NO | wxICON_WARNING);
+                    if (dlg.ShowModal() != wxID_YES) return;
+                }
+            }
+        }
         DynamicPrintConfig cfg_t;
         cfg_t.set_key_value("print_host", new ConfigOptionString(machine_url));
         cfg_t.set_key_value("host_type", new ConfigOptionString("ptfff"));

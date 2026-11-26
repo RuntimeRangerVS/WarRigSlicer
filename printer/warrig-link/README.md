@@ -1,47 +1,27 @@
-# WarRig Link – printer side
+# WarRig Link – slicer side
 
-WarRig Link lets WarRig Slicer (and WarRig Companion) use a WarRig printer at home or away, with no cloud account.
-The printer approves every new link itself, so only someone standing at the printer can add a device.
+WarRig Slicer speaks the WarRig screen's link contract (`WARRIG_LINK.txt` in the WarRig build, api 2).
+Everything goes through the printer's Moonraker database, namespace `warrig`. Nothing extra runs on the printer.
 
-Everything is stored in the printer's Moonraker database, namespace `warrig_link`:
+What the slicer uses:
 
-| Key | Value |
+| Record | How |
 | --- | --- |
-| `requests.<id>` | `{ app, device, code, created, expires, status }`, status `pending` → `approved` or `denied` |
-| `devices.<id>` | `{ app, device, linked }`, one per linked PC or phone |
-| `away` | the away address: `100.x.x.x`, `name.ts.net` or `https://…` |
+| `warrig.info` | read: WarRig found (unlocks the WarRig options), build, firmware, macros, boxes |
+| `warrig.box` | read by Sync BOX: slots, colours, materials, what is loaded |
+| `warrig.events` | read: shown under "Latest on the printer" in the WarRig Link window |
+| `warrig.next_print` | written when a print is sent: mesh, Z tilt, reload; waits for `next_print_ack` |
+| `warrig.clients.slicer` | heartbeat every minute: `{t, ver, api: 2}` |
 
-`<id>` is 12 lowercase hex characters. `code` looks like `7K4-Q9M`. Requests expire after 5 minutes.
+## Linking
 
-## Linking, step by step
-
-1. **Slicer:** Device tab → select the printer → WarRig Link button → *Send link request*.
-   It writes `requests.<id>` (status `pending`) and prints `WarRig Link: Link request from <PC> - code <code>` in the console.
-2. **WarRig screen:** sees the pending request and shows:
-   * a QR code for `http://<printer-ip>/warrig/link.html?r=<id>&c=<code>`
-   * the code, "WarRig Slicer on <PC> wants to link", and *Deny* / *Allow here* buttons.
-3. **Phone:** scanning the QR opens `link.html` (this folder) on the printer, or WarRig Companion handles the same address itself.
-   Approving sets `status` to `approved`. *Allow here* on the screen does the same.
-4. **Slicer:** sees `approved`, reads `away`, takes the printer's API key, writes `devices.<id>` and removes the request.
-
-Removing a device on the screen or in the app (delete `devices.<id>`) unlinks it.
-
-## Install
-
-Copy `link.html` to the folder Fluidd is served from, under `warrig/`:
+On the printer screen open **Wi-Fi > Remote access & phone alerts** (or option 6 in the WarRig PC tool).
+Scan the QR code with a phone and paste the link into **Device tab > WarRig Link**:
 
 ```
-~/fluidd/warrig/link.html
+warrig://connect?host=<printer LAN IP>&ts=<tailscale name>&topic=...
 ```
 
-so it opens at `http://<printer-ip>/warrig/link.html`. The WarRig installer does this as part of the firmware mod.
-
-## Away address
-
-Only these are accepted, so the printer is never opened to the internet:
-
-* Tailscale: `100.64.0.0/10` addresses or `*.ts.net` names (plain http is fine, Tailscale encrypts it)
-* any `https://` address (for example a Cloudflare Tunnel)
-
-Through Tailscale everything works away from home: live status, BOX, camera and printing.
-Through an https tunnel, printing and uploads work; live status needs the websocket to be tunnelled too.
+The slicer uses `host` at home and the Tailscale name (`ts`) away from home. Only Tailscale names and
+addresses or `https://` addresses are accepted as away addresses, so the printer is never opened to the internet.
+The link is checked every minute: home first, then away.

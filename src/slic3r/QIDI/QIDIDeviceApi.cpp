@@ -5,6 +5,8 @@
 #include <boost/nowide/fstream.hpp>
 #include <boost/filesystem.hpp>
 #include <thread>
+#include <chrono>
+#include "libslic3r_version.h"
 #include <mutex>
 #include <map>
 #include <ctime>
@@ -73,7 +75,10 @@ int QIDIDeviceApi::warrig_detect(const std::string& base_url, std::function<void
     std::thread([url, on_change]() {
         std::string body;
         int st = -1;
-        if (http_get(url + "/printer/objects/list", body, {}, 8)) {
+        // the WarRig screen publishes warrig.info: the surest sign WarRig is running
+        std::string info;
+        if (QIDIDeviceApi::warrig_info(url, info)) st = 1;
+        else if (http_get(url + "/printer/objects/list", body, {}, 8)) {
             std::string low = body;
             std::transform(low.begin(), low.end(), low.begin(), [](unsigned char c) { return (char)std::tolower(c); });
             st = (low.find("gcode_macro warrig") != std::string::npos || low.find("gcode_macro wrt_") != std::string::npos) ? 1 : 0;
@@ -100,6 +105,82 @@ int QIDIDeviceApi::warrig_detect(const std::string& base_url, std::function<void
         if (changed && on_change) on_change();
     }).detach();
     return -1;
+}
+
+static bool http_send(const std::string& method, const std::string& url, const std::string& body_in, std::string& out, long timeout_s = 6)
+{
+    bool ok = false;
+    try {
+        Http http = method == "POST" ? Http::post(url) : Http::get(url);
+        http.timeout_connect(4).timeout_max(timeout_s);
+        if (!body_in.empty()) { http.header("Content-Type", "application/json"); http.set_post_body(body_in); }
+        http.on_complete([&](std::string b, unsigned status) { out = std::move(b); ok = status >= 200 && status < 300; })
+            .on_error([&](std::string b, std::string, unsigned) { out = std::move(b); ok = false; })
+            .perform_sync();
+    } catch (...) { ok = false; }
+    return ok;
+}
+
+static bool warrig_db_get(const std::string& base, const std::string& key, nlohmann::json& value)
+{
+    std::string body;
+    if (!http_send("GET", QIDIDeviceApi::normalize_base_url(base) + "/server/database/item?namespace=warrig&key=" + key, {}, body, 5)) return false;
+    try {
+        nlohmann::json j = nlohmann::json::parse(body);
+        if (j.contains("result") && j["result"].contains("value")) { value = j["result"]["value"]; return true; }
+    } catch (...) {}
+    return false;
+}
+
+static bool warrig_db_set(const std::string& base, const std::string& key, const nlohmann::json& value)
+{
+    nlohmann::json req = { { "namespace", "warrig" }, { "key", key }, { "value", value } };
+    std::string body;
+    return http_send("POST", QIDIDeviceApi::normalize_base_url(base) + "/server/database/item", req.dump(), body, 5);
+}
+
+bool QIDIDeviceApi::warrig_info(const std::string& base_url, std::string& info_json)
+{
+    nlohmann::json v;
+    if (!warrig_db_get(base_url, "info", v) || !v.is_object()) return false;
+    info_json = v.dump();
+    return true;
+}
+
+void QIDIDeviceApi::warrig_heartbeat(const std::string& base_url)
+{
+#ifdef WARRIG_VERSION
+    const char* ver = WARRIG_VERSION;
+#else
+    const char* ver = "1.0.0";
+#endif
+    warrig_db_set(base_url, "clients.slicer", nlohmann::json { { "t", (long long)std::time(nullptr) }, { "ver", ver }, { "api", 2 } });
+}
+
+std::string QIDIDeviceApi::warrig_next_print(const std::string& base_url, const std::string& options_json, std::string& reason, int wait_s)
+{
+    nlohmann::json opts;
+    try { opts = nlohmann::json::parse(options_json); } catch (...) { reason = "bad options"; return "refused"; }
+    if (!opts.contains("id")) { reason = "no id"; return "refused"; }
+    const std::string id = opts["id"].get<std::string>();
+    if (!warrig_db_set(base_url, "next_print", opts)) { reason = "the printer didn't take the options"; return ""; }
+    for (int i = 0; i < wait_s * 2; ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        nlohmann::json ack;
+        if (warrig_db_get(base_url, "next_print_ack", ack) && ack.is_object() && ack.value("id", std::string()) == id) {
+            reason = ack.value("reason", std::string());
+            return ack.value("result", std::string());
+        }
+    }
+    reason = "no answer from the WarRig screen";
+    return "";
+}
+
+std::string QIDIDeviceApi::warrig_events(const std::string& base_url)
+{
+    nlohmann::json v;
+    if (!warrig_db_get(base_url, "events", v) || !v.is_object() || !v.contains("list")) return {};
+    return v["list"].dump();
 }
 
 bool QIDIDeviceApi::get_file_list(const std::string& base_url, std::string& body)
@@ -193,6 +274,27 @@ bool QIDIDeviceApi::get_box_state(wxString& msg, const std::string& url, const s
 Box_info QIDIDeviceApi::get_box_info(wxString& msg, const std::string& url, const std::string& api_key)
 {
     Box_info info;
+    // WarRig screen: warrig.box has every slot's state, colour and material
+    {
+        json wbox;
+        if (warrig_db_get(url, "box", wbox) && wbox.is_object() && wbox.contains("slots") && wbox["slots"].is_array()) {
+            info.from_warrig = true;
+            info.box_count   = std::min(4, std::max(0, wbox.value("boxes", 0)));
+            for (const json& s : wbox["slots"]) {
+                if (!s.is_object()) continue;
+                const int i = s.value("slot", -1);
+                if (i < 0 || i >= Box_info::kSlots) continue;
+                info.slot_state[i] = s.value("state", 0);
+                std::string hex = s.value("color", std::string());
+                if (!hex.empty() && hex[0] != '#') hex = "#" + hex;
+                if (hex.size() >= 7) info.filament_colors[i] = hex.substr(0, 7);
+                const std::string mat = s.value("material", std::string());
+                if (!mat.empty()) info.filament_type[i] = mat;
+            }
+            BOOST_LOG_TRIVIAL(info) << "WarRig: BOX read from the WarRig screen, boxes = " << info.box_count;
+            return info;
+        }
+    }
     json     vars;
     if (!query_save_variables(url, api_key, vars)) {
         msg = "Could not read the printer";
@@ -226,6 +328,7 @@ Box_info QIDIDeviceApi::get_box_info(wxString& msg, const std::string& url, cons
 
 void QIDIDeviceApi::get_color_filament_str(wxString& msg, Box_info& info, const std::string& url, const std::string& api_key)
 {
+    if (info.from_warrig) return; // materials already come from the WarRig screen
     // Map numeric filament indices to material names using the printer's own filament list, when it has one.
     std::string body;
     if (!http_get(normalize_base_url(url) + "/server/files/config/officiall_filas_list.cfg", body, api_key)) return;

@@ -1,14 +1,10 @@
 // WarRig Slicer: WarRig Link.
-// Links a WarRig printer to this PC without any cloud account. The printer approves each link itself:
-// the slicer sends a request, the WarRig screen shows a QR code, and the owner approves it by scanning
-// the QR with a phone (or tapping Allow on the screen). Once linked, the slicer reaches the printer on
-// the home network first and through its away address (Tailscale or https) when away from home.
-//
-// Everything is kept in the printer's Moonraker database, namespace "warrig_link":
-//   requests.<id> : { app, device, code, created, expires, status: pending|approved|denied }
-//   devices.<id>  : { app, device, linked }
-//   away          : "q2-warrig.ts.net" or "https://..."   (set on the printer screen, in the app or here)
-// so WarRig Companion and the slicer always see the same links.
+// Uses the WarRig screen's link contract (WARRIG_LINK.txt, api 2: Moonraker database namespace "warrig").
+// A printer is linked from the QR code on the printer screen (Wi-Fi > Remote access & phone alerts):
+//   warrig://connect?host=<printer LAN IP>&ts=<tailscale name>&topic=...
+// The slicer then reaches the printer on the home network first and through its Tailscale name
+// (or an https address) when away from home. It reads warrig.info / warrig.box / warrig.events,
+// writes its heartbeat (clients.slicer) and sends warrig.next_print with each print.
 #ifndef slic3r_GUI_WarRigLink_hpp_
 #define slic3r_GUI_WarRigLink_hpp_
 
@@ -90,6 +86,7 @@ private:
 
     wxChoice*     m_choice { nullptr };
     wxTextCtrl*   m_away { nullptr };
+    wxTextCtrl*   m_link { nullptr };
     wxStaticText* m_status { nullptr };
     wxStaticText* m_code_text { nullptr };
     wxListBox*    m_devices { nullptr };

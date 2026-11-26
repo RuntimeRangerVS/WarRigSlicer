@@ -336,11 +336,21 @@ void QDSPrinterWebView::warrig_theme_printer_page()
 void QDSPrinterWebView::warrig_check_link_routes()
 {
     std::vector<WarRigLink::LinkInfo> links = WarRigLink::all();
-    if (links.empty() || m_warrig_route_busy) return;
+    std::string selected;
+    if (auto dev = wxGetApp().qdsdevmanager ? wxGetApp().qdsdevmanager->getSelectedDevice() : nullptr) selected = dev->m_ip;
+    if ((links.empty() && selected.empty()) || m_warrig_route_busy) return;
     m_warrig_route_busy = true;
-    std::thread([this, links]() {
+    std::thread([this, links, selected]() {
         std::vector<std::pair<std::string, std::string>> routes;
-        for (const auto& l : links) routes.emplace_back(l.name, WarRigLink::pick_route(l));
+        std::set<std::string> beat;
+        for (const auto& l : links) {
+            std::string r = WarRigLink::pick_route(l);
+            routes.emplace_back(l.name, r);
+            if (!r.empty()) beat.insert(r);
+        }
+        if (!selected.empty()) beat.insert(selected);
+        // WarRig Link heartbeat (clients.slicer) so the screen and the app see the slicer is running
+        for (const auto& h : beat) { std::string info; if (QIDIDeviceApi::warrig_info(h, info)) QIDIDeviceApi::warrig_heartbeat(h); }
         wxGetApp().CallAfter([this, routes]() {
             bool changed = false;
             for (const auto& r : routes) changed |= WarRigLink::apply_route(r.first, r.second);

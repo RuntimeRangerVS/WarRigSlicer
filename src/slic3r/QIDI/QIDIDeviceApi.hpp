@@ -38,6 +38,16 @@ public:
     // WarRig detection: looks for WarRig macros in the printer's Klipper objects.
     // Returns 1 (WarRig), 0 (stock firmware) or -1 (not known yet; a check is started in the background).
     // on_change runs on a worker thread when the answer changes.
+    // WarRig Link (the WarRig screen's contract, Moonraker database namespace "warrig", api 2).
+    // warrig.info: the screen's build, macros, limits and features. False = WarRig screen not running.
+    static bool warrig_info(const std::string& base_url, std::string& info_json);
+    // heartbeat: clients.slicer {t, ver, api}
+    static void warrig_heartbeat(const std::string& base_url);
+    // warrig.next_print: options for the next print, used once. Returns "applied", "refused" (reason set) or "" (no answer).
+    static std::string warrig_next_print(const std::string& base_url, const std::string& options_json, std::string& reason, int wait_s = 6);
+    // warrig.events list as JSON (newest last), empty if none
+    static std::string warrig_events(const std::string& base_url);
+
     static int warrig_detect(const std::string& base_url, std::function<void()> on_change = nullptr);
 };
 

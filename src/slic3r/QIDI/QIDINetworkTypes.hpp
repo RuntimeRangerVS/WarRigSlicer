@@ -15,6 +15,7 @@ struct Box_info
 
     int                      box_count          = 0;
     int                      auto_reload_detect = 0;
+    bool                     from_warrig        = false; // filled from the WarRig screen's warrig.box record
     std::vector<int>         slot_state;      // 0 empty, 1 loaded, 2 loaded in the head
     std::vector<int>         slot_id;
     std::vector<int>         filament_vendor; // vendor index used to build QIDI filament ids
