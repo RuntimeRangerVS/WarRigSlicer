@@ -1,9 +1,11 @@
 {
-    "type": "filament",
-    "setting_id": "QFSU02_08",
-    "name": "QIDI TPU-GF @Qidi Q2 0.8 nozzle",
-    "from": "system",
-    "instantiation": "true",
-    "inherits": "QIDI TPU-GF@Q2-Series",
-	"compatible_printers": ["Q2 0.8 nozzle"]
+	"type": "filament",
+	"setting_id": "QFSU02_08",
+	"name": "QIDI TPU-GF @Q2 0.8 nozzle",
+	"from": "system",
+	"instantiation": "true",
+	"inherits": "QIDI TPU-GF@Q2-Series",
+	"compatible_printers": [
+		"Q2 0.8 nozzle"
+	]
 }

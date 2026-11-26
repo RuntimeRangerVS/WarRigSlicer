@@ -1,15 +1,15 @@
 {
-    "type": "machine_model",
-    "name": "Q2",
-    "model_id": "QD_Q2",
-    "nozzle_diameter": "0.4;0.2;0.6;0.8",
-    "machine_tech": "FFF",
-    "family": "Qidi",
-    "bed_model": "Q2_bed.stl",
-    "bed_texture": "Q2_bed.svg",
-    "hotend_model": "X-Series_gen3_hotend.stl",
-    "default_bed_type": "Textured PEI Plate",
-    "image_bed_type": "N",
-    "not_support_bed_type": "Engineering Plate;Supertack Plate",
-	"default_materials": "Generic ABS @Qidi Q2 0.4 nozzle;Generic PLA @Qidi Q2 0.4 nozzle;QIDI ABS Odorless @Qidi Q2 0.4 nozzle;QIDI ABS Rapido @Qidi Q2 0.4 nozzle;QIDI PLA Rapido @Qidi Q2 0.4 nozzle;QIDI PLA Rapido Matte @Qidi Q2 0.4 nozzle;QIDI PLA-CF @Qidi Q2 0.4 nozzle;Generic PLA Silk @Qidi Q2 0.4 nozzle;QIDI PLA Silk @Qidi Q2 0.4 nozzle;QIDI ASA @Qidi Q2 0.4 nozzle;QIDI PETG Basic @Qidi Q2 0.4 nozzle;QIDI PETG Rapido @Qidi Q2 0.4 nozzle;QIDI PETG Tough @Qidi Q2 0.4 nozzle;QIDI PETG Translucent @Qidi Q2 0.4 nozzle;QIDI PLA Basic @Qidi Q2 0.4 nozzle;QIDI PLA Matte Basic @Qidi Q2 0.4 nozzle;Generic PETG @Qidi Q2 0.4 nozzle"
+	"type": "machine_model",
+	"name": "Q2",
+	"model_id": "QD_Q2",
+	"nozzle_diameter": "0.4;0.2;0.6;0.8",
+	"machine_tech": "FFF",
+	"family": "Qidi",
+	"bed_model": "Q2_bed.stl",
+	"bed_texture": "Q2_bed.svg",
+	"hotend_model": "X-Series_gen3_hotend.stl",
+	"default_bed_type": "Textured PEI Plate",
+	"image_bed_type": "N",
+	"not_support_bed_type": "Engineering Plate;Supertack Plate",
+	"default_materials": "Generic ABS @Q2 0.4 nozzle;Generic PLA @Q2 0.4 nozzle;QIDI ABS Odorless @Q2 0.4 nozzle;QIDI ABS Rapido @Q2 0.4 nozzle;QIDI PLA Rapido @Q2 0.4 nozzle;QIDI PLA Rapido Matte @Q2 0.4 nozzle;QIDI PLA-CF @Q2 0.4 nozzle;Generic PLA Silk @Q2 0.4 nozzle;QIDI PLA Silk @Q2 0.4 nozzle;QIDI ASA @Q2 0.4 nozzle;QIDI PETG Basic @Q2 0.4 nozzle;QIDI PETG Rapido @Q2 0.4 nozzle;QIDI PETG Tough @Q2 0.4 nozzle;QIDI PETG Translucent @Q2 0.4 nozzle;QIDI PLA Basic @Q2 0.4 nozzle;QIDI PLA Matte Basic @Q2 0.4 nozzle;Generic PETG @Q2 0.4 nozzle"
 }
