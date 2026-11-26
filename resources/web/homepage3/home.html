@@ -12,6 +12,7 @@
 <link rel="stylesheet" type="text/css" href="./css/manual.css" />	
 <link rel="stylesheet" type="text/css" href="./css/home.css" />
 <link rel="stylesheet" type="text/css" href="./css/dark.css" />	
+<link rel="stylesheet" type="text/css" href="./css/warrig.css" />
 
 <script type="text/javascript" src="../include/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="../include/json2.js"></script>
@@ -20,6 +21,7 @@
 
 <script type="text/javascript" src="../data/text.js"></script>		
 <script type="text/javascript" src="js/home.js"></script>
+<script type="text/javascript" src="js/warrig.js"></script>
 <!--<script type="text/javascript" src="js/test.js"></script>-->
 </head>
 <body class="ZScrol" onLoad="OnHomeInit()">
@@ -46,6 +48,13 @@
 	
 	
 	<div id="HomeFullArea">
+	<!----------WarRig printer bar---------->
+	<div id="WarRigPrinterBar">
+		<span id="WR_Dot"></span>
+		<div id="WR_Info"><div id="WR_Name">NO PRINTER SELECTED</div><div id="WR_Sub">Add your Q2 on the Device tab</div></div>
+		<div class="WR_Btn WR_Btn_Or" onClick="WarRigSend({command:'warrig_goto_tab',tab:'prepare'})">Prepare a print</div>
+		<div class="WR_Btn" onClick="WarRigSend({command:'warrig_goto_tab',tab:'device'})">Open Device</div>
+	</div>
 	
 	<!----------Recent open---------->
 	<div id="MiniRecentFileArea">

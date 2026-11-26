@@ -5072,6 +5072,30 @@ std::string GUI_App::handle_web_request(std::string cmd)
                     }
                 }
             }
+            // WarRig: Home page printer bar and its tab buttons
+            else if (command_str.compare("warrig_goto_tab") == 0) {
+                std::string tab = root.get_optional<std::string>("tab").value_or("prepare");
+                CallAfter([this, tab] {
+                    if (mainframe)
+                        mainframe->select_tab(tab == "device" ? size_t(MainFrame::tpMonitor) : size_t(MainFrame::tp3DEditor));
+                });
+            }
+            else if (command_str.compare("warrig_printer_info") == 0) {
+                CallAfter([this] {
+                    if (!mainframe || !mainframe->m_webview) return;
+                    nlohmann::json j;
+                    j["command"] = "warrig_printer_info";
+                    auto dev = qdsdevmanager ? qdsdevmanager->getSelectedDevice() : nullptr;
+                    j["has"] = dev != nullptr;
+                    if (dev) {
+                        j["name"]      = dev->m_name;
+                        j["online"]    = dev->is_online();
+                        j["box_count"] = dev->m_box_count;
+                        j["firmware"]  = dev->m_firmware_version;
+                    }
+                    mainframe->m_webview->RunScript(wxString::Format("window.postMessage(%s)", wxString::FromUTF8(j.dump())));
+                });
+            }
             else if (command_str.compare("common_openurl") == 0) {
                 boost::optional<std::string> path = root.get_optional<std::string>("url");
                 if (path.has_value()) {

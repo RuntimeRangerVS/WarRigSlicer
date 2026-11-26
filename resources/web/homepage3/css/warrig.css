@@ -1,0 +1,23 @@
+/* WarRig Slicer: Home page look (loaded after QIDI's stylesheets) */
+#LoginArea, #NoPluginTip { display: none !important; }
+#WarRigBrand { padding: 18px 16px 16px; border-bottom: 1px solid #2a2d33; }
+#WarRigBrand img { height: 44px; display: block; }
+.BtnItem[menu="online"], .BtnItem[menu="makerlab"], .BtnItem[menu="makersupply"], #printhistory, #OnlineNewTag, #MakerlabNewTag { display: none !important; }
+.BtnItem.BtnItemSelected, .BtnItemSelected { background-color: #3A1B05 !important; color: #FFB070 !important; box-shadow: inset 3px 0 0 #FF7A12; }
+.BtnItem:hover { background-color: #23262B !important; }
+#WarRigVersion { padding: 10px 20px 14px; font-size: 12px; line-height: 1.5; color: #8D9097; }
+
+/* home: cloud sections hidden */
+#HotModelArea, #MakerlabArea, #PrintHistoryArea, #HotModel_Search_Bar, #WikiGuideBoard { display: none !important; }
+
+/* printer bar */
+#WarRigPrinterBar { display: flex; align-items: center; gap: 16px; margin: 0 0 22px; padding: 14px 18px; background: #26282D;
+  border: 1px solid #33363D; border-left: 3px solid #FF7A12; flex-wrap: wrap; }
+#WR_Dot { width: 10px; height: 10px; border-radius: 50%; background: #8D9097; flex: none; }
+#WR_Dot.on { background: #3CCF4E; }
+#WR_Info { flex: 1; min-width: 220px; }
+#WR_Name { font-size: 20px; font-weight: 800; font-style: italic; letter-spacing: .5px; text-transform: uppercase; }
+#WR_Sub { font-size: 13px; color: #9A9DA4; }
+.WR_Btn { height: 36px; padding: 0 14px; border-radius: 6px; border: 1px solid #3A3D44; display: flex; align-items: center; cursor: pointer; font-weight: 600; }
+.WR_Btn:hover { border-color: #FF7A12; }
+.WR_Btn_Or { border-color: #FF7A12; color: #FF9A3C; }

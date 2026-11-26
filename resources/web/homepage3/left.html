@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="./css/left.css" />
 <link rel="stylesheet" type="text/css" href="./css/left_mini.css" media="screen and (max-width: 168px)" />
 <link rel="stylesheet" type="text/css" href="./css/dark.css" />	
+<link rel="stylesheet" type="text/css" href="./css/warrig.css" />
 
 <script type="text/javascript" src="../include/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="../include/json2.js"></script>	
@@ -17,9 +18,11 @@
 <script type="text/javascript" src="../data/text.js"></script>		
 	
 <script type="text/javascript" src="js/left.js"></script>
+<script type="text/javascript" src="js/warrig.js"></script>
 </head>
 <body class="ZScrol" onLoad="OnInit()">
 <div id="LeftBoard">
+	<div id="WarRigBrand"><img src="img/warrig_brand.svg" alt="WarRig Slicer" /></div>
 	<div id="LoginArea">
 	<div id="Login1" onClick="OnLoginOrRegister()">
 		<div id="Icon1"><img id="QDTIcon" src="img/left_home_account.svg" /></div>
@@ -64,12 +67,16 @@
 			</div>
 			<div menu="home" class="BtnItem BtnItemSelected" onClick="GotoMenu('home')">
 				<div class="BtnIcon "><img class="LeftIcon" src="img/left_library.svg" /></div>
-				<div class="BtnText trans" tid="t114">Library</div>
+				<div class="BtnText">Home</div>
 			</div>	
 			<div menu="recent" class="BtnItem" onClick="GotoMenu('recent')">
 				<div class="BtnIcon "><img class="LeftIcon" src="img/left_recent.svg" /></div>
 				<div class="BtnText trans" tid="t35">Recent</div> 
 			</div>	
+			<div menu="warrig_printers" class="BtnItem" onClick="WarRigSend({command:'warrig_goto_tab',tab:'device'})">
+				<div class="BtnIcon "><img class="LeftIcon" src="img/left_ph.svg" /></div>
+				<div class="BtnText">Printers</div>
+			</div>
 			<div menu="online" class="BtnItem" onClick="GotoMenu('online')">
 				<div class="BtnIcon"><img class="LeftIcon" src="img/left_online.svg" /></div>
 				<div class="BtnText trans" tid="t107">Online Models</div> 
@@ -93,11 +100,12 @@
 				<div class="BtnIcon "><img class="LeftIcon" src="img/left_ph.svg" /></div>
 				<div class="BtnText trans" tid="t117">Print History</div>
 			</div>		
-			<div menu="manual" class="BtnItem TopDivider" onClick="GotoMenu('manual')">
+			<div menu="manual" class="BtnItem TopDivider" onClick="WarRigSend({command:'common_openurl',url:'https://github.com/RuntimeRangerVS/WarRigSlicer'})">
 				<div class="BtnIcon "><img class="LeftIcon" src="img/left_manual.svg" /></div>
-				<div class="BtnText trans" tid="t87">User Manual</div>
+				<div class="BtnText">User manual (GitHub)</div>
 				<div class="BtnIcon BtnIcon-Right"><img class="RightIcon" src="img/left_link.svg"/></div>
 			</div>
+			<div id="WarRigVersion">WarRig Slicer 1.0.0<br>based on QIDI Studio 02.07.02.73</div>
 		</div>	
 	</div>
 </div>
