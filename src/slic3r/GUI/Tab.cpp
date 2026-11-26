@@ -3333,7 +3333,7 @@ void TabPrint::build()
         optgroup->m_on_change = [this, optgroup](const t_config_option_key &opt_key, const boost::any &value) { validate_custom_note_cb(this, optgroup, opt_key, value); };
 
     page = add_options_page(L("WarRig"), "advanced");
-        optgroup = page->new_optgroup(L("Print start (needs WarRig on the printer: Printer settings > Printer runs WarRig)"), L"param_gcode");
+        optgroup = page->new_optgroup(L("Print start (unlocks when WarRig is found on the selected printer, or tick Printer settings > Printer runs WarRig)"), L"param_gcode");
         optgroup->append_single_option_line("warrig_bed_mesh");
         optgroup->append_single_option_line("warrig_z_tilt");
         optgroup->append_single_option_line("warrig_reload_flush");

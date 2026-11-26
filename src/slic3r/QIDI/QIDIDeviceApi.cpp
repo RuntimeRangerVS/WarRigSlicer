@@ -5,6 +5,11 @@
 #include <boost/nowide/fstream.hpp>
 #include <boost/filesystem.hpp>
 #include <thread>
+#include <mutex>
+#include <map>
+#include <ctime>
+#include <algorithm>
+#include <cctype>
 #include <map>
 #include <sstream>
 #include <algorithm>
@@ -44,6 +49,48 @@ static bool http_get(const std::string& url, std::string& body, const std::strin
         ok = false;
     }
     return ok;
+}
+
+namespace {
+struct WarRigDetectState { int state = -1; std::time_t checked = 0; bool busy = false; };
+std::mutex                               g_warrig_mutex;
+std::map<std::string, WarRigDetectState> g_warrig_detect;
+}
+
+int QIDIDeviceApi::warrig_detect(const std::string& base_url, std::function<void()> on_change)
+{
+    if (base_url.empty()) return -1;
+    const std::string url = normalize_base_url(base_url);
+    const std::time_t now = std::time(nullptr);
+    {
+        std::lock_guard<std::mutex> lock(g_warrig_mutex);
+        WarRigDetectState& e = g_warrig_detect[url];
+        // a positive answer sticks for the session; a negative one is re-checked after a minute
+        if (e.busy || e.state == 1 || (e.state == 0 && now - e.checked < 60))
+            return e.state;
+        e.busy = true;
+    }
+    std::thread([url, on_change]() {
+        std::string body;
+        int st = -1;
+        if (http_get(url + "/printer/objects/list", body, {}, 8)) {
+            std::string low = body;
+            std::transform(low.begin(), low.end(), low.begin(), [](unsigned char c) { return (char)std::tolower(c); });
+            st = low.find("gcode_macro warrig") != std::string::npos ? 1 : 0;
+        }
+        bool changed = false;
+        {
+            std::lock_guard<std::mutex> lock(g_warrig_mutex);
+            WarRigDetectState& e = g_warrig_detect[url];
+            changed   = st != -1 && st != e.state;
+            if (st != -1) e.state = st;
+            e.checked = std::time(nullptr);
+            e.busy    = false;
+        }
+        BOOST_LOG_TRIVIAL(info) << "WarRig: detection on " << url << " = " << st;
+        if (changed && on_change) on_change();
+    }).detach();
+    return -1;
 }
 
 bool QIDIDeviceApi::get_file_list(const std::string& base_url, std::string& body)

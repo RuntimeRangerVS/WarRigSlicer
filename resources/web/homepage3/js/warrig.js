@@ -15,6 +15,7 @@ function WarRigShowPrinter(p) {
 	$('#WR_Name').text(p['name'] || 'Q2');
 	var sub = p['online'] ? 'Online' : 'Offline';
 	if (p['firmware']) sub += ' · firmware ' + p['firmware'];
+	if (p['warrig']) sub += ' · WarRig found';
 	if (p['online']) sub += ' · BOX: ' + (p['box_count'] > 0 ? (p['box_count'] * 4) + ' slots' : 'not connected');
 	$('#WR_Sub').text(sub);
 	if (p['online']) $('#WR_Dot').addClass('on'); else $('#WR_Dot').removeClass('on');

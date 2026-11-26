@@ -2641,6 +2641,21 @@ void MainFrame::update_slice_print_status(SlicePrintEventType event, bool can_sl
     m_slice_enable = enable_slice;
     m_print_enable = enable_print;
 
+    // WarRig: the dropdown half follows its main button so the split button reads as one piece
+    auto warrig_option_style = [](SideButton* btn, bool on) {
+        if (!btn) return;
+        StateColor c = on ? StateColor(std::pair<wxColour, int>(wxColour(216, 95, 8), StateColor::Pressed),
+                                       std::pair<wxColour, int>(wxColour(255, 163, 82), StateColor::Hovered),
+                                       std::pair<wxColour, int>(wxColour(255, 122, 18), StateColor::Normal))
+                          : StateColor(std::pair<wxColour, int>(wxColour(30, 33, 37), StateColor::Pressed),
+                                       std::pair<wxColour, int>(wxColour(58, 63, 70), StateColor::Hovered),
+                                       std::pair<wxColour, int>(wxColour(42, 46, 52), StateColor::Normal));
+        btn->SetBackgroundColor(c);
+        btn->SetBorderColor(c);
+    };
+    warrig_option_style(m_slice_option_btn, enable_slice);
+    warrig_option_style(m_print_option_btn, enable_print);
+
     //y73
     // /*for healio*/
     // if (expand_program_holder) {

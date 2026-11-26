@@ -28,18 +28,18 @@ SideButton::SideButton(wxWindow* parent, wxString text, wxString icon, long stly
     
 
 
-    border_color.append(0x6B6B6B, StateColor::Disabled);
+    border_color.append(wxColour(58, 63, 70), StateColor::Disabled);  // WarRig steel
     border_color.append(wxColour(216, 95, 8), StateColor::Pressed);
     border_color.append(wxColour(255, 163, 82), StateColor::Hovered);
     border_color.append(0xFF7A12, StateColor::Normal);  // y96
     border_color.setTakeFocusedAsHovered(false);
 
-    text_color.append(0xACACAC, StateColor::Disabled);
+    text_color.append(wxColour(124, 131, 140), StateColor::Disabled);
     text_color.append(0xFEFEFE, StateColor::Pressed);
     text_color.append(0xFEFEFE, StateColor::Hovered);
     text_color.append(0xFEFEFE, StateColor::Normal);
 
-    background_color.append(0x6B6B6B, StateColor::Disabled);
+    background_color.append(wxColour(42, 46, 52), StateColor::Disabled);
     background_color.append(wxColour(216, 95, 8), StateColor::Pressed);
     background_color.append(wxColour(255, 163, 82), StateColor::Hovered);
     background_color.append(0xFF7A12, StateColor::Normal);  // y96

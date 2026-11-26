@@ -475,6 +475,8 @@ public:
     void            init_label_colours();
     void            update_label_colours_from_appconfig();
     void            update_publish_status();
+    // WarRig: true when the selected printer is running WarRig firmware (checked over the network)
+    bool            warrig_on_selected_printer();
     bool            has_model_mall();
     void            update_label_colours();
     // update color mode for window

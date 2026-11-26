@@ -26,6 +26,8 @@
 #include <wx/regex.h>
 #include <boost/regex.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/nowide/fstream.hpp>
+#include <iterator>
 #include <wx/graphics.h>
 //B55
 #include "../Utils/PrintHost.hpp"
@@ -1165,6 +1167,19 @@ QDSPrinterWebView::QDSPrinterWebView(wxWindow* parent) :
 					return;
 				}
             }
+            // WarRig: give the printer page (Fluidd) the WarRig look, no install on the printer needed
+            m_browser->Bind(wxEVT_WEBVIEW_LOADED, [this](wxWebViewEvent& evt) {
+                evt.Skip();
+                if (!evt.GetURL().StartsWith("http")) return;
+                static wxString warrig_js;
+                if (warrig_js.empty()) {
+                    boost::filesystem::path f = boost::filesystem::path(resources_dir()) / "web" / "warrig" / "fluidd_inject.js";
+                    boost::nowide::ifstream in(f.string(), std::ios::binary);
+                    std::string body((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+                    warrig_js = wxString::FromUTF8(body);
+                }
+                if (!warrig_js.empty() && m_browser) WebView::RunScript(m_browser, warrig_js);
+            });
             t_browser_sizer->Add(m_browser, wxSizerFlags(1).Expand());
 
 			t_status_panel = new wxPanel(m_status_book);

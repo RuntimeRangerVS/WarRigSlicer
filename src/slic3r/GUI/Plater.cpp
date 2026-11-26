@@ -11217,11 +11217,17 @@ unsigned int Plater::priv::update_background_process(bool force_validation, bool
         if (f_volume_maps.empty()) {
             f_volume_maps = preset_bundle->get_default_nozzle_volume_types_for_filaments(f_maps);
         }
-        invalidated = background_process.apply(this->model, preset_bundle->full_config(false, f_maps, f_volume_maps));
+        DynamicPrintConfig wr_cfg = preset_bundle->full_config(false, f_maps, f_volume_maps);
+        if (wxGetApp().warrig_on_selected_printer()) wr_cfg.set_key_value("warrig_printer", new ConfigOptionBool(true));
+        invalidated = background_process.apply(this->model, wr_cfg);
         background_process.fff_print()->set_extruder_filament_info(get_extruder_filament_info());
     }
-    else
-        invalidated = background_process.apply(this->model, preset_bundle->full_config(false));
+    else {
+        // WarRig: a printer found running WarRig counts as "Printer runs WarRig" for the print-start line
+        DynamicPrintConfig wr_cfg = preset_bundle->full_config(false);
+        if (wxGetApp().warrig_on_selected_printer()) wr_cfg.set_key_value("warrig_printer", new ConfigOptionBool(true));
+        invalidated = background_process.apply(this->model, wr_cfg);
+    }
 
     if ((invalidated == Print::APPLY_STATUS_CHANGED) || (invalidated == Print::APPLY_STATUS_INVALIDATED))
         // QDS: add only gcode mode

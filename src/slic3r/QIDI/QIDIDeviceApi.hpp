@@ -34,6 +34,11 @@ public:
     static void     get_color_filament_str(wxString& msg, Box_info& info, const std::string& url, const std::string& api_key);
 
     static std::string normalize_base_url(const std::string& url);
+
+    // WarRig detection: looks for WarRig macros in the printer's Klipper objects.
+    // Returns 1 (WarRig), 0 (stock firmware) or -1 (not known yet; a check is started in the background).
+    // on_change runs on a worker thread when the answer changes.
+    static int warrig_detect(const std::string& base_url, std::function<void()> on_change = nullptr);
 };
 
 }} // namespace Slic3r::GUI

@@ -122,6 +122,7 @@
 #include "QDSPrinterWebView.hpp"
 //cj_2
 #include "QDSDeviceManager.hpp"
+#include "../QIDI/QIDIDeviceApi.hpp"
 //#ifdef WIN32
 //#include "BaseException.h"
 //#endif
@@ -3786,6 +3787,21 @@ void GUI_App::update_label_colours_from_appconfig()
     }
 }
 
+bool GUI_App::warrig_on_selected_printer()
+{
+    auto dev = qdsdevmanager ? qdsdevmanager->getSelectedDevice() : nullptr;
+    if (!dev) return false;
+    std::string base = !dev->m_ip.empty() ? dev->m_ip : dev->m_url;
+    int st = QIDIDeviceApi::warrig_detect(base, [this]() {
+        // answer changed: refresh the lock on the WarRig page
+        CallAfter([this]() {
+            if (Tab* print_tab = get_tab(Preset::TYPE_PRINT)) print_tab->update();
+            if (Tab* printer_tab = get_tab(Preset::TYPE_PRINTER)) printer_tab->update();
+        });
+    });
+    return st == 1;
+}
+
 void GUI_App::update_publish_status()
 {
     mainframe->m_webview->ResetWholePage();
@@ -5092,6 +5108,7 @@ std::string GUI_App::handle_web_request(std::string cmd)
                         j["online"]    = dev->is_online();
                         j["box_count"] = dev->m_box_count;
                         j["firmware"]  = dev->m_firmware_version;
+                        j["warrig"]    = warrig_on_selected_printer();
                     }
                     mainframe->m_webview->RunScript(wxString::Format("window.postMessage(%s)", wxString::FromUTF8(j.dump())));
                 });
