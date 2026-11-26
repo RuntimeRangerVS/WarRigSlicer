@@ -5135,6 +5135,107 @@ void PrintConfigDef::init_fff_params()
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionBool(false));
 
+    def = this->add("warrig_purge_length", coInt);
+    def->label = L("Purge length");
+    def->category = L("WarRig");
+    def->tooltip = L("How much filament to purge when Reload + flush is on.");
+    def->sidetext = L("mm");
+    def->min = 0;
+    def->max = 200;
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionInt(80));
+
+    def = this->add("warrig_chamber_preheat", coBool);
+    def->label = L("Pre-heat chamber while levelling");
+    def->category = L("WarRig");
+    def->tooltip = L("Start heating the chamber during homing and levelling, for hot-bed materials (bed 90 °C or more).");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(false));
+
+    def = this->add("warrig_chamber_preheat_temp", coInt);
+    def->label = L("Pre-heat target");
+    def->category = L("WarRig");
+    def->tooltip = L("Chamber pre-heat temperature. WarRig caps it at 65 °C.");
+    def->sidetext = L("°C");
+    def->min = 0;
+    def->max = 65;
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionInt(55));
+
+    def = this->add("warrig_chamber_wait", coBool);
+    def->label = L("Wait for chamber temperature");
+    def->category = L("WarRig");
+    def->tooltip = L("Hold the print until the chamber reaches its target.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_runout_sensor", coBool);
+    def->label = L("Filament runout sensor");
+    def->category = L("WarRig");
+    def->tooltip = L("Pause the print when the filament runs out.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_auto_refill", coBool);
+    def->label = L("Auto-refill from a matching spool");
+    def->category = L("WarRig");
+    def->tooltip = L("When a BOX slot runs out, switch to another slot with the same filament.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_read_rfid", coBool);
+    def->label = L("Read RFID tags");
+    def->category = L("WarRig");
+    def->tooltip = L("Fill in material and colour automatically from QIDI RFID spools.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_spin_dry", coBool);
+    def->label = L("Turn spools while drying");
+    def->category = L("WarRig");
+    def->tooltip = L("Turn the spools while the BOX dries them, for more even drying.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_dry_while_printing", coBool);
+    def->label = L("Dry while printing");
+    def->category = L("WarRig");
+    def->tooltip = L("Keep the BOX heater on during the print.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(false));
+
+    def = this->add("warrig_polar_cooler", coBool);
+    def->label = L("Polar cooler");
+    def->category = L("WarRig");
+    def->tooltip = L("Use the polar cooler for extra part cooling.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_case_light", coBool);
+    def->label = L("Case light on while printing");
+    def->category = L("WarRig");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_lights_off_after", coBool);
+    def->label = L("Lights off after print");
+    def->category = L("WarRig");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(false));
+
+    def = this->add("warrig_beep", coBool);
+    def->label = L("Beep when finished");
+    def->category = L("WarRig");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_heaters_off", coBool);
+    def->label = L("Heaters off at the end");
+    def->category = L("WarRig");
+    def->tooltip = L("Switch off bed, nozzle and chamber heaters when the print ends.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(true));
+
     def = this->add("spiral_mode", coBool);
     def->label = L("Spiral vase");
     def->tooltip = L("Spiralize smooths out the z moves of the outer contour. "
@@ -9901,7 +10002,7 @@ CLIMiscConfigDef::CLIMiscConfigDef()
 
     def = this->add("config_compatibility", coEnum);
     def->label = L("Forward-compatibility rule when loading configurations from config files and project files (3MF, AMF).");
-    def->tooltip = L("This version of QIDIStudio may not understand configurations produced by the newest QIDIStudio versions. "
+    def->tooltip = L("This version of WarRig Slicer may not understand configurations produced by the newest WarRig Slicer versions. "
                      "For example, newer QIDIStudio may extend the list of supported firmware flavors. One may decide to "
                      "bail out or to substitute an unknown value with a default silently or verbosely.");
     def->enum_keys_map = &ConfigOptionEnum<ForwardCompatibilitySubstitutionRule>::get_enum_values();
@@ -9977,7 +10078,7 @@ CLIMiscConfigDef::CLIMiscConfigDef()
 
     def = this->add("single_instance", coBool);
     def->label = L("Single instance mode");
-    def->tooltip = L("If enabled, the command line arguments are sent to an existing instance of GUI QIDIStudio, "
+    def->tooltip = L("If enabled, the command line arguments are sent to an existing instance of GUI WarRig Slicer, "
                      "or an existing QIDIStudio window is activated. "
                      "Overrides the \"single_instance\" configuration value from application preferences.");*/
 
