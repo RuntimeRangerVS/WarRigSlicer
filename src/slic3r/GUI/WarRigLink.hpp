@@ -1,7 +1,8 @@
 // WarRig Slicer: WarRig Link.
 // Uses the WarRig screen's link contract (WARRIG_LINK.txt, api 2: Moonraker database namespace "warrig").
 // A printer is linked from the QR code on the printer screen (Wi-Fi > Remote access & phone alerts):
-//   warrig://connect?host=<printer LAN IP>&ts=<tailscale name>&topic=...
+//   warrig://link?v=1&host=<printer LAN IP>[&remote=<Tailscale IP>]&topic=...   (WarRig Link, WARRIG_LINK.txt 7b)
+// Older codes warrig://connect?host=<printer LAN IP>&ts=<tailscale name>&topic=... are still read.
 // The slicer then reaches the printer on the home network first and through its Tailscale name
 // (or an https address) when away from home. It reads warrig.info / warrig.box / warrig.events,
 // writes its heartbeat (clients.slicer) and sends warrig.next_print with each print.

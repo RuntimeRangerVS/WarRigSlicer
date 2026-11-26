@@ -6,6 +6,7 @@
 #include <ctime>
 #include <thread>
 #include <cstdio>
+#include <cstdlib>
 #include <functional>
 
 #include <boost/log/trivial.hpp>
@@ -263,7 +264,7 @@ void WarRigLinkDialog::build_new_link()
     m_main->Add(link_lbl, 0, wxLEFT | wxRIGHT, pad);
     m_code_text = nullptr;
     m_link = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(FromDIP(460), -1));
-    m_link->SetHint("warrig://connect?host=192.168.0.66&ts=warrig-q2");
+    m_link->SetHint("warrig://link?v=1&host=192.168.0.66");
     m_main->Add(m_link, 0, wxLEFT | wxRIGHT | wxTOP | wxBOTTOM, FromDIP(6));
 
     auto or_lbl = new wxStaticText(this, wxID_ANY, _L("or pick a printer from the Device tab"));
@@ -291,8 +292,10 @@ void WarRigLinkDialog::build_new_link()
     m_main->Add(m_away, 0, wxLEFT | wxRIGHT | wxTOP, FromDIP(6));
     m_link->Bind(wxEVT_TEXT, [this](wxCommandEvent&) {
         const std::string link = m_link->GetValue().ToUTF8().data();
-        const std::string ts = url_param(link, "ts");
-        if (!ts.empty() && m_away->GetValue().IsEmpty()) m_away->SetValue(wxString::FromUTF8(ts));
+        // away address: "remote" (WarRig Link, the printer's Tailscale IP) or "ts" (older warrig://connect codes)
+        std::string away = url_param(link, "remote");
+        if (away.empty()) away = url_param(link, "ts");
+        if (!away.empty() && m_away->GetValue().IsEmpty()) m_away->SetValue(wxString::FromUTF8(away));
         if (!url_param(link, "host").empty()) m_choice->SetSelection(0);
     });
 
@@ -316,7 +319,16 @@ void WarRigLinkDialog::on_send_request()
     // where is the printer: the link's host, or the picked Device-tab printer
     const std::string link = m_link->GetValue().ToUTF8().data();
     std::string host = url_param(link, "host");
-    if (!link.empty() && link.rfind("warrig://", 0) != 0) { set_status(_L("That isn't a WarRig link. It starts with warrig://connect"), true); return; }
+    if (!link.empty() && link.rfind("warrig://", 0) != 0) { set_status(_L("That isn't a WarRig link. It starts with warrig://link"), true); return; }
+    // WarRig Link format version: refuse a newer one than this slicer knows (older warrig://connect codes have none)
+    const std::string ver = url_param(link, "v");
+    if (!ver.empty() && std::atoi(ver.c_str()) > 1) { set_status(_L("This link is from a newer WarRig. Update WarRig Slicer."), true); return; }
+    // the Device tab wants a bare host (it adds the ports itself): drop a ":7125" style port from the link
+    {
+        auto colon = host.rfind(':');
+        if (colon != std::string::npos && colon + 1 < host.size() && host.find_first_not_of("0123456789", colon + 1) == std::string::npos)
+            host.erase(colon);
+    }
     if (host.empty()) host = selected_host();
     if (host.empty()) { set_status(_L("Paste the link from the printer's QR code, or pick a printer."), true); return; }
     std::string err;
