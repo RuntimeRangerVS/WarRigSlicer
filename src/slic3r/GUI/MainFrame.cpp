@@ -1990,8 +1990,8 @@ wxBoxSizer* MainFrame::create_side_tools()
     m_slice_select = eSlicePlate;
     m_print_select = ePrintPlate;
 
-    auto slice_panel = new wxPanel(this,wxID_ANY,wxDefaultPosition,wxDefaultSize,wxTRANSPARENT_WINDOW);
-    auto print_panel = new wxPanel(this,wxID_ANY,wxDefaultPosition,wxDefaultSize,wxTRANSPARENT_WINDOW);
+    auto slice_panel = new wxPanel(this,wxID_ANY,wxDefaultPosition,wxDefaultSize,0);
+    auto print_panel = new wxPanel(this,wxID_ANY,wxDefaultPosition,wxDefaultSize,0);
 
     m_slice_btn = new SideButton(slice_panel, _L("Slice plate"), "");
     m_slice_option_btn = new SideButton(slice_panel, "", "sidebutton_dropdown", 0, FromDIP(14));
@@ -2619,9 +2619,13 @@ void MainFrame::update_side_button_style()
         b->SetBackgroundColor(wr_opt_bg);
         b->SetBorderColor(wr_opt_border);
     }
-    // the corners outside the rounded buttons take the top bar's colour (they were left black)
-    for (SideButton* b : { m_slice_btn, m_slice_option_btn, m_print_btn, m_print_option_btn })
-        b->SetBottomColour(*wxWHITE); // white maps to the dark top-bar colour in dark mode, like the tab bar
+    // the corners outside the rounded buttons, and the panels holding them, take the tab bar's colour
+    // (ButtonsListCtrl in Notebook.cpp paints #2D2D30); they were left black
+    const wxColour bar_bg("#2D2D30");
+    for (SideButton* b : { m_slice_btn, m_slice_option_btn, m_print_btn, m_print_option_btn }) {
+        b->SetBottomColour(bar_bg);
+        if (wxWindow* holder = b->GetParent()) holder->SetBackgroundColour(bar_bg);
+    }
 
 }
 
