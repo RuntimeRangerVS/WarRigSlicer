@@ -2619,6 +2619,10 @@ void MainFrame::update_side_button_style()
         b->SetBackgroundColor(wr_opt_bg);
         b->SetBorderColor(wr_opt_border);
     }
+    // the corners outside the rounded buttons take the top bar's colour (they were left black)
+    for (SideButton* b : { m_slice_btn, m_slice_option_btn, m_print_btn, m_print_option_btn })
+        b->SetBottomColour(*wxWHITE); // white maps to the dark top-bar colour in dark mode, like the tab bar
+
 }
 
 void MainFrame::update_slice_print_status(SlicePrintEventType event, bool can_slice, bool can_print)

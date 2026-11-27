@@ -2946,8 +2946,36 @@ void TabPrint::build()
         m_presets = &m_preset_bundle->prints;
     load_initial_data();
 
-    auto page = add_options_page(L("Quality"), "empty");
-        auto optgroup = page->new_optgroup(L("Layer height"), L"param_layer_height");
+    // WarRig first
+    auto page = add_options_page(L("WarRig"), "advanced");
+        auto optgroup = page->new_optgroup(L("Print start (unlocks when WarRig is found on the selected printer, or tick Printer settings > Printer runs WarRig)"), L"param_gcode");
+        optgroup->append_single_option_line("warrig_bed_mesh");
+        optgroup->append_single_option_line("warrig_z_tilt");
+        optgroup->append_single_option_line("warrig_reload_flush");
+        optgroup->append_single_option_line("warrig_purge_length");
+        optgroup->append_single_option_line("warrig_plate_z_offset");
+        optgroup->append_single_option_line("warrig_prime_line");
+        optgroup = page->new_optgroup(L("Chamber"), L"param_temperature");
+        optgroup->append_single_option_line("warrig_chamber_preheat");
+        optgroup->append_single_option_line("warrig_chamber_preheat_temp");
+        optgroup->append_single_option_line("warrig_chamber_wait");
+        optgroup = page->new_optgroup(L("Filament & BOX"), L"param_support_filament");
+        optgroup->append_single_option_line("warrig_runout_sensor");
+        optgroup->append_single_option_line("warrig_auto_refill");
+        optgroup->append_single_option_line("warrig_read_rfid");
+        optgroup->append_single_option_line("warrig_spin_dry");
+        optgroup->append_single_option_line("warrig_dry_while_printing");
+        optgroup = page->new_optgroup(L("Cooling & finish"), L"param_cooling");
+        optgroup->append_single_option_line("warrig_polar_cooler");
+        optgroup->append_single_option_line("warrig_case_light");
+        optgroup->append_single_option_line("warrig_lights_off_after");
+        optgroup->append_single_option_line("warrig_beep");
+        optgroup->append_single_option_line("warrig_heaters_off");
+        optgroup = page->new_optgroup(L("Motion"), L"param_speed");
+        optgroup->append_single_option_line("warrig_quiet");
+
+    page = add_options_page(L("Quality"), "empty");
+        optgroup = page->new_optgroup(L("Layer height"), L"param_layer_height");
         //y32
         optgroup->append_single_option_line("layer_height", "print-settings/layer-height");
         optgroup->append_single_option_line("initial_layer_print_height", "print-settings/layer-height");
@@ -3332,32 +3360,6 @@ void TabPrint::build()
         optgroup->append_single_option_line(option);
         optgroup->m_on_change = [this, optgroup](const t_config_option_key &opt_key, const boost::any &value) { validate_custom_note_cb(this, optgroup, opt_key, value); };
 
-    page = add_options_page(L("WarRig"), "advanced");
-        optgroup = page->new_optgroup(L("Print start (unlocks when WarRig is found on the selected printer, or tick Printer settings > Printer runs WarRig)"), L"param_gcode");
-        optgroup->append_single_option_line("warrig_bed_mesh");
-        optgroup->append_single_option_line("warrig_z_tilt");
-        optgroup->append_single_option_line("warrig_reload_flush");
-        optgroup->append_single_option_line("warrig_purge_length");
-        optgroup->append_single_option_line("warrig_plate_z_offset");
-        optgroup->append_single_option_line("warrig_prime_line");
-        optgroup = page->new_optgroup(L("Chamber"), L"param_temperature");
-        optgroup->append_single_option_line("warrig_chamber_preheat");
-        optgroup->append_single_option_line("warrig_chamber_preheat_temp");
-        optgroup->append_single_option_line("warrig_chamber_wait");
-        optgroup = page->new_optgroup(L("Filament & BOX"), L"param_support_filament");
-        optgroup->append_single_option_line("warrig_runout_sensor");
-        optgroup->append_single_option_line("warrig_auto_refill");
-        optgroup->append_single_option_line("warrig_read_rfid");
-        optgroup->append_single_option_line("warrig_spin_dry");
-        optgroup->append_single_option_line("warrig_dry_while_printing");
-        optgroup = page->new_optgroup(L("Cooling & finish"), L"param_cooling");
-        optgroup->append_single_option_line("warrig_polar_cooler");
-        optgroup->append_single_option_line("warrig_case_light");
-        optgroup->append_single_option_line("warrig_lights_off_after");
-        optgroup->append_single_option_line("warrig_beep");
-        optgroup->append_single_option_line("warrig_heaters_off");
-        optgroup = page->new_optgroup(L("Motion"), L"param_speed");
-        optgroup->append_single_option_line("warrig_quiet");
 
 #if 0
     //page = add_options_page(L("Dependencies"), "advanced.png");

@@ -3031,10 +3031,7 @@ void SelectMachineDialog::start_to_send(PrintHostJob upload_job) {
                     body_json_2["delayVideoEnable"] = item.second->getValue() == "on" ? true : false;
                 } else if(item.second->getParam() == "enable_polar_cooler" && select_machine.enable_polar_cooler){
                     //y80
-                    if(qds_dev->m_enable_polar_cooler)
-                        body_json_2["coolerEnable"] = item.second->getValue() == "on" ? true : false;
-                    else
-                        body_json_2["coolerEnable"] = false;
+                    body_json_2["coolerEnable"] = item.second->getValue() == "on" ? true : false;
                 }
             }
 
@@ -3164,12 +3161,13 @@ void SelectMachineDialog::start_to_send(PrintHostJob upload_job) {
                 wxString msg = _L("Set polar cooler..");
                 m_status_bar->update_status(msg, m_is_canceled, 10, true);
                 //y80
-                if(item.second->getValue() == "on" && qds_dev->m_enable_polar_cooler){
+                if(item.second->getValue() == "on"){
                     command = "SAVE_VARIABLE VARIABLE=enable_polar_cooler VALUE=1";
                 }
                 else {
                     command = "SAVE_VARIABLE VARIABLE=enable_polar_cooler VALUE=0";
                 }
+                BOOST_LOG_TRIVIAL(info) << "WarRig: polar cooler for this print: " << command;
                 success &= upload_job.printhost->send_command_to_printer(check_status_msg, command);
                 if(!success){
                     show_status(PrintDialogStatus::AirConditionSettingFailed);
@@ -3308,7 +3306,7 @@ void SelectMachineDialog::send_to_sd_card(){
                 }
             } else if(item.second->getParam() == "enable_polar_cooler"){
                 //y80
-                if (item.second->getValue() == "on" && obj->m_enable_polar_cooler) {
+                if (item.second->getValue() == "on") {
                     bodyJson["coolerEnable"] = true;
                 }
                 else {
@@ -3434,12 +3432,13 @@ void SelectMachineDialog::send_to_sd_card(){
                 wxString msg = _L("Set polar cooler..");
                 m_status_bar->update_status(msg, m_is_canceled, 80, true);
                 //y80
-                if(item.second->getValue() == "on" && obj->m_enable_polar_cooler){
+                if(item.second->getValue() == "on"){
                     command = "SAVE_VARIABLE VARIABLE=enable_polar_cooler VALUE=1";
                 }
                 else {
                     command = "SAVE_VARIABLE VARIABLE=enable_polar_cooler VALUE=0";
                 }
+                BOOST_LOG_TRIVIAL(info) << "WarRig: polar cooler for this print: " << command;
                 success &= upload_job.printhost->send_command_to_printer(check_status_msg, command);
                 if(!success){
                     show_status(PrintDialogStatus::AirConditionSettingFailed);
