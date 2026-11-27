@@ -2488,8 +2488,12 @@ void SelectMachineDialog::on_ok_btn(wxCommandEvent &event)
                 const DynamicPrintConfig& pc = wxGetApp().preset_bundle->prints.get_edited_preset().config;
                 auto on = [&pc](const char* k) { const ConfigOptionBool* o = pc.option<ConfigOptionBool>(k); return o && o->value ? 1 : 0; };
                 const long long now = (long long)std::time(nullptr);
-                nlohmann::json opts = { { "id", "s" + std::to_string(now) }, { "by", "slicer" }, { "expires", now + 600 },
-                                        { "mesh", on("warrig_bed_mesh") }, { "ztilt", on("warrig_z_tilt") }, { "reload", on("warrig_reload_flush") } };
+                // Only what is switched OFF here is sent (a skip for this one print). Left on, nothing is sent for it and
+                // the printer's own Print options decide - what is switched on the printer screen is never overridden.
+                nlohmann::json opts = { { "id", "s" + std::to_string(now) }, { "by", "slicer" }, { "expires", now + 600 } };
+                if (!on("warrig_bed_mesh")) opts["mesh"] = 0;
+                if (!on("warrig_z_tilt")) opts["ztilt"] = 0;
+                if (!on("warrig_reload_flush")) opts["reload"] = 0;
                 m_status_bar->set_status_text(_L("Sending the print options to the WarRig screen..."));
                 std::string reason;
                 const std::string result = QIDIDeviceApi::warrig_next_print(machine_url, opts.dump(), reason, 4);

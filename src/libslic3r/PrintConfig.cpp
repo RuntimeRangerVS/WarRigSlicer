@@ -5094,23 +5094,23 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionBool(false));
 
     def = this->add("warrig_bed_mesh", coBool);
-    def->label = L("Bed mesh before print");
+    def->label = L("Probe bed mesh");
     def->category = L("WarRig");
-    def->tooltip = L("Probe a fresh bed mesh at print start. A one-off choice made on the printer screen still wins.");
+    def->tooltip = L("On: the printer's own Print options decide (Skip bed mesh, Smart bed mesh, Fast probing). Off: Skip bed mesh for this print - the printer uses its saved mesh.");
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionBool(true));
 
     def = this->add("warrig_z_tilt", coBool);
-    def->label = L("Gantry levelling (Z tilt)");
+    def->label = L("Level gantry (Z tilt)");
     def->category = L("WarRig");
-    def->tooltip = L("Level both Z motors at print start. A one-off choice made on the printer screen still wins.");
+    def->tooltip = L("On: the printer's own Print options decide (Skip Z tilt). Off: Skip Z tilt for this print.");
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionBool(true));
 
     def = this->add("warrig_reload_flush", coBool);
     def->label = L("Reload + flush");
     def->category = L("WarRig");
-    def->tooltip = L("Reload the BOX slot and purge before printing. Off keeps the filament that is already loaded.");
+    def->tooltip = L("On: the printer's own Print options decide (Keep loaded). Off: Keep loaded for this print - no reload or flush when the right slot is already in the head.");
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionBool(true));
 
@@ -5122,9 +5122,9 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionBool(true));
 
     def = this->add("warrig_prime_line", coBool);
-    def->label = L("WarRig prime line");
+    def->label = L("Prime line from the printer");
     def->category = L("WarRig");
-    def->tooltip = L("Draw one short prime line next to the print instead of the two full-length lines along the front edge.");
+    def->tooltip = L("On: the printer draws the prime line - two lines along the front edge, or one short line next to the print when Prime near print is switched on at the printer (Settings > Print options). Off: this file carries its own two front lines.");
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionBool(true));
 

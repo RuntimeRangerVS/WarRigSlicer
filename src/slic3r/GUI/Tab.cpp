@@ -2948,7 +2948,7 @@ void TabPrint::build()
 
     // WarRig first
     auto page = add_options_page(L("WarRig"), "advanced");
-        auto optgroup = page->new_optgroup(L("Print start (unlocks when WarRig is found on the selected printer, or tick Printer settings > Printer runs WarRig)"), L"param_gcode");
+        auto optgroup = page->new_optgroup(L("Print start - this print only (the printer's own switches: Settings > Print options on its screen, or WarRig Companion)"), L"param_gcode");
         optgroup->append_single_option_line("warrig_bed_mesh");
         optgroup->append_single_option_line("warrig_z_tilt");
         optgroup->append_single_option_line("warrig_reload_flush");
