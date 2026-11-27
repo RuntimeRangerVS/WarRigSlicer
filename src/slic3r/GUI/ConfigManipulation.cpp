@@ -952,11 +952,12 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
         // or WarRig found on the selected printer
         if (!warrig)
             warrig = wxGetApp().warrig_on_selected_printer();
-        for (auto el : { "warrig_bed_mesh", "warrig_z_tilt", "warrig_reload_flush", "warrig_plate_z_offset", "warrig_prime_line", "warrig_quiet",
+        for (auto el : { "warrig_bed_mesh", "warrig_z_tilt", "warrig_reload_flush", "warrig_plate_z_offset", "warrig_prime_line", "warrig_prime_near", "warrig_quiet",
                          "warrig_purge_length", "warrig_chamber_preheat", "warrig_chamber_preheat_temp", "warrig_chamber_wait", "warrig_runout_sensor", "warrig_auto_refill", "warrig_read_rfid", "warrig_spin_dry", "warrig_dry_while_printing", "warrig_polar_cooler", "warrig_case_light", "warrig_lights_off_after", "warrig_beep", "warrig_heaters_off" })
             toggle_field(el, warrig);
         // sub-options only matter when their switch is on
         toggle_field("warrig_purge_length", warrig && config->opt_bool("warrig_reload_flush"));
+        toggle_field("warrig_prime_near", warrig && config->opt_bool("warrig_prime_line"));
         toggle_field("warrig_chamber_preheat_temp", warrig && config->opt_bool("warrig_chamber_preheat"));
     }
     toggle_line("spiral_mode_max_xy_smoothing", config->opt_bool("spiral_mode_smooth"));

@@ -2955,6 +2955,7 @@ void TabPrint::build()
         optgroup->append_single_option_line("warrig_purge_length");
         optgroup->append_single_option_line("warrig_plate_z_offset");
         optgroup->append_single_option_line("warrig_prime_line");
+        optgroup->append_single_option_line("warrig_prime_near");
         optgroup = page->new_optgroup(L("Chamber"), L"param_temperature");
         optgroup->append_single_option_line("warrig_chamber_preheat");
         optgroup->append_single_option_line("warrig_chamber_preheat_temp");

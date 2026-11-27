@@ -1485,6 +1485,7 @@ PRINT_CONFIG_CLASS_DERIVED_DEFINE(
     ((ConfigOptionBool,               warrig_reload_flush))
     ((ConfigOptionBool,               warrig_plate_z_offset))
     ((ConfigOptionBool,               warrig_prime_line))
+    ((ConfigOptionBool,               warrig_prime_near))
     ((ConfigOptionBool,               warrig_quiet))
     ((ConfigOptionInt,                warrig_purge_length))
     ((ConfigOptionBool,               warrig_chamber_preheat))

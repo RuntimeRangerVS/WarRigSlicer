@@ -5124,9 +5124,16 @@ void PrintConfigDef::init_fff_params()
     def = this->add("warrig_prime_line", coBool);
     def->label = L("Prime line from the printer");
     def->category = L("WarRig");
-    def->tooltip = L("On: the printer draws the prime line - two lines along the front edge, or one short line next to the print when Prime near print is switched on at the printer (Settings > Print options). Off: this file carries its own two front lines.");
+    def->tooltip = L("On: the printer draws the prime line - two lines along the front edge, or one short line next to the print when Prime near print below is on. Off: this file carries its own two front lines.");
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("warrig_prime_near", coBool);
+    def->label = L("Prime near print");
+    def->category = L("WarRig");
+    def->tooltip = L("On: one short prime line next to the print instead of the two lines along the front edge. Needs Prime line from the printer. This is chosen here for each file - the printer has no switch for it.");
+    def->mode = comSimple;
+    def->set_default_value(new ConfigOptionBool(false));
 
     def = this->add("warrig_quiet", coBool);
     def->label = L("Quiet mode");

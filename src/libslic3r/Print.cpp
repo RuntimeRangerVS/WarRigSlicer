@@ -119,7 +119,7 @@ bool Print::invalidate_state_by_config_options(const ConfigOptionResolver & /* n
         "additional_fan_full_speed_layer",
         "first_x_layer_fan_speed",
         "machine_end_gcode",
-        "warrig_printer", "warrig_bed_mesh", "warrig_z_tilt", "warrig_reload_flush", "warrig_plate_z_offset", "warrig_prime_line", "warrig_quiet",
+        "warrig_printer", "warrig_bed_mesh", "warrig_z_tilt", "warrig_reload_flush", "warrig_plate_z_offset", "warrig_prime_line", "warrig_prime_near", "warrig_quiet",
         "warrig_purge_length", "warrig_chamber_preheat", "warrig_chamber_preheat_temp", "warrig_chamber_wait", "warrig_runout_sensor", "warrig_auto_refill", "warrig_read_rfid", "warrig_spin_dry", "warrig_dry_while_printing", "warrig_polar_cooler", "warrig_case_light", "warrig_lights_off_after", "warrig_beep", "warrig_heaters_off",
         "printing_by_object_gcode",
         "filament_end_gcode",
