@@ -18,6 +18,8 @@
 
 #include <wx/app.h>
 #include <wx/button.h>
+#include <wx/msgdlg.h>
+#include "WarRigLink.hpp"
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
 #include <wx/tipwin.h>
@@ -2948,6 +2950,29 @@ void TabPrint::build()
 
     // WarRig first
     auto page = add_options_page(L("WarRig"), "advanced");
+        // the printer's own switches, in step with its screen and the app (WarRigSwitchesDialog)
+        {
+            auto swgroup = page->new_optgroup(L("Printer switches - shared with the printer screen and WarRig Companion"), L"param_gcode");
+            auto warrig_switches_btn = [](wxWindow* parent) {
+                auto btn = new wxButton(parent, wxID_ANY, _L("Open printer switches..."));
+                btn->Bind(wxEVT_BUTTON, [parent](wxCommandEvent&) {
+                    const std::string base = wxGetApp().warrig_selected_printer_url();
+                    if (base.empty() || !wxGetApp().warrig_on_selected_printer()) {
+                        wxMessageBox(_L("Pick your WarRig printer on the Device tab first. The switches are read from the printer."), _L("WarRig"), wxOK | wxICON_INFORMATION, parent);
+                        return;
+                    }
+                    WarRigSwitchesDialog dlg(parent, base);
+                    dlg.ShowModal();
+                });
+                auto sizer = new wxBoxSizer(wxHORIZONTAL);
+                sizer->Add(btn);
+                return sizer;
+            };
+            Line swline = Line{ "", "" };
+            swline.full_width = 1;
+            swline.append_widget(warrig_switches_btn);
+            swgroup->append_line(swline);
+        }
         auto optgroup = page->new_optgroup(L("Print start - this print only (the printer's own switches: Settings > Print options on its screen, or WarRig Companion)"), L"param_gcode");
         optgroup->append_single_option_line("warrig_bed_mesh");
         optgroup->append_single_option_line("warrig_z_tilt");

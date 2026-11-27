@@ -477,6 +477,8 @@ public:
     void            update_publish_status();
     // WarRig: true when the selected printer is running WarRig firmware (checked over the network)
     bool            warrig_on_selected_printer();
+    // WarRig: address of the printer selected on the Device tab (empty if none)
+    std::string     warrig_selected_printer_url();
     bool            has_model_mall();
     void            update_label_colours();
     // update color mode for window

@@ -21,6 +21,7 @@ class wxStaticText;
 class wxListBox;
 class wxButton;
 class wxBoxSizer;
+class wxCheckBox;
 
 namespace Slic3r { namespace GUI {
 
@@ -95,6 +96,45 @@ private:
     wxBoxSizer*   m_main { nullptr };
     wxTimer       m_timer;
     std::vector<std::string> m_names;
+};
+
+// The printer's standing switches (Settings > Print options on the WarRig screen), shown and changed from the
+// slicer. The printer keeps them: the print options are Klipper saved variables, the System switches and
+// Power-loss resume are WarRig settings (warrig.settings). The window reads both every few seconds, so a switch
+// changed on the printer screen or in WarRig Companion shows here too.
+class WarRigSwitchesDialog : public wxDialog
+{
+public:
+    // printer: the selected printer (IP, host name or URL)
+    WarRigSwitchesDialog(wxWindow* parent, const std::string& printer);
+    ~WarRigSwitchesDialog() override;
+
+private:
+    struct Item
+    {
+        std::string key;        // saved variable, or WarRig setting when `setting`
+        int         on_val;
+        int         off_val;
+        int         def_val;    // when the printer has no value yet
+        bool        setting;
+        wxCheckBox* box;
+    };
+    void add_group(wxBoxSizer* col, const wxString& title, const std::vector<std::pair<wxString, Item>>& rows);
+    void refresh();
+    void show_state(const std::string& vars_json, const std::string& settings_json);
+    void on_toggle(size_t index);
+    void send_variable(const std::string& script);
+    void send_setting(const std::string& key, int value);
+    void set_status(const wxString& text, bool error = false);
+
+    std::shared_ptr<bool> m_alive;
+    std::string           m_base;
+    std::string           m_settings;      // the last warrig.settings record read (its "value")
+    std::vector<Item>     m_items;
+    wxStaticText*         m_status { nullptr };
+    wxTimer               m_timer;
+    bool                  m_busy { false };
+    long long             m_hold_until { 0 };   // just changed here: don't show an older answer over it
 };
 
 }} // namespace Slic3r::GUI

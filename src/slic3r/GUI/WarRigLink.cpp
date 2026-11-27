@@ -13,6 +13,7 @@
 #include <nlohmann/json.hpp>
 
 #include <wx/button.h>
+#include <wx/checkbox.h>
 #include <wx/choice.h>
 #include <wx/listbox.h>
 #include <wx/msgdlg.h>
@@ -483,6 +484,226 @@ void WarRigLinkDialog::build_manage()
         WarRigLink::remove(m_printer_name);
         m_changed = true;
         EndModal(wxID_OK);
+    });
+}
+
+// ---------------------------------------------------------------------------------------------
+// Printer switches
+WarRigSwitchesDialog::WarRigSwitchesDialog(wxWindow* parent, const std::string& printer)
+    : wxDialog(parent, wxID_ANY, _L("WarRig printer switches"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
+    , m_alive(std::make_shared<bool>(true))
+    , m_base(base_url(printer))
+    , m_timer(this)
+{
+    SetBackgroundColour(wxColour(38, 40, 45));
+    SetForegroundColour(wxColour(232, 232, 234));
+    const int pad = FromDIP(16);
+    auto main = new wxBoxSizer(wxVERTICAL);
+
+    auto title = new wxStaticText(this, wxID_ANY, _L("Printer switches"));
+    title->SetFont(title->GetFont().Bold().Scaled(1.3f));
+    main->Add(title, 0, wxLEFT | wxRIGHT | wxTOP, pad);
+    auto intro = new wxStaticText(this, wxID_ANY,
+        _L("These are the printer's own switches - the same ones as Settings > Print options on its screen and in WarRig Companion. "
+           "A change here is saved on the printer straight away, and a change made there shows here. All off = like the stock printer."));
+    intro->SetForegroundColour(kMuted);
+    intro->Wrap(FromDIP(620));
+    main->Add(intro, 0, wxALL, pad);
+
+    auto cols  = new wxBoxSizer(wxHORIZONTAL);
+    auto left  = new wxBoxSizer(wxVERTICAL);
+    auto right = new wxBoxSizer(wxVERTICAL);
+    typedef std::pair<wxString, Item> Row;
+    add_group(left, _L("Print start"), {
+        Row(_L("Skip bed mesh - uses the saved mesh"),               Item{ "warrig_skip_mesh", 1, 0, 0, false, nullptr }),
+        Row(_L("Smart bed mesh - reuses it if nothing changed"),     Item{ "warrig_smart_mesh", 1, 0, 0, false, nullptr }),
+        Row(_L("Fast probing - print area only, quicker moves"),     Item{ "warrig_fastprobe", 1, 0, 0, false, nullptr }),
+        Row(_L("Skip Z tilt - no gantry levelling"),                 Item{ "warrig_skip_ztilt", 1, 0, 0, false, nullptr }),
+        Row(_L("Keep loaded - no reload if already in the head"),    Item{ "warrig_keep_load", 1, 0, 0, false, nullptr }),
+        Row(_L("Preheat early - heats when Start print opens"),      Item{ "warrig_preheat", 1, 0, 0, false, nullptr }),
+        Row(_L("Speed-ups - faster heating, purge and homing"),      Item{ "warrig_fast", 1, 0, 0, false, nullptr }),
+        Row(_L("Chamber pre-heat - for bed 90 C and hotter prints"), Item{ "warrig_chamber_pre", 50, 0, 0, false, nullptr }),
+        Row(_L("Skip nozzle wipe - when nothing was loaded"),        Item{ "warrig_skip_wipe", 1, 0, 0, false, nullptr }) });
+    add_group(right, _L("Printing and after"), {
+        Row(_L("Keep in head - filament stays in the head after a print"), Item{ "warrig_after", 1, 2, 2, false, nullptr }),
+        Row(_L("Quiet mode - 70% speed"),                                  Item{ "warrig_quiet", 1, 0, 0, false, nullptr }),
+        Row(_L("Runout sensor - pauses the print"),                        Item{ "warrig_runout", 1, 0, 1, false, nullptr }),
+        Row(_L("Power-loss resume"),                                       Item{ "plr", 1, 0, 1, true, nullptr }) });
+    add_group(right, _L("System"), {
+        Row(_L("Small system log - capped at 50 MB"),              Item{ "tw_log", 1, 0, 0, true, nullptr }),
+        Row(_L("Wi-Fi always awake - power save off"),             Item{ "tw_wifi", 1, 0, 0, true, nullptr }),
+        Row(_L("Klipper first - ahead of the other programs"),     Item{ "tw_klip", 1, 0, 0, true, nullptr }) });
+    cols->Add(left, 1, wxEXPAND | wxRIGHT, pad);
+    cols->Add(right, 1, wxEXPAND);
+    main->Add(cols, 0, wxEXPAND | wxLEFT | wxRIGHT, pad);
+
+    m_status = new wxStaticText(this, wxID_ANY, _L("Reading the printer..."));
+    m_status->SetForegroundColour(kMuted);
+    main->Add(m_status, 0, wxALL, pad);
+
+    auto close = new wxButton(this, wxID_OK, _L("Close"));
+    main->Add(close, 0, wxALIGN_RIGHT | wxLEFT | wxRIGHT | wxBOTTOM, pad);
+
+    for (auto& it : m_items) it.box->Enable(false);     // until the printer has answered
+    SetSizerAndFit(main);
+    CenterOnParent();
+    wxGetApp().UpdateDlgDarkUI(this);
+
+    Bind(wxEVT_TIMER, [this](wxTimerEvent&) { refresh(); }, m_timer.GetId());
+    m_timer.Start(3000);
+    refresh();
+}
+
+WarRigSwitchesDialog::~WarRigSwitchesDialog()
+{
+    *m_alive = false;
+    m_timer.Stop();
+}
+
+void WarRigSwitchesDialog::add_group(wxBoxSizer* col, const wxString& title, const std::vector<std::pair<wxString, Item>>& rows)
+{
+    auto head = new wxStaticText(this, wxID_ANY, title);
+    head->SetFont(head->GetFont().Bold());
+    head->SetForegroundColour(kOrange);
+    col->Add(head, 0, wxTOP | wxBOTTOM, FromDIP(6));
+    for (const auto& r : rows) {
+        Item it = r.second;
+        it.box  = new wxCheckBox(this, wxID_ANY, r.first);
+        it.box->SetForegroundColour(wxColour(232, 232, 234));
+        const size_t index = m_items.size();
+        it.box->Bind(wxEVT_CHECKBOX, [this, index](wxCommandEvent&) { on_toggle(index); });
+        col->Add(it.box, 0, wxBOTTOM, FromDIP(6));
+        m_items.push_back(it);
+    }
+}
+
+void WarRigSwitchesDialog::set_status(const wxString& text, bool error)
+{
+    if (!m_status) return;
+    m_status->SetLabel(text);
+    m_status->SetForegroundColour(error ? kRed : kMuted);
+    m_status->Wrap(FromDIP(620));
+    Layout();
+}
+
+void WarRigSwitchesDialog::refresh()
+{
+    if (m_busy) return;
+    m_busy = true;
+    const std::string base = m_base;
+    typedef std::pair<std::string, std::string> Answer;
+    in_background<Answer>(m_alive, [base]() {
+        Answer a;
+        http_call("GET", base + "/printer/objects/query?save_variables=variables", "", a.first, 6);
+        http_call("GET", base + "/server/database/item?namespace=warrig&key=settings", "", a.second, 6);
+        return a;
+    }, [this](Answer a) {
+        m_busy = false;
+        show_state(a.first, a.second);
+    });
+}
+
+void WarRigSwitchesDialog::show_state(const std::string& vars_json, const std::string& settings_json)
+{
+    json vars, conf;
+    bool have_vars = false, have_conf = false;
+    try {
+        json j = json::parse(vars_json);
+        vars = j.at("result").at("status").at("save_variables").at("variables");
+        have_vars = vars.is_object();
+    } catch (...) {}
+    try {
+        json j = json::parse(settings_json);
+        json v = j.at("result").at("value");
+        if (v.is_object() && v.contains("conf") && v["conf"].is_object()) {
+            conf = v["conf"];
+            m_settings = v.dump();
+            have_conf = true;
+        }
+    } catch (...) {}
+    if (!have_vars) {
+        for (auto& it : m_items) it.box->Enable(false);
+        set_status(_L("The printer does not answer - is it on and on this network?"), true);
+        return;
+    }
+    if ((long long)std::time(nullptr) < m_hold_until) return;     // a change made here is still on its way
+    for (auto& it : m_items) {
+        const json& src = it.setting ? conf : vars;
+        const bool have = it.setting ? have_conf : true;
+        int val = it.def_val;
+        if (have && src.contains(it.key) && src[it.key].is_number()) val = (int)src[it.key].get<double>();
+        it.box->Enable(have);
+        const bool on = it.on_val == 50 ? val > 0 : val == it.on_val;
+        if (it.box->GetValue() != on) it.box->SetValue(on);
+    }
+    set_status(have_conf ? _L("In step with the printer.") : _L("In step with the printer. The System switches need the WarRig screen running (BUILD 53 or newer)."));
+}
+
+void WarRigSwitchesDialog::on_toggle(size_t index)
+{
+    if (index >= m_items.size()) return;
+    Item& it = m_items[index];
+    const bool on = it.box->GetValue();
+    if (it.key == "tw_log" && on) {
+        if (wxMessageBox(_L("The printer's system log is cut to 50 MB now and kept there (stock keeps 500 MB). Older log entries are deleted and cannot be brought back."),
+                         _L("Small system log"), wxYES_NO | wxNO_DEFAULT, this) != wxYES) {
+            it.box->SetValue(false);
+            return;
+        }
+    }
+    m_hold_until = (long long)std::time(nullptr) + 4;
+    const int value = on ? it.on_val : it.off_val;
+    if (it.setting) { send_setting(it.key, value); return; }
+    std::string script;
+    if (it.key == "warrig_quiet") script = "WARRIG_QUIET ON=" + std::to_string(value);
+    else script = "SAVE_VARIABLE VARIABLE=" + it.key + " VALUE=" + std::to_string(value);
+    // Skip bed mesh and Smart bed mesh can't both be on (the printer screen does the same)
+    const char* other = on && it.key == "warrig_skip_mesh" ? "warrig_smart_mesh" : on && it.key == "warrig_smart_mesh" ? "warrig_skip_mesh" : nullptr;
+    if (other) {
+        script += std::string("\nSAVE_VARIABLE VARIABLE=") + other + " VALUE=0";
+        for (auto& o : m_items) if (o.key == other) o.box->SetValue(false);
+    }
+    send_variable(script);
+}
+
+void WarRigSwitchesDialog::send_variable(const std::string& script)
+{
+    const std::string base = m_base;
+    set_status(_L("Saving on the printer..."));
+    in_background<bool>(m_alive, [base, script]() {
+        std::string out;
+        return http_call("POST", base + "/printer/gcode/script", json{ { "script", script } }.dump(), out, 20);
+    }, [this](bool ok) {
+        if (ok) set_status(_L("Saved on the printer."));
+        else { m_hold_until = 0; set_status(_L("The printer did not take the change - it is shown again as the printer has it."), true); }
+    });
+}
+
+void WarRigSwitchesDialog::send_setting(const std::string& key, int value)
+{
+    // warrig.settings: {"rev":N, "by":"screen|app|slicer", "conf":{...}} - the newest rev wins, the screen applies it
+    json rec;
+    try { rec = json::parse(m_settings); } catch (...) {}
+    if (!rec.is_object() || !rec.contains("conf") || !rec["conf"].is_object()) {
+        m_hold_until = 0;
+        set_status(_L("The printer's settings could not be read yet - try again in a moment."), true);
+        return;
+    }
+    int rev = 0;
+    if (rec.contains("rev") && rec["rev"].is_number()) rev = (int)rec["rev"].get<double>();
+    rec["rev"]       = rev + 1;
+    rec["by"]        = "slicer";
+    rec["conf"][key] = value;
+    m_settings       = rec.dump();
+    const std::string base = m_base;
+    const std::string body = json{ { "namespace", "warrig" }, { "key", "settings" }, { "value", rec } }.dump();
+    set_status(_L("Sending to the printer..."));
+    in_background<bool>(m_alive, [base, body]() {
+        std::string out;
+        return http_call("POST", base + "/server/database/item", body, out, 8);
+    }, [this](bool ok) {
+        if (ok) set_status(_L("Sent - the printer does it now. While it is printing, a System switch flips back until the print has finished."));
+        else { m_hold_until = 0; set_status(_L("The printer did not take the change - it is shown again as the printer has it."), true); }
     });
 }
 

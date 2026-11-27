@@ -3787,6 +3787,13 @@ void GUI_App::update_label_colours_from_appconfig()
     }
 }
 
+std::string GUI_App::warrig_selected_printer_url()
+{
+    auto dev = qdsdevmanager ? qdsdevmanager->getSelectedDevice() : nullptr;
+    if (!dev) return {};
+    return !dev->m_ip.empty() ? dev->m_ip : dev->m_url;
+}
+
 bool GUI_App::warrig_on_selected_printer()
 {
     auto dev = qdsdevmanager ? qdsdevmanager->getSelectedDevice() : nullptr;
